@@ -4,12 +4,12 @@ import AdminPanelLayout from '@/layouts/AdminPanelLayout';
 
 import type { NextPageWithLayout } from '../_app';
 
-const AdminDashboard: NextPageWithLayout = () => {
-  return <div>Dashboard</div>;
+const AdminJobCategories: NextPageWithLayout = () => {
+  return <div>JobCategories</div>;
 };
 
-AdminDashboard.getLayout = (page: ReactElement) => (
+AdminJobCategories.getLayout = (page: ReactElement) => (
   <AdminPanelLayout>{page}</AdminPanelLayout>
 );
 
-export default AdminDashboard;
+export default AdminJobCategories;

@@ -1,14 +1,21 @@
 import '../styles/global.css';
+import 'nprogress/nprogress.css';
 
 import type { ColorScheme } from '@mantine/core';
 import { ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 import type { ReactElement, ReactNode } from 'react';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

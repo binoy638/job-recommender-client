@@ -4,13 +4,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { UserType } from '@types';
 
 interface UserSlice {
-  userType: UserType | null;
+  type: UserType | null;
   id: string;
 }
 
 // Define the initial state using that type
 const initialState: UserSlice = {
-  userType: null,
+  type: null,
   id: '',
 };
 
@@ -18,11 +18,8 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (
-      state,
-      action: PayloadAction<{ userType: UserType; id: string }>
-    ) => {
-      state.userType = action.payload.userType;
+    setUser: (state, action: PayloadAction<{ type: UserType; id: string }>) => {
+      state.type = action.payload.type;
       state.id = action.payload.id;
     },
   },

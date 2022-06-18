@@ -12,6 +12,8 @@ import type { ReactElement, ReactNode } from 'react';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { Provider } from 'react-redux';
+import { store } from 'store';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -35,26 +37,28 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          emotionOptions={{ key: 'mantine', prepend: false }}
-          theme={{
-            colorScheme: 'light',
-          }}
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <ColorSchemeProvider
+          colorScheme={colorScheme}
+          toggleColorScheme={toggleColorScheme}
         >
-          <NotificationsProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </QueryClientProvider>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            emotionOptions={{ key: 'mantine', prepend: false }}
+            theme={{
+              colorScheme: 'light',
+            }}
+          >
+            <NotificationsProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 };
 

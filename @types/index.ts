@@ -32,3 +32,8 @@ export interface EmployerAttrs {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface JobCategories {
+  _id: string;
+  name: string;
+}

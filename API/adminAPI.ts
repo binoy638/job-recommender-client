@@ -5,11 +5,14 @@ import { API } from './config';
 
 export const addSkills = () => console.log('yo');
 
-export const getEmployers = (headers?: AxiosRequestHeaders) => {
+export const getEmployers = async (headers?: AxiosRequestHeaders) => {
+  let api = API.get<EmployerAttrs[]>('/admin/employers');
+
   if (headers) {
-    return API.get<EmployerAttrs[]>('/admin/employers', {
+    api = API.get<EmployerAttrs[]>('/admin/employers', {
       headers,
     });
   }
-  return API.get<EmployerAttrs[]>('/admin/employers');
+  const { data } = await api;
+  return data;
 };

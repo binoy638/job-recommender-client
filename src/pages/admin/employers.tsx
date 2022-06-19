@@ -12,16 +12,9 @@ import AdminPanelLayout from '@/layouts/AdminPanelLayout';
 import * as AdminAPI from '../../../API/adminAPI';
 
 const AdminEmployer = ({ employers }: { employers: EmployerAttrs[] }) => {
-  const { data } = useQuery(
-    'employers',
-    async () => {
-      const { data: employersData } = await AdminAPI.getEmployers();
-      return employersData;
-    },
-    {
-      initialData: employers,
-    }
-  );
+  const { data } = useQuery('employers', () => AdminAPI.getEmployers(), {
+    initialData: employers,
+  });
 
   const rows = useMemo(() => {
     return data
@@ -76,12 +69,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
   try {
-    const { data } = await AdminAPI.getEmployers(
+    const employers = await AdminAPI.getEmployers(
       req.headers as AxiosRequestHeaders
     );
     return {
       props: {
-        employers: data,
+        employers,
       },
     };
   } catch (error) {

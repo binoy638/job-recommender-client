@@ -1,28 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 import { Table } from '@mantine/core';
+import type { JobCategories } from '@types';
 import type { GetServerSideProps } from 'next';
 import type { ReactElement } from 'react';
+import { useQuery } from 'react-query';
 
 import AdminPanelLayout from '@/layouts/AdminPanelLayout';
 
 import * as API from '../../../API/generalAPI';
-
-interface JobCategories {
-  _id: string;
-  name: string;
-}
 
 const AdminJobCategories = ({
   categories,
 }: {
   categories: JobCategories[];
 }) => {
-  const rows = categories.map((category, index) => (
-    <tr key={category._id}>
-      <td>{index + 1}</td>
-      <td>{category.name}</td>
-    </tr>
-  ));
+  const { data } = useQuery('categories', API.getJobCategories, {
+    initialData: categories,
+  });
+
+  const rows = data
+    ? data.map((category, index) => (
+        <tr key={category._id}>
+          <td>{index + 1}</td>
+          <td>{category.name}</td>
+        </tr>
+      ))
+    : [];
   return (
     <div>
       <Table>
@@ -53,10 +56,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
   try {
-    const { data } = await API.getJobCategories();
+    const categories = await API.getJobCategories();
     return {
       props: {
-        categories: data,
+        categories,
       },
     };
   } catch (error) {

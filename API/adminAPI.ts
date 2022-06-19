@@ -16,3 +16,8 @@ export const getEmployers = async (headers?: AxiosRequestHeaders) => {
   const { data } = await api;
   return data;
 };
+
+export const addCategory = (name: string) =>
+  API.post('/admin/jobcategory', {
+    name,
+  });

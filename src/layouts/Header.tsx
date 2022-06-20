@@ -17,14 +17,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
   return (
     <HeaderComp height={60} p="md">
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-        }}
-      >
+      <div className="flex items-center justify-center lg:px-44">
         <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
           <Burger
             opened={opened}

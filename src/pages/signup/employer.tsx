@@ -1,7 +1,8 @@
 import { CheckIcon, MailIcon, UserIcon } from '@heroicons/react/solid';
 import { Stepper } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import type { FC, ReactElement } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CompanyDetailsForm from '@/components/forms/CompanyDetailsForm';
 import CreateAccountForm from '@/components/forms/CreateAccountForm';
@@ -44,12 +45,35 @@ const StepperComponent: FC<StepperComponentProps> = ({
 const EmployerSignUp = () => {
   const [activeStep, setActiveStep] = useState(0);
 
+  const form = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      description: '',
+      yearFounded: '',
+      website: '',
+      // logo: string;
+      city: '',
+      state: '',
+      country: '',
+    },
+  });
+
+  useEffect(() => {
+    console.log(form.values);
+  }, [form]);
+
   const FormComponent = () => {
     switch (activeStep) {
       case 0:
-        return <CreateAccountForm />;
+        return <CreateAccountForm form={form} />;
       case 1:
-        return <CompanyDetailsForm />;
+        return <CompanyDetailsForm form={form} />;
       default:
         return null;
     }

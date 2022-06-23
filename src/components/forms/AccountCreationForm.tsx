@@ -1,16 +1,33 @@
-import { PasswordInput, TextInput } from '@mantine/core';
+import { Button, PasswordInput, TextInput } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
-import type { EmployerSignupFormValues } from '@types';
 import type { FC } from 'react';
 import React from 'react';
 
-interface CreateAccountFormProps {
-  form: UseFormReturnType<EmployerSignupFormValues>;
+interface AccountCreationFormProps {
+  form: UseFormReturnType<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+    confirmPassword: string;
+  }>;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CreateAccountForm: FC<CreateAccountFormProps> = ({ form }) => {
+const AccountCreationForm: FC<AccountCreationFormProps> = ({
+  form,
+  setActiveStep,
+}) => {
+  const handleSubmit = () => {
+    setActiveStep(1);
+  };
+
   return (
-    <form className="flex w-full flex-col gap-4 px-10 lg:max-w-sm lg:px-0">
+    <form
+      className="flex w-full flex-col gap-4 px-10 lg:max-w-sm lg:px-0"
+      onSubmit={form.onSubmit(handleSubmit)}
+    >
       <div className="flex w-full flex-col gap-4 lg:flex-row">
         <TextInput
           label="First Name"
@@ -40,8 +57,9 @@ const CreateAccountForm: FC<CreateAccountFormProps> = ({ form }) => {
         {...form.getInputProps('confirmPassword')}
         required
       />
+      <Button type="submit"> Next </Button>
     </form>
   );
 };
 
-export default CreateAccountForm;
+export default AccountCreationForm;

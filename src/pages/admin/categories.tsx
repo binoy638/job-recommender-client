@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
 import * as API from '@/API/generalAPI';
-import AddCategoryForm from '@/components/forms/AddCategoryForm';
+import CategoryCreationForm from '@/components/forms/CategoryCreationForm';
 import AdminPanelLayout from '@/layouts/AdminPanelLayout';
 
 const AdminJobCategories = ({
@@ -41,7 +41,7 @@ const AdminJobCategories = ({
         </thead>
         <tbody>{rows}</tbody>
       </Table>
-      <AddCategoryForm />
+      <CategoryCreationForm />
     </div>
   );
 };

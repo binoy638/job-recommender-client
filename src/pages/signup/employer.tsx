@@ -2,25 +2,19 @@ import { CheckIcon, MailIcon, UserIcon } from '@heroicons/react/solid';
 import { Stepper } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { FC, ReactElement } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import CompanyDetailsForm from '@/components/forms/CompanyDetailsForm';
-import CreateAccountForm from '@/components/forms/CreateAccountForm';
+import { AccountCreationForm, CompnayCreationForm } from '@/components/forms';
 import Layout from '@/layouts/Layout';
 
 interface StepperComponentProps {
   activeStep: number;
-  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const StepperComponent: FC<StepperComponentProps> = ({
-  activeStep,
-  setActiveStep,
-}) => {
+const StepperComponent: FC<StepperComponentProps> = ({ activeStep }) => {
   return (
     <Stepper
       active={activeStep}
-      onStepClick={setActiveStep}
       completedIcon={<CheckIcon className="h-5 w-5" />}
     >
       <Stepper.Step
@@ -45,7 +39,7 @@ const StepperComponent: FC<StepperComponentProps> = ({
 const EmployerSignUp = () => {
   const [activeStep, setActiveStep] = useState(0);
 
-  const form = useForm({
+  const AccountDetailsForm = useForm({
     initialValues: {
       firstName: '',
       lastName: '',
@@ -53,6 +47,11 @@ const EmployerSignUp = () => {
       phone: '',
       password: '',
       confirmPassword: '',
+    },
+  });
+
+  const CompanyDetailsForm = useForm({
+    initialValues: {
       name: '',
       description: '',
       yearFounded: '',
@@ -64,16 +63,22 @@ const EmployerSignUp = () => {
     },
   });
 
-  useEffect(() => {
-    console.log(form.values);
-  }, [form]);
-
   const FormComponent = () => {
     switch (activeStep) {
       case 0:
-        return <CreateAccountForm form={form} />;
+        return (
+          <AccountCreationForm
+            form={AccountDetailsForm}
+            setActiveStep={setActiveStep}
+          />
+        );
       case 1:
-        return <CompanyDetailsForm form={form} />;
+        return (
+          <CompnayCreationForm
+            form={CompanyDetailsForm}
+            setActiveStep={setActiveStep}
+          />
+        );
       default:
         return null;
     }
@@ -81,7 +86,7 @@ const EmployerSignUp = () => {
 
   return (
     <main>
-      <StepperComponent activeStep={activeStep} setActiveStep={setActiveStep} />
+      <StepperComponent activeStep={activeStep} />
       <div className="mt-8 flex items-center justify-center">
         {FormComponent()}
       </div>

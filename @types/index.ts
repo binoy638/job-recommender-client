@@ -37,20 +37,3 @@ export interface JobCategories {
   _id: string;
   name: string;
 }
-
-export interface EmployerSignupFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-  name: string;
-  description: string;
-  yearFounded: string;
-  website: string;
-  // logo: string;
-  city: string;
-  state: string;
-  country: string;
-}

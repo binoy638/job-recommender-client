@@ -20,3 +20,11 @@ export const getLoggedInUser = async (): Promise<{
   if (data && data.currentUser) return data.currentUser;
   throw new Error('Something went wrong');
 };
+
+export const signUp = ({
+  form,
+  utype,
+}: {
+  form: any;
+  utype: UserType.EMPLOYER | UserType.JOBSEEKER;
+}) => API.post(`/auth/signup?utype=${utype}`, form);

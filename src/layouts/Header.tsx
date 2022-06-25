@@ -38,15 +38,19 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
         </MediaQuery>
         <div className="flex  h-full w-full  justify-between ">
           <Link href={'/'}>
-            <span className="cursor-pointer text-2xl  font-bold text-green-600  hover:opacity-75">
+            <span className="cursor-pointer text-2xl  font-bold text-green-700  opacity-75 hover:opacity-90">
               JobFinder
             </span>
           </Link>
           <div className="flex items-center justify-center gap-6">
-            <Text>Log In</Text>
-            <Button radius={'xl'} color="green">
-              Sign Up
-            </Button>
+            <Link href={'/signin'} passHref>
+              <Text style={{ cursor: 'pointer' }}>Log In</Text>
+            </Link>
+            <Link href={'/signup'}>
+              <Button radius={'xl'} color="green">
+                Sign Up
+              </Button>
+            </Link>
           </div>
           {/* <span className="flex cursor-pointer items-center justify-center">
             <Avatar color="cyan" radius="xl">

@@ -50,6 +50,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             emotionOptions={{ key: 'mantine', prepend: false }}
             theme={{
               colorScheme: 'light',
+              primaryShade: 9,
             }}
           >
             <NotificationsProvider>

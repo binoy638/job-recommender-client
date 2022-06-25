@@ -19,7 +19,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       header={<Header opened={opened} setOpened={setOpened} />}
     >
       <div className="flex w-full  items-center justify-center">
-        <div className=" grow  items-center   py-10 lg:max-w-[70rem]">
+        <div className=" grow  items-center   py-10 lg:max-w-[65rem]">
           {children}
         </div>
       </div>

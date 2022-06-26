@@ -19,3 +19,12 @@ a:hover {
 .content ul {
   @apply my-6;
 }
+
+
+#nprogress .bar {
+  background: #2F9E44 !important;
+}
+
+#nprogress .peg {
+  box-shadow: none !important;
+}

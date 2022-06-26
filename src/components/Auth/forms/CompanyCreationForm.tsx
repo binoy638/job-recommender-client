@@ -16,7 +16,7 @@ interface CompnayCreationFormProps {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CompnayCreationForm: FC<CompnayCreationFormProps> = ({
+const CompanyCreationForm: FC<CompnayCreationFormProps> = ({
   form,
   setActiveStep,
 }) => {
@@ -58,4 +58,4 @@ const CompnayCreationForm: FC<CompnayCreationFormProps> = ({
   );
 };
 
-export default CompnayCreationForm;
+export default CompanyCreationForm;

@@ -1,5 +1,5 @@
 import { BriefcaseIcon, CheckIcon, UserIcon } from '@heroicons/react/solid';
-import { Button, Loader, Paper, Stepper } from '@mantine/core';
+import { Button, Loader, Stepper } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { UserType } from '@types';
 import * as AuthAPI from 'API/authAPI';
@@ -9,7 +9,11 @@ import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { z } from 'zod';
 
-import { AccountCreationForm, CompnayCreationForm } from '@/components/forms';
+import AuthContainer from '@/components/Auth/AuthContainer';
+import {
+  AccountCreationForm,
+  CompanyCreationForm,
+} from '@/components/Auth/forms';
 import Layout from '@/layouts/Layout';
 
 const accountCreationSchema = z.object({
@@ -133,7 +137,7 @@ const EmployerSignUp = () => {
         );
       case 1:
         return (
-          <CompnayCreationForm
+          <CompanyCreationForm
             form={CompanyDetailsForm}
             setActiveStep={setActiveStep}
           />
@@ -157,19 +161,17 @@ const EmployerSignUp = () => {
   };
 
   return (
-    <main className="lg:mx-60">
-      <Paper withBorder style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
-        <div className="px-4 lg:px-12">
-          <span className="mb-6 flex items-center justify-center text-2xl ">
-            Register as an Employer
-          </span>
-          <StepperComponent activeStep={activeStep} />
-          <div className="mt-8 flex items-center justify-center">
-            {FormComponent()}
-          </div>
+    <AuthContainer className="lg:mx-60">
+      <div className="px-4 lg:px-12">
+        <span className="mb-6 flex items-center justify-center text-2xl ">
+          Register as an Employer
+        </span>
+        <StepperComponent activeStep={activeStep} />
+        <div className="mt-8 flex items-center justify-center">
+          {FormComponent()}
         </div>
-      </Paper>
-    </main>
+      </div>
+    </AuthContainer>
   );
 };
 

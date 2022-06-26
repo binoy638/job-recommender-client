@@ -25,16 +25,18 @@ const AccountCreationForm: FC<AccountCreationFormProps> = ({
 
   return (
     <form
-      className="flex w-full flex-col gap-4 px-10 lg:max-w-sm lg:px-0"
+      className="flex w-full flex-col gap-4 "
       onSubmit={form.onSubmit(handleSubmit)}
     >
-      <div className="flex w-full flex-col gap-4 lg:flex-row">
+      <div className="flex w-full flex-col justify-between gap-4  lg:flex-row">
         <TextInput
+          style={{ width: '100%' }}
           label="First Name"
           {...form.getInputProps('firstName')}
           required
         />
         <TextInput
+          style={{ width: '100%' }}
           label="Last Name"
           {...form.getInputProps('lastName')}
           required
@@ -57,7 +59,9 @@ const AccountCreationForm: FC<AccountCreationFormProps> = ({
         {...form.getInputProps('confirmPassword')}
         required
       />
-      <Button type="submit"> Next </Button>
+      <Button radius={'xl'} type="submit">
+        Next
+      </Button>
     </form>
   );
 };

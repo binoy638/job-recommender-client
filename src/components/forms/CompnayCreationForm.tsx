@@ -26,7 +26,7 @@ const CompnayCreationForm: FC<CompnayCreationFormProps> = ({
 
   return (
     <form
-      className="flex w-full flex-col gap-4 px-10 lg:max-w-sm lg:px-0"
+      className="flex w-full flex-col gap-4 "
       onSubmit={form.onSubmit(handleSubmit)}
     >
       <TextInput
@@ -50,7 +50,10 @@ const CompnayCreationForm: FC<CompnayCreationFormProps> = ({
       <TextInput label="State" {...form.getInputProps('state')} required />
       <TextInput label="Country" {...form.getInputProps('country')} required />
 
-      <Button type="submit"> Next </Button>
+      <Button radius={'xl'} type="submit">
+        {' '}
+        Next{' '}
+      </Button>
     </form>
   );
 };

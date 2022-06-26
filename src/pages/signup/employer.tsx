@@ -1,5 +1,5 @@
-import { CheckIcon, MailIcon, UserIcon } from '@heroicons/react/solid';
-import { Button, Loader, Stepper } from '@mantine/core';
+import { BriefcaseIcon, CheckIcon, UserIcon } from '@heroicons/react/solid';
+import { Button, Loader, Paper, Stepper } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { UserType } from '@types';
 import * as AuthAPI from 'API/authAPI';
@@ -63,21 +63,9 @@ const StepperComponent: FC<StepperComponentProps> = ({ activeStep }) => {
       active={activeStep}
       completedIcon={<CheckIcon className="h-5 w-5" />}
     >
-      <Stepper.Step
-        icon={<UserIcon className="h-5 w-5" />}
-        label="Step 1"
-        description="Create an account"
-      />
-      <Stepper.Step
-        icon={<MailIcon className="h-5 w-5" />}
-        label="Step 2"
-        description="Company details"
-      />
-      <Stepper.Step
-        icon={<CheckIcon className="h-5 w-5" />}
-        label="Step 3"
-        description="Submit for verification"
-      />
+      <Stepper.Step icon={<UserIcon className="h-5 w-5" />} />
+      <Stepper.Step icon={<BriefcaseIcon className="h-5 w-5" />} />
+      <Stepper.Step icon={<CheckIcon className="h-5 w-5" />} />
     </Stepper>
   );
 };
@@ -169,11 +157,18 @@ const EmployerSignUp = () => {
   };
 
   return (
-    <main>
-      <StepperComponent activeStep={activeStep} />
-      <div className="mt-8 flex items-center justify-center">
-        {FormComponent()}
-      </div>
+    <main className="lg:mx-60">
+      <Paper withBorder style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <div className="px-4 lg:px-12">
+          <span className="mb-6 flex items-center justify-center text-2xl ">
+            Register as an Employer
+          </span>
+          <StepperComponent activeStep={activeStep} />
+          <div className="mt-8 flex items-center justify-center">
+            {FormComponent()}
+          </div>
+        </div>
+      </Paper>
     </main>
   );
 };

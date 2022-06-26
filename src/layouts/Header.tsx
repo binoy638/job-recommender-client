@@ -1,9 +1,12 @@
+import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
+  ActionIcon,
   Burger,
   Button,
   Header as HeaderMantine,
   MediaQuery,
   Text,
+  useMantineColorScheme,
 } from '@mantine/core';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -15,6 +18,8 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === 'dark';
   return (
     <HeaderMantine
       height={60}
@@ -38,11 +43,26 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
         </MediaQuery>
         <div className="flex  h-full w-full  justify-between ">
           <Link href={'/'}>
-            <span className="cursor-pointer text-2xl  font-bold text-green-700  opacity-75 hover:opacity-90">
+            <span className="cursor-pointer text-2xl  font-bold text-green-600   hover:opacity-90">
               JobFinder
             </span>
           </Link>
           <div className="flex items-center justify-center gap-6">
+            <ActionIcon
+              variant="outline"
+              color={dark ? 'yellow' : 'blue'}
+              onClick={() => toggleColorScheme()}
+              title="Toggle color scheme"
+            >
+              {dark ? (
+                <SunIcon style={{ height: '20px', width: '20x' }} />
+              ) : (
+                <MoonIcon
+                  color="black"
+                  style={{ height: '20px', width: '20x' }}
+                />
+              )}
+            </ActionIcon>
             <Link href={'/signin'} passHref>
               <Text style={{ cursor: 'pointer' }}>Log In</Text>
             </Link>

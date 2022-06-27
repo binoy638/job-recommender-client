@@ -1,6 +1,7 @@
 import { Button, Text, useMantineColorScheme } from '@mantine/core';
 import { UserType } from '@types';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
@@ -33,10 +34,21 @@ const UserOption: FC<UserOptionProps> = ({ selected, onSelect, text, svg }) => {
 };
 
 const SignUp = () => {
+  const router = useRouter();
   const [userType, setUserType] = React.useState<UserType>();
 
   const selectHandler = (utype: UserType) => {
     setUserType(utype);
+  };
+
+  const buttonHandler = () => {
+    if (userType === UserType.EMPLOYER) {
+      router.push('/signup/employer');
+    }
+
+    if (userType === UserType.JOBSEEKER) {
+      router.push('/signup/jobseeker');
+    }
   };
 
   return (
@@ -60,7 +72,12 @@ const SignUp = () => {
           />
         </div>
         {userType ? (
-          <Button style={{ width: '60%' }} radius={'xl'} color={'green'}>
+          <Button
+            onClick={buttonHandler}
+            style={{ width: '60%' }}
+            radius={'xl'}
+            color={'green'}
+          >
             Apply as a <span className="capitalize">&nbsp;{userType}</span>
           </Button>
         ) : (
@@ -75,12 +92,6 @@ const SignUp = () => {
           </Link>
         </Text>
       </div>
-      {/* <Link href="/signup/employer" passHref>
-        <Button>Employer</Button>
-      </Link>
-      <Link href="/signup/jobseeker" passHref>
-        <Button>JobSeeker</Button>
-      </Link> */}
     </AuthContainer>
   );
 };

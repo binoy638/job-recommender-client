@@ -37,3 +37,8 @@ export interface JobCategories {
   _id: string;
   name: string;
 }
+
+export interface SvgProps {
+  width?: number;
+  height?: number;
+}

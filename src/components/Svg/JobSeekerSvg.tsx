@@ -1,12 +1,8 @@
+import type { SvgProps } from '@types';
 import type { FC } from 'react';
 import React from 'react';
 
-interface JobSeekerSvgProps {
-  width?: number;
-  height?: number;
-}
-
-const JobSeekerSvg: FC<JobSeekerSvgProps> = ({ width = 50, height = 50 }) => {
+const JobSeekerSvg: FC<SvgProps> = ({ width = 50, height = 50 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

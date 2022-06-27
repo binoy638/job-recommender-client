@@ -1,12 +1,8 @@
+import type { SvgProps } from '@types';
 import type { FC } from 'react';
 import React from 'react';
 
-interface EmployerSvgProps {
-  width?: number;
-  height?: number;
-}
-
-const EmployerSvg: FC<EmployerSvgProps> = ({ width = 50, height = 50 }) => {
+const EmployerSvg: FC<SvgProps> = ({ width = 50, height = 50 }) => {
   return (
     <svg
       data-name="Layer 1"

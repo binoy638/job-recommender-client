@@ -1,5 +1,10 @@
-import { BriefcaseIcon, CheckIcon, UserIcon } from '@heroicons/react/solid';
-import { Button, Loader, Stepper } from '@mantine/core';
+import {
+  BriefcaseIcon,
+  CheckIcon,
+  ClipboardIcon,
+  UserIcon,
+} from '@heroicons/react/solid';
+import { Button, Loader, Stepper, Text } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { UserType } from '@types';
 import * as AuthAPI from 'API/authAPI';
@@ -14,6 +19,7 @@ import {
   AccountCreationForm,
   CompanyCreationForm,
 } from '@/components/Auth/forms';
+import AdminVerificationSvg from '@/components/Svg/AdminVerificationSvg';
 import Layout from '@/layouts/Layout';
 
 const accountCreationSchema = z.object({
@@ -45,7 +51,7 @@ const companyCreationSchema = z.object({
     .max(1000, {
       message: 'Description can have at most least 1000 characters',
     }),
-  yearFounded: z.string().length(4, { message: 'Invalid Year' }),
+  yearFounded: z.string().min(4, { message: 'Invalid Year' }),
   website: z.string().url({ message: 'Invalid website' }),
   city: z
     .string()
@@ -69,24 +75,20 @@ const StepperComponent: FC<StepperComponentProps> = ({ activeStep }) => {
     >
       <Stepper.Step icon={<UserIcon className="h-5 w-5" />} />
       <Stepper.Step icon={<BriefcaseIcon className="h-5 w-5" />} />
-      <Stepper.Step icon={<CheckIcon className="h-5 w-5" />} />
+      <Stepper.Step icon={<ClipboardIcon className="h-5 w-5" />} />
     </Stepper>
   );
 };
 
 const EmployerSignUp = () => {
   const router = useRouter();
+  const [activeStep, setActiveStep] = useState(0);
 
-  const { mutate, isLoading } = useMutation(AuthAPI.signUp, {
+  const { mutate, isLoading, error } = useMutation(AuthAPI.signUp, {
     onSuccess: () => {
-      router.push('/signin');
-    },
-    onError: () => {
-      router.push('/500');
+      setActiveStep(3);
     },
   });
-
-  const [activeStep, setActiveStep] = useState(0);
 
   const AccountDetailsForm = useForm({
     schema: zodResolver(accountCreationSchema),
@@ -97,6 +99,10 @@ const EmployerSignUp = () => {
       phone: '',
       password: '',
       confirmPassword: '',
+    },
+    validate: {
+      confirmPassword: (value, values) =>
+        value !== values.password ? 'Passwords did not match' : null,
     },
   });
 
@@ -126,6 +132,7 @@ const EmployerSignUp = () => {
     };
     mutate({ form: formValues, utype: UserType.EMPLOYER });
   };
+
   const FormComponent = () => {
     switch (activeStep) {
       case 0:
@@ -145,7 +152,14 @@ const EmployerSignUp = () => {
       case 2:
         return (
           <div>
-            <div>
+            <div className="flex flex-col items-center justify-center gap-6">
+              <div className="flex flex-col items-center justify-center gap-6">
+                <AdminVerificationSvg height={200} width={200} />
+                <Text px={60}>
+                  You can start posting jobs once your application is verified
+                  by us.
+                </Text>
+              </div>
               <Button
                 onClick={formSubmitHandler}
                 rightIcon={isLoading && <Loader />}
@@ -156,7 +170,40 @@ const EmployerSignUp = () => {
           </div>
         );
       default:
-        return null;
+        return (
+          <div className="flex flex-col items-center justify-center gap-6">
+            {error ? (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Text>Oh no, something went wrong.</Text>
+                <Button
+                  onClick={() => {
+                    router.push('/signup');
+                  }}
+                  fullWidth
+                  variant="outline"
+                  radius={'xl'}
+                >
+                  Try again
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Text>Application successfully submitted</Text>
+                <Button
+                  onClick={() => {
+                    router.push('/signin/employer');
+                  }}
+                  fullWidth
+                  color={'green'}
+                  variant="outline"
+                  radius={'xl'}
+                >
+                  Log In now
+                </Button>
+              </div>
+            )}
+          </div>
+        );
     }
   };
 

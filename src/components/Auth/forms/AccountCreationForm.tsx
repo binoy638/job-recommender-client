@@ -19,7 +19,11 @@ const AccountCreationForm: FC<AccountCreationFormProps> = ({
   form,
   setActiveStep,
 }) => {
-  const handleSubmit = () => {
+  const handleSubmit = (values: typeof form.values) => {
+    if (values.password !== values.confirmPassword) {
+      form.setFieldError('confirmPassword', 'Passwords did not match');
+      return;
+    }
     setActiveStep(1);
   };
 

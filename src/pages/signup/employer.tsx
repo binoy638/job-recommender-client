@@ -51,6 +51,7 @@ const companyCreationSchema = z.object({
     .max(1000, {
       message: 'Description can have at most least 1000 characters',
     }),
+  employees: z.number().min(1, { message: 'At least 1 employee' }),
   yearFounded: z.string().min(4, { message: 'Invalid Year' }),
   website: z.string().url({ message: 'Invalid website' }),
   city: z
@@ -113,6 +114,7 @@ const EmployerSignUp = () => {
       description: '',
       yearFounded: '',
       website: '',
+      employees: 1,
       // logo: string;
       city: '',
       state: '',

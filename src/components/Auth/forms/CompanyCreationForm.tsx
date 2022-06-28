@@ -1,4 +1,4 @@
-import { Button, Textarea, TextInput } from '@mantine/core';
+import { Button, NumberInput, Textarea, TextInput } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
 import React from 'react';
@@ -11,6 +11,7 @@ interface CompnayCreationFormProps {
     website: string;
     city: string;
     state: string;
+    employees: number;
     country: string;
   }>;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
@@ -40,10 +41,16 @@ const CompanyCreationForm: FC<CompnayCreationFormProps> = ({
         required
       />
 
-      <TextInput
+      <NumberInput
         label="Year Founded"
+        hideControls={true}
         {...form.getInputProps('yearFounded')}
         required
+      />
+      <NumberInput
+        hideControls={true}
+        label="Number of Employees"
+        {...form.getInputProps('employees')}
       />
       <TextInput label="Website" {...form.getInputProps('website')} required />
       <TextInput label="City" {...form.getInputProps('city')} required />

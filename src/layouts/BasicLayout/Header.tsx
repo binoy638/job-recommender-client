@@ -1,3 +1,4 @@
+import { LogoutIcon } from '@heroicons/react/outline';
 import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
   ActionIcon,
@@ -6,19 +7,75 @@ import {
   Button,
   Header as HeaderMantine,
   MediaQuery,
+  Menu,
   Text,
   useMantineColorScheme,
 } from '@mantine/core';
 import { UserType } from '@types';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import React from 'react';
-import { useTypedSelector } from 'store';
+import { useTypedDispatch, useTypedSelector } from 'store';
+import { clearUser } from 'store/slice/user.slice';
+
+import AuthAPI from '@/API/authAPI';
 
 interface HeaderProps {
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const ProfileMenu = ({ initial }: { initial: string }) => {
+  const router = useRouter();
+  const dispatch = useTypedDispatch();
+  const handleLogout = () => {
+    AuthAPI.signOut().then(() => {
+      router.push('/');
+      dispatch(clearUser());
+    });
+  };
+  return (
+    <Menu
+      control={
+        <Avatar color="cyan" radius="xl">
+          {initial}
+        </Avatar>
+      }
+      trigger="hover"
+    >
+      <Menu.Label>Profile</Menu.Label>
+      <Menu.Item
+        onClick={handleLogout}
+        icon={<LogoutIcon className="h-5 w-5" />}
+      >
+        Log out
+      </Menu.Item>
+      {/* <Menu.Item icon={<MessageCircle size={14} />}>Messages</Menu.Item>
+      <Menu.Item icon={<Photo size={14} />}>Gallery</Menu.Item>
+      <Menu.Item
+        icon={<Search size={14} />}
+        rightSection={
+          <Text size="xs" color="dimmed">
+            ⌘K
+          </Text>
+        }
+      >
+        Search
+      </Menu.Item>
+
+      <Divider />
+
+      <Menu.Label>Danger zone</Menu.Label>
+      <Menu.Item icon={<ArrowsLeftRight size={14} />}>
+        Transfer my data
+      </Menu.Item>
+      <Menu.Item color="red" icon={<Trash size={14} />}>
+        Delete my account
+      </Menu.Item> */}
+    </Menu>
+  );
+};
 
 const AuthSection = () => {
   const { user, type } = useTypedSelector((state) => state.user);
@@ -39,10 +96,7 @@ const AuthSection = () => {
 
   return (
     <span className="flex cursor-pointer items-center justify-center">
-      <Avatar color="cyan" radius="xl">
-        {user.firstName[0]}
-        {user.lastName[0]}
-      </Avatar>
+      <ProfileMenu initial={`${user.firstName[0]}${user.lastName[0]}`} />
     </span>
   );
 };

@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
+import { useTypedDispatch } from 'store';
+import { setUser } from 'store/slice/user.slice';
 import { z } from 'zod';
 
 import AuthAPI from '@/API/authAPI';
@@ -23,6 +25,7 @@ interface SignInFormProps {
 }
 
 const SignInForm: FC<SignInFormProps> = ({ userType }) => {
+  const dispatch = useTypedDispatch();
   const [error, setError] = useState<string>();
   const form = useForm({
     schema: zodResolver(signInFormSchema),
@@ -35,7 +38,9 @@ const SignInForm: FC<SignInFormProps> = ({ userType }) => {
   const router = useRouter();
 
   const { mutate } = useMutation(AuthAPI.signIn, {
-    onSuccess: () => {
+    onSuccess: (response) => {
+      const { data } = response;
+      dispatch(setUser(data));
       router.push('/');
     },
     onError: (err: AxiosError) => {

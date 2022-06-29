@@ -1,4 +1,5 @@
 import type { UserType } from '@types';
+import type { AxiosRequestHeaders } from 'axios';
 import type { UserUnion } from 'store/slice/user.slice';
 
 import { API } from './config';
@@ -12,12 +13,17 @@ class AuthAPI {
     email: string;
     password: string;
     utype: UserType;
-  }) => API.post(`/auth/signin?utype=${utype}`, { email, password });
+  }) =>
+    API.post<{
+      user: UserUnion;
+      type: UserType;
+    }>(`/auth/signin?utype=${utype}`, { email, password });
 
-  static getLoggedInUser = (): Promise<{
-    user: UserUnion;
-    utype: UserType;
-  }> => API.get('/auth/current-user');
+  static getLoggedInUser = (headers?: AxiosRequestHeaders) =>
+    API.get<{
+      user: UserUnion;
+      type: UserType;
+    }>('/auth/current-user', { headers });
 
   static signUp = ({
     form,

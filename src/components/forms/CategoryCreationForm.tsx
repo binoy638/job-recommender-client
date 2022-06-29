@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios';
 import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
-import * as AdminAPI from '@/API/adminAPI';
+import AdminAPI from '@/API/adminAPI';
 
 const CategoryCreationForm = () => {
   const form = useForm({
@@ -29,7 +29,7 @@ const CategoryCreationForm = () => {
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    mutate(values.name);
+    mutate({ name: values.name });
   };
 
   return (

@@ -6,16 +6,22 @@ import type { ReactElement } from 'react';
 import React, { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
-import * as API from '@/API/generalAPI';
+import GeneralAPI from '@/API/generalAPI';
 import CategoryCreationForm from '@/components/forms/CategoryCreationForm';
 import AdminLayout from '@/layouts/AdminLayout';
+import { requireAdminAuthentication } from '@/utils';
+
+const fetchJobCategories = async () => {
+  const { data } = await GeneralAPI.getJobCategories();
+  return data;
+};
 
 const AdminJobCategories = ({
   categories,
 }: {
   categories: JobCategories[];
 }) => {
-  const { data } = useQuery('categories', API.getJobCategories, {
+  const { data } = useQuery('categories', fetchJobCategories, {
     initialData: categories,
   });
 
@@ -50,31 +56,23 @@ AdminJobCategories.getLayout = (page: ReactElement) => (
   <AdminLayout>{page}</AdminLayout>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const cookies = req.headers.cookie;
-  if (!cookies) {
-    return {
-      redirect: {
-        destination: '/admin/login',
-        permanent: false,
-      },
-    };
-  }
-  try {
-    const categories = await API.getJobCategories();
-    return {
-      props: {
-        categories,
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: '/500',
-        permanent: false,
-      },
-    };
-  }
-};
+export const getServerSideProps: GetServerSideProps =
+  requireAdminAuthentication(async () => {
+    try {
+      const categories = fetchJobCategories();
+      return {
+        props: {
+          categories,
+        },
+      };
+    } catch (error) {
+      return {
+        redirect: {
+          destination: '/500',
+          permanent: false,
+        },
+      };
+    }
+  });
 
 export default AdminJobCategories;

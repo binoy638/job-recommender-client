@@ -17,5 +17,36 @@ const EmployerDashboard = () => {
     </main>
   );
 };
+
+// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+//   const cookies = req.headers.cookie;
+//   if (!cookies) {
+//     return {
+//       redirect: {
+//         destination: "/admin/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   try {
+//     const employers = await AdminAPI.getEmployers(
+//       req.headers as AxiosRequestHeaders
+//     );
+//     return {
+//       props: {
+//         employers,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       redirect: {
+//         destination: "/500",
+//         permanent: false,
+//       },
+//     };
+//   }
+// };
+
 EmployerDashboard.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+
 export default EmployerDashboard;

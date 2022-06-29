@@ -1,18 +1,24 @@
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Table } from '@mantine/core';
 import type { Employer } from '@types';
+import AdminAPI from 'API/adminAPI';
 import type { AxiosRequestHeaders } from 'axios';
+import axios from 'axios';
 import type { GetServerSideProps } from 'next/types';
 import type { ReactElement } from 'react';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
 import AdminLayout from '@/layouts/AdminLayout';
+import { requireAdminAuthentication, Utils } from '@/utils';
 
-import * as AdminAPI from '../../../API/adminAPI';
+const fetchEmployers = async () => {
+  const { data } = await AdminAPI.getEmployers();
+  return data;
+};
 
 const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
-  const { data } = useQuery('employers', () => AdminAPI.getEmployers(), {
+  const { data } = useQuery('employers', fetchEmployers, {
     initialData: employers,
   });
 
@@ -58,35 +64,26 @@ const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const cookies = req.headers.cookie;
-  if (!cookies) {
-    return {
-      redirect: {
-        destination: '/admin/login',
-        permanent: false,
-      },
-    };
-  }
-  try {
-    const employers = await AdminAPI.getEmployers(
-      req.headers as AxiosRequestHeaders
-    );
-    return {
-      props: {
-        employers,
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: '/500',
-        permanent: false,
-      },
-    };
-  }
-};
-
+export const getServerSideProps: GetServerSideProps =
+  requireAdminAuthentication(async ({ req }) => {
+    try {
+      const { data } = await AdminAPI.getEmployers(
+        req.headers as AxiosRequestHeaders
+      );
+      return {
+        props: {
+          employers: data,
+        },
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          return Utils.redirect('/admin/login');
+        }
+      }
+      return Utils.redirect('/500');
+    }
+  });
 AdminEmployer.getLayout = (page: ReactElement) => (
   <AdminLayout>{page}</AdminLayout>
 );

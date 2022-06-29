@@ -1,6 +1,7 @@
 import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
   ActionIcon,
+  Avatar,
   Burger,
   Button,
   Header as HeaderMantine,
@@ -8,14 +9,43 @@ import {
   Text,
   useMantineColorScheme,
 } from '@mantine/core';
+import { UserType } from '@types';
 import Link from 'next/link';
 import type { FC } from 'react';
 import React from 'react';
+import { useTypedSelector } from 'store';
 
 interface HeaderProps {
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const AuthSection = () => {
+  const { user, type } = useTypedSelector((state) => state.user);
+  if (!user || type === UserType.ADMIN || !type) {
+    return (
+      <>
+        <Link href={'/signin'} passHref>
+          <Text style={{ cursor: 'pointer' }}>Log In</Text>
+        </Link>
+        <Link href={'/signup'}>
+          <Button radius={'xl'} color="green">
+            Sign Up
+          </Button>
+        </Link>
+      </>
+    );
+  }
+
+  return (
+    <span className="flex cursor-pointer items-center justify-center">
+      <Avatar color="cyan" radius="xl">
+        {user.firstName[0]}
+        {user.lastName[0]}
+      </Avatar>
+    </span>
+  );
+};
 
 const RightSection: FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -40,20 +70,8 @@ const RightSection: FC = () => {
             <MoonIcon color="black" style={{ height: '20px', width: '20x' }} />
           )}
         </ActionIcon>
-        <Link href={'/signin'} passHref>
-          <Text style={{ cursor: 'pointer' }}>Log In</Text>
-        </Link>
-        <Link href={'/signup'}>
-          <Button radius={'xl'} color="green">
-            Sign Up
-          </Button>
-        </Link>
+        <AuthSection />
       </div>
-      {/* <span className="flex cursor-pointer items-center justify-center">
-            <Avatar color="cyan" radius="xl">
-              <UserIcon className="h-5 w-5" />
-            </Avatar>
-          </span> */}
     </div>
   );
 };
@@ -76,7 +94,6 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
             opened={opened}
             onClick={() => setOpened((o) => !o)}
             size="sm"
-            // color={theme.colors.gray[6]}
             mr="xl"
           />
         </MediaQuery>

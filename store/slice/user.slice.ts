@@ -5,12 +5,24 @@ import type { Admin, Employer, JobSeeker, UserType } from '@types';
 
 export type UserUnion = Admin | Employer | JobSeeker;
 
-interface UserSlice {
-  type: UserType | null;
-  user: UserUnion | null;
-}
+type UserSlice =
+  | {
+      type: UserType.ADMIN;
+      user: Admin;
+    }
+  | {
+      type: UserType.EMPLOYER;
+      user: Employer;
+    }
+  | {
+      type: UserType.JOBSEEKER;
+      user: JobSeeker;
+    }
+  | {
+      type: null;
+      user: null;
+    };
 
-// Define the initial state using that type
 const initialState: UserSlice = {
   type: null,
   user: null,
@@ -18,13 +30,12 @@ const initialState: UserSlice = {
 
 const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: initialState as UserSlice,
   reducers: {
     setUser: (
       state,
-      action: PayloadAction<{ type: UserType; user: UserUnion }>
+      action: PayloadAction<{ user: UserUnion; type: UserType }>
     ) => {
-      console.log(action.payload);
       state.type = action.payload.type;
       state.user = action.payload.user;
     },

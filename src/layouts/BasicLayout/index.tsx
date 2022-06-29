@@ -2,8 +2,6 @@ import { AppShell } from '@mantine/core';
 import type { FC } from 'react';
 import React, { useState } from 'react';
 
-import useFetchCurrentUser from '@/hooks/useFetchCurrentUser';
-
 import Header from './Header';
 
 interface LayoutProps {
@@ -12,8 +10,6 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const [opened, setOpened] = useState(false);
-
-  useFetchCurrentUser();
 
   return (
     <AppShell

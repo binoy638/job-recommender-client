@@ -7,13 +7,13 @@ import {
 import { Button, Loader, Stepper, Text } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { UserType } from '@types';
-import * as AuthAPI from 'API/authAPI';
 import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { z } from 'zod';
 
+import AuthAPI from '@/API/authAPI';
 import AuthContainer from '@/components/Auth/AuthContainer';
 import {
   AccountCreationForm,

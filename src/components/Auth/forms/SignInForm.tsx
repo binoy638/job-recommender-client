@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { z } from 'zod';
 
-import { signIn } from '@/API/authAPI';
+import AuthAPI from '@/API/authAPI';
 
 const signInFormSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
@@ -34,7 +34,7 @@ const SignInForm: FC<SignInFormProps> = ({ userType }) => {
 
   const router = useRouter();
 
-  const { mutate } = useMutation(signIn, {
+  const { mutate } = useMutation(AuthAPI.signIn, {
     onSuccess: () => {
       router.push('/');
     },

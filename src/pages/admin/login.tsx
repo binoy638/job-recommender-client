@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Button, PasswordInput, TextInput } from '@mantine/core';
 import { UserType } from '@types';
-import { signIn } from 'API/authAPI';
+import AuthAPI from 'API/authAPI';
 import type { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -13,7 +13,7 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const { mutate } = useMutation(signIn, {
+  const { mutate } = useMutation(AuthAPI.signIn, {
     onSuccess: () => {
       router.push('/admin');
     },

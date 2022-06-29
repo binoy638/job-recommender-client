@@ -2,7 +2,7 @@ import { XCircleIcon } from '@heroicons/react/outline';
 import { Text } from '@mantine/core';
 import React from 'react';
 
-import AdminPanelLayout from '@/layouts/AdminPanelLayout';
+import AdminPanelLayout from '@/layouts/AdminLayout';
 
 const test = () => {
   return (

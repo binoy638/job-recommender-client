@@ -1,4 +1,5 @@
 import type { UserType } from '@types';
+import type { UserUnion } from 'store/slice/user.slice';
 
 import { API } from './config';
 
@@ -13,12 +14,11 @@ export const signIn = ({
 }) => API.post(`/auth/signin?utype=${utype}`, { email, password });
 
 export const getLoggedInUser = async (): Promise<{
-  id: string;
+  user: UserUnion;
   utype: UserType;
 }> => {
   const { data } = await API.get('/auth/current-user');
-  if (data && data.currentUser) return data.currentUser;
-  throw new Error('Something went wrong');
+  return data;
 };
 
 export const signUp = ({

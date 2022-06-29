@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import React from 'react';
 
-import Layout from '@/layouts/Layout';
+import Layout from '@/layouts/BasicLayout';
 
 const SignIn = () => {
   return (

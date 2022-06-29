@@ -1,4 +1,4 @@
-import type { EmployerAttrs } from '@types';
+import type { Employer } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 
 import { API } from './config';
@@ -6,10 +6,10 @@ import { API } from './config';
 export const addSkills = () => console.log('yo');
 
 export const getEmployers = async (headers?: AxiosRequestHeaders) => {
-  let api = API.get<EmployerAttrs[]>('/admin/employers');
+  let api = API.get<Employer[]>('/admin/employers');
 
   if (headers) {
-    api = API.get<EmployerAttrs[]>('/admin/employers', {
+    api = API.get<Employer[]>('/admin/employers', {
       headers,
     });
   }

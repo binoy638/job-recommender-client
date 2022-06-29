@@ -1,17 +1,17 @@
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Table } from '@mantine/core';
-import type { EmployerAttrs } from '@types';
+import type { Employer } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { GetServerSideProps } from 'next/types';
 import type { ReactElement } from 'react';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
-import AdminPanelLayout from '@/layouts/AdminPanelLayout';
+import AdminLayout from '@/layouts/AdminLayout';
 
 import * as AdminAPI from '../../../API/adminAPI';
 
-const AdminEmployer = ({ employers }: { employers: EmployerAttrs[] }) => {
+const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
   const { data } = useQuery('employers', () => AdminAPI.getEmployers(), {
     initialData: employers,
   });
@@ -88,7 +88,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 };
 
 AdminEmployer.getLayout = (page: ReactElement) => (
-  <AdminPanelLayout>{page}</AdminPanelLayout>
+  <AdminLayout>{page}</AdminLayout>
 );
 
 export default AdminEmployer;

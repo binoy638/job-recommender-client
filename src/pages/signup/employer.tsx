@@ -20,7 +20,7 @@ import {
   CompanyCreationForm,
 } from '@/components/Auth/forms';
 import AdminVerificationSvg from '@/components/Svg/AdminVerificationSvg';
-import Layout from '@/layouts/Layout';
+import Layout from '@/layouts/BasicLayout';
 
 const accountCreationSchema = z.object({
   firstName: z

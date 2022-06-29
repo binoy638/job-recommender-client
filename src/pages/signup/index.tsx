@@ -8,7 +8,7 @@ import React from 'react';
 import AuthContainer from '@/components/Auth/AuthContainer';
 import EmployerSvg from '@/components/Svg/EmployerSvg';
 import JobSeekerSvg from '@/components/Svg/JobSeekerSvg';
-import Layout from '@/layouts/Layout';
+import Layout from '@/layouts/BasicLayout';
 
 interface UserOptionProps {
   onSelect: () => void;

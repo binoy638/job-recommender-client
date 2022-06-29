@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 import React from 'react';
 
 import NotVerifiedAlert from '@/components/employer/dashboard/NotVerifiedAlert';
-import Layout from '@/layouts/Layout';
+import Layout from '@/layouts/BasicLayout';
 
 const EmployerDashboard = () => {
   return (

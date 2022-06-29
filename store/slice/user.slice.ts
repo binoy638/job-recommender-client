@@ -1,26 +1,32 @@
 /* eslint-disable no-param-reassign */
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { UserType } from '@types';
+import type { Admin, Employer, JobSeeker, UserType } from '@types';
+
+export type UserUnion = Admin | Employer | JobSeeker;
 
 interface UserSlice {
   type: UserType | null;
-  id: string;
+  user: UserUnion | null;
 }
 
 // Define the initial state using that type
 const initialState: UserSlice = {
   type: null,
-  id: '',
+  user: null,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<{ type: UserType; id: string }>) => {
+    setUser: (
+      state,
+      action: PayloadAction<{ type: UserType; user: UserUnion }>
+    ) => {
+      console.log(action.payload);
       state.type = action.payload.type;
-      state.id = action.payload.id;
+      state.user = action.payload.user;
     },
   },
 });

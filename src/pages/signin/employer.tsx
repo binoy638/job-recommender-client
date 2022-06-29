@@ -6,7 +6,7 @@ import React from 'react';
 
 import AuthContainer from '@/components/Auth/AuthContainer';
 import SignInForm from '@/components/Auth/forms/SignInForm';
-import Layout from '@/layouts/Layout';
+import Layout from '@/layouts/BasicLayout';
 
 const EmployerSignIn = () => {
   return (

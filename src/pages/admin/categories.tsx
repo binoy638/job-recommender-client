@@ -8,7 +8,7 @@ import { useQuery } from 'react-query';
 
 import * as API from '@/API/generalAPI';
 import CategoryCreationForm from '@/components/forms/CategoryCreationForm';
-import AdminPanelLayout from '@/layouts/AdminPanelLayout';
+import AdminLayout from '@/layouts/AdminLayout';
 
 const AdminJobCategories = ({
   categories,
@@ -47,7 +47,7 @@ const AdminJobCategories = ({
 };
 
 AdminJobCategories.getLayout = (page: ReactElement) => (
-  <AdminPanelLayout>{page}</AdminPanelLayout>
+  <AdminLayout>{page}</AdminLayout>
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {

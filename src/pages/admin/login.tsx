@@ -4,22 +4,14 @@ import { UserType } from '@types';
 import { signIn } from 'API/authAPI';
 import type { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { useTypedSelector } from 'store';
 
 const AdminLogin = () => {
-  const { id, type } = useTypedSelector((state) => state.user);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-
-  useEffect(() => {
-    if (id && type === UserType.ADMIN) {
-      router.push('/admin');
-    }
-  }, [id, type]);
 
   const { mutate } = useMutation(signIn, {
     onSuccess: () => {

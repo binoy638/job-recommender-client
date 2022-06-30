@@ -22,6 +22,7 @@
     "@mantine/hooks": "^4.2.8",
     "@mantine/next": "^4.2.8",
     "@mantine/notifications": "^4.2.8",
+    "@mantine/rte": "^4.2.8",
     "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.27.2",
     "cookie-parser": "^1.4.6",

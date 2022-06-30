@@ -10,6 +10,7 @@ import {
   Menu,
   Text,
   useMantineColorScheme,
+  useMantineTheme,
 } from '@mantine/core';
 import { UserType } from '@types';
 import Link from 'next/link';
@@ -131,6 +132,7 @@ const RightSection: FC = () => {
 };
 
 const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
+  const theme = useMantineTheme();
   return (
     <HeaderMantine
       height={60}
@@ -145,6 +147,7 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
       <div className="flex w-full max-w-[65rem] items-center justify-center px-4 lg:px-0">
         <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
           <Burger
+            color={theme.colors.gray[6]}
             opened={opened}
             onClick={() => setOpened((o) => !o)}
             size="sm"

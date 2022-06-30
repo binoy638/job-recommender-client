@@ -100,3 +100,21 @@ export interface JobSeeker {
   jobPreferences: string[];
   resume?: string;
 }
+
+export interface Country {
+  id: number;
+  name: string;
+  code: string;
+  phoneCode: string;
+}
+
+export interface State {
+  id: number;
+  name: string;
+  countryID: number;
+}
+
+export interface City {
+  name: string;
+  stateID: number;
+}

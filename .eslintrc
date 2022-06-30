@@ -60,6 +60,7 @@
         "simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
         "@typescript-eslint/no-unused-vars": "off",
         "unused-imports/no-unused-imports": "error",
+        "no-underscore-dangle": "off", // We use _id in our models
         "no-console": "off",
         "unused-imports/no-unused-vars": [
           "error",

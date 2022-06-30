@@ -7,6 +7,7 @@ import { API } from './config';
 interface SessionPayload {
   id: string;
   utype: UserType;
+  name: string;
   iat: number;
 }
 

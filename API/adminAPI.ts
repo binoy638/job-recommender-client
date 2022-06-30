@@ -9,6 +9,9 @@ class AdminAPI {
       headers,
     });
 
+  public static verifyEmployer = async (id: string) =>
+    API.put(`/admin/employer/verify/${id}`);
+
   public static addCategory = async (
     data: { name: string },
     headers?: AxiosRequestHeaders

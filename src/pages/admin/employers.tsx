@@ -1,6 +1,7 @@
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Table } from '@mantine/core';
 import type { Employer } from '@types';
+import { UserType } from '@types';
 import AdminAPI from 'API/adminAPI';
 import type { AxiosRequestHeaders } from 'axios';
 import axios from 'axios';
@@ -10,7 +11,7 @@ import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
 import AdminLayout from '@/layouts/AdminLayout';
-import { requireAdminAuthentication, Utils } from '@/utils';
+import { requireAuthentication, Utils } from '@/utils';
 
 const fetchEmployers = async () => {
   const { data } = await AdminAPI.getEmployers();
@@ -64,8 +65,9 @@ const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps =
-  requireAdminAuthentication(async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  UserType.ADMIN,
+  async ({ req }) => {
     try {
       const { data } = await AdminAPI.getEmployers(
         req.headers as AxiosRequestHeaders
@@ -83,7 +85,8 @@ export const getServerSideProps: GetServerSideProps =
       }
       return Utils.redirect('/500');
     }
-  });
+  }
+);
 AdminEmployer.getLayout = (page: ReactElement) => (
   <AdminLayout>{page}</AdminLayout>
 );

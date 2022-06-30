@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Table } from '@mantine/core';
 import type { JobCategories } from '@types';
+import { UserType } from '@types';
 import type { GetServerSideProps } from 'next';
 import type { ReactElement } from 'react';
 import React, { useMemo } from 'react';
@@ -9,7 +10,7 @@ import { useQuery } from 'react-query';
 import GeneralAPI from '@/API/generalAPI';
 import CategoryCreationForm from '@/components/forms/CategoryCreationForm';
 import AdminLayout from '@/layouts/AdminLayout';
-import { requireAdminAuthentication } from '@/utils';
+import { requireAuthentication } from '@/utils';
 
 const fetchJobCategories = async () => {
   const { data } = await GeneralAPI.getJobCategories();
@@ -56,8 +57,9 @@ AdminJobCategories.getLayout = (page: ReactElement) => (
   <AdminLayout>{page}</AdminLayout>
 );
 
-export const getServerSideProps: GetServerSideProps =
-  requireAdminAuthentication(async () => {
+export const getServerSideProps: GetServerSideProps = requireAuthentication(
+  UserType.ADMIN,
+  async () => {
     try {
       const categories = fetchJobCategories();
       return {
@@ -73,6 +75,7 @@ export const getServerSideProps: GetServerSideProps =
         },
       };
     }
-  });
+  }
+);
 
 export default AdminJobCategories;

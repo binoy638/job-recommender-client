@@ -2,7 +2,15 @@ import type { AxiosRequestHeaders } from 'axios';
 
 import { API } from './config';
 
+export interface EmployerStatus {
+  isVerified: boolean;
+  isBanned: boolean;
+}
+
 class EmployerAPI {
+  static status = (headers?: AxiosRequestHeaders) =>
+    API.get<{ status: EmployerStatus }>('/employer/status', { headers });
+
   static getJobs = async (headers?: AxiosRequestHeaders) =>
     API.get('/employer/jobs', { headers });
 

@@ -1,18 +1,17 @@
 import { UserType } from '@types';
 import type { GetServerSideProps } from 'next';
 import type { ReactElement } from 'react';
+import React from 'react';
 
-import AdminLayout from '@/layouts/AdminLayout';
+import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication } from '@/utils';
 
-import type { NextPageWithLayout } from '../_app';
-
-const AdminSkills: NextPageWithLayout = () => {
-  return <div>skills</div>;
+const Job = () => {
+  return <div>job</div>;
 };
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
-  UserType.ADMIN,
+  UserType.EMPLOYER,
   async () => {
     return {
       props: {},
@@ -20,8 +19,6 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   }
 );
 
-AdminSkills.getLayout = (page: ReactElement) => (
-  <AdminLayout>{page}</AdminLayout>
-);
+Job.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 
-export default AdminSkills;
+export default Job;

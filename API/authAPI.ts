@@ -4,6 +4,12 @@ import type { UserUnion } from 'store/slice/user.slice';
 
 import { API } from './config';
 
+interface SessionPayload {
+  id: string;
+  utype: UserType;
+  iat: number;
+}
+
 class AuthAPI {
   static signIn = ({
     email,
@@ -24,6 +30,11 @@ class AuthAPI {
       user: UserUnion;
       type: UserType;
     }>('/auth/current-user', { headers });
+
+  static getSession = (headers?: AxiosRequestHeaders) =>
+    API.get<{
+      session: SessionPayload;
+    }>('/auth/session', { headers });
 
   static signUp = ({
     form,

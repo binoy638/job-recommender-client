@@ -3,7 +3,8 @@ import type { City, Country, JobCategories, State } from '@types';
 import { API } from './config';
 
 class GeneralAPI {
-  static getSkills = () => API.get('/skills');
+  static searchSkills = (q: string) =>
+    API.get<{ name: string; _id: string }[]>(`/skills?q=${q}`);
 
   static getJobCategories = () => API.get<JobCategories[]>('/job-categories');
 

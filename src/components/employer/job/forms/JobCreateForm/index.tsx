@@ -1,6 +1,5 @@
 import {
   Checkbox,
-  MultiSelect,
   NumberInput,
   Radio,
   RadioGroup,
@@ -15,18 +14,10 @@ import React, { useEffect, useState } from 'react';
 
 import TextEditor from '@/components/UI/TextEditor';
 
+import SkillSelection from './SkillSelection';
+
 const placeholder =
   'Enter Job requirements, skills, and other details about the job. This will be displayed on the job listing page.';
-
-const data = [
-  { value: 'react', label: 'React' },
-  { value: 'ng', label: 'Angular' },
-  { value: 'svelte', label: 'Svelte' },
-  { value: 'vue', label: 'Vue' },
-  { value: 'riot', label: 'Riot' },
-  { value: 'next', label: 'Next.js' },
-  { value: 'blitz', label: 'Blitz.js' },
-];
 
 interface BasicJobDetailFormProps {
   categories: JobCategories[];
@@ -137,12 +128,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
           onChange={onChange}
         />
       </div>
-      <MultiSelect
-        data={data}
-        label="Required Skills"
-        searchable
-        placeholder="Select required skills"
-      />
+      <SkillSelection />
     </form>
   );
 };

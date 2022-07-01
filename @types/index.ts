@@ -33,9 +33,14 @@ export interface Employer {
   updatedAt: string;
 }
 
-export enum JobMode {
+export enum WorkHours {
   FULLTIME = 'FULLTIME',
   PARTTIME = 'PARTTIME',
+}
+
+export enum JobMode {
+  WFH = 'WFH',
+  WFO = 'WFO',
 }
 
 export interface Job {
@@ -44,7 +49,7 @@ export interface Job {
   requiredSkills?: string[];
   mode: JobMode;
   numberOfOpenings: number;
-  location?: Address[];
+  workHours: WorkHours;
   category: string;
   ctc?: number;
   applyBy: string;

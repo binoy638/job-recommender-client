@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { z } from 'zod';
+import { accountCreationSchema, companyCreationSchema } from 'schemas';
 
 import AuthAPI from '@/API/authAPI';
 import AuthContainer from '@/components/Auth/AuthContainer';
@@ -21,49 +21,6 @@ import {
 } from '@/components/Auth/forms';
 import AdminVerificationSvg from '@/components/Svg/AdminVerificationSvg';
 import Layout from '@/layouts/BasicLayout';
-
-const accountCreationSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, { message: 'First Name should have at least 2 characters' }),
-  lastName: z
-    .string()
-    .min(2, { message: 'Last Name should have at least 2 characters' }),
-  email: z.string().email({ message: 'Invalid email' }),
-  phone: z
-    .string()
-    .min(10, { message: 'Phone number should have at least 10 digits' }),
-  password: z
-    .string()
-    .min(6, { message: 'Password should have at least 8 characters' }),
-  confirmPassword: z
-    .string()
-    .min(6, { message: 'Password should have at least 8 characters' }),
-});
-
-const companyCreationSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: 'Company Name should have at least 2 characters' }),
-  description: z
-    .string()
-    .min(2, { message: 'Description should have at least 10 characters' })
-    .max(1000, {
-      message: 'Description can have at most least 1000 characters',
-    }),
-  employees: z.number().min(1, { message: 'At least 1 employee' }),
-  yearFounded: z.string().min(4, { message: 'Invalid Year' }),
-  website: z.string().url({ message: 'Invalid website' }),
-  city: z
-    .string()
-    .min(2, { message: 'City should have at least 2 characters' }),
-  state: z
-    .string()
-    .min(2, { message: 'State should have at least 2 characters' }),
-  country: z
-    .string()
-    .min(2, { message: 'State should have at least 2 characters' }),
-});
 
 interface StepperComponentProps {
   activeStep: number;
@@ -112,7 +69,7 @@ const EmployerSignUp = () => {
     initialValues: {
       name: '',
       description: '',
-      yearFounded: '',
+      yearFounded: 2020,
       website: '',
       employees: 1,
       // logo: string;

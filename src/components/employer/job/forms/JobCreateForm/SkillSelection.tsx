@@ -1,6 +1,7 @@
 import { XIcon } from '@heroicons/react/solid';
 import { Autocomplete, Badge } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
@@ -10,13 +11,24 @@ const fetchSkills = async (q: string) => {
   return data;
 };
 
-const SkillSelection = () => {
+interface Props {
+  selectedSkills: {
+    value: string;
+    _id: string;
+  }[];
+  setSelectedSkills: React.Dispatch<
+    React.SetStateAction<
+      {
+        value: string;
+        _id: string;
+      }[]
+    >
+  >;
+}
+
+const SkillSelection: FC<Props> = ({ selectedSkills, setSelectedSkills }) => {
   const [value, setValue] = useState('');
   const [data, setData] = useState<{ value: string; _id: string }[]>([]);
-
-  const [selectedSkill, setSelectedSkill] = useState<
-    { value: string; _id: string }[]
-  >([]);
 
   const [debounceValue] = useDebouncedValue(value, 200);
 
@@ -29,12 +41,12 @@ const SkillSelection = () => {
   }, [debounceValue]);
 
   const handleSkillSelect = (skill: { value: string; _id: string }) => {
-    setSelectedSkill([...selectedSkill, skill]);
+    setSelectedSkills([...selectedSkills, skill]);
     setValue('');
   };
 
   const handleSkillRemove = (id: string) => {
-    setSelectedSkill(selectedSkill.filter((skill) => skill._id !== id));
+    setSelectedSkills(selectedSkills.filter((skill) => skill._id !== id));
   };
 
   return (
@@ -48,7 +60,7 @@ const SkillSelection = () => {
         data={data}
       />
       <div className="mt-2 flex gap-2">
-        {selectedSkill.map((skill) => {
+        {selectedSkills.map((skill) => {
           return (
             <Badge
               key={skill._id}

@@ -2,16 +2,10 @@ import { Button, PasswordInput, TextInput } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
 import React from 'react';
+import type { AccountCreationSchema } from 'schemas';
 
 interface AccountCreationFormProps {
-  form: UseFormReturnType<{
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    password: string;
-    confirmPassword: string;
-  }>;
+  form: UseFormReturnType<AccountCreationSchema>;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 

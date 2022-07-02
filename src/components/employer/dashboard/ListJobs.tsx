@@ -14,7 +14,7 @@ const ListJobs: FC<ListJobsProps> = ({ jobs }) => {
     <tr key={job.id}>
       <td>{Utils.formatDate(job.createdAt)}</td>
       <td>{job.jobTitle}</td>
-      <td>{job.status ? 'Active' : 'Closed'}</td>
+      <td>{job.isActive ? 'Active' : 'Closed'}</td>
       <td>4</td>
       <td>{Utils.formatDate(job.applyBy)}</td>
     </tr>

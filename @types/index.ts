@@ -47,8 +47,9 @@ export enum JobMode {
 
 export interface Job extends JobFormData {
   id: number;
-  status: boolean;
+  isActive: boolean;
   createdAt: string;
+  applications: string[];
 }
 
 export interface Admin {

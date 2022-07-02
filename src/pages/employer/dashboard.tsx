@@ -1,40 +1,80 @@
-import { Text } from '@mantine/core';
+import { Button } from '@mantine/core';
+import type { Job } from '@types';
 import { UserType } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { GetServerSideProps } from 'next';
+import Link from 'next/link';
 import type { ReactElement } from 'react';
 import React from 'react';
 
 import type { EmployerStatus } from '@/API/EmployerAPI';
 import EmployerAPI from '@/API/EmployerAPI';
+import ListJobs from '@/components/employer/dashboard/ListJobs';
 import NotVerifiedAlert from '@/components/employer/dashboard/NotVerifiedAlert';
+import ContainerWithHeader from '@/components/UI/ContainerWithHeader';
 import Layout from '@/layouts/BasicLayout';
-import { requireAuthentication } from '@/utils';
+import { requireAuthentication, Utils } from '@/utils';
 
-const EmployerDashboard = ({ status }: { status: EmployerStatus }) => {
+interface EmployerDashboardProps {
+  status: EmployerStatus;
+  jobs: Job[];
+}
+
+const EmployerDashboard = ({ status, jobs }: EmployerDashboardProps) => {
+  if (status.isVerified === false) {
+    return (
+      <ContainerWithHeader header="Dashboard">
+        <NotVerifiedAlert />
+      </ContainerWithHeader>
+    );
+  }
+
   return (
-    <main>
-      <Text weight={'bold'} size={'xl'}>
-        Dashboard
-      </Text>
-      <div className="mt-4">
-        {status.isVerified ? <div>Welcome</div> : <NotVerifiedAlert />}
-      </div>
-    </main>
+    <ContainerWithHeader header="Dashboard">
+      {jobs.length > 0 ? (
+        <ListJobs jobs={jobs} />
+      ) : (
+        <div>
+          No jobs found.
+          <div>
+            <Link href={'/employer/job/post'}>
+              <Button>Create New Job</Button>
+            </Link>
+          </div>
+        </div>
+      )}
+    </ContainerWithHeader>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   UserType.EMPLOYER,
   async ({ req }) => {
-    const { data } = await EmployerAPI.status(
-      req.headers as AxiosRequestHeaders
-    );
-    return {
-      props: {
-        status: data.status,
-      },
-    };
+    try {
+      const headers = req.headers as AxiosRequestHeaders;
+
+      const [
+        {
+          data: { status },
+        },
+        {
+          data: { jobs },
+        },
+      ] = await Promise.all([
+        EmployerAPI.status(headers),
+        EmployerAPI.getJobs(headers),
+      ]);
+
+      return {
+        props: {
+          status,
+          jobs,
+        },
+      };
+    } catch (error) {
+      console.log(error);
+      return Utils.redirect('/500');
+    }
   }
 );
 

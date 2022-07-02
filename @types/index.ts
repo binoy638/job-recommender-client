@@ -1,3 +1,5 @@
+import type { JobFormData } from 'schemas';
+
 export enum UserType {
   EMPLOYER = 'employer',
   JOBSEEKER = 'jobseeker',
@@ -43,18 +45,10 @@ export enum JobMode {
   WFO = 'WFO',
 }
 
-export interface Job {
-  jobTitle: string;
-  employer: string;
-  requiredSkills?: string[];
-  mode: JobMode;
-  numberOfOpenings: number;
-  workHours: WorkHours;
-  category: string;
-  ctc?: number;
-  applyBy: string;
-  startDate?: string;
-  description: string;
+export interface Job extends JobFormData {
+  id: number;
+  status: boolean;
+  createdAt: string;
 }
 
 export interface Admin {

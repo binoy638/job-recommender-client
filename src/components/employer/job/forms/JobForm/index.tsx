@@ -12,6 +12,7 @@ import { DatePicker } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
 import type { JobCategories } from '@types';
 import { JobMode, WorkHours } from '@types';
+import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -31,7 +32,14 @@ interface BasicJobDetailFormProps {
 }
 
 const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
-  const { mutate, isLoading } = useMutation(EmployerAPI.addJob);
+  const [error, setError] = useState('');
+
+  const router = useRouter();
+
+  const { mutate, isLoading } = useMutation(EmployerAPI.addJob, {
+    onSuccess: () => router.push('/employer/dashboard'),
+    onError: () => setError('Oh no! Something went wrong.'),
+  });
 
   const form = useForm({
     schema: zodResolver(jobPostSchema),
@@ -227,6 +235,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
         selectedSkills={selectedSkills}
         setSelectedSkills={setSelectedSKills}
       />
+      {error && <small className="text-red-500">{error}</small>}
       <Button type="submit" variant="outline">
         {isLoading ? <Loader size={20} /> : 'Post Job'}
       </Button>

@@ -1,3 +1,4 @@
+import type { Job } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { JobFormData } from 'schemas';
 
@@ -13,7 +14,7 @@ class EmployerAPI {
     API.get<{ status: EmployerStatus }>('/employer/status', { headers });
 
   static getJobs = async (headers?: AxiosRequestHeaders) =>
-    API.get('/employer/jobs', { headers });
+    API.get<{ jobs: Job[] }>('/employer/jobs', { headers });
 
   static getJob = async (id: string, headers?: AxiosRequestHeaders) =>
     API.get(`/employer/job/${id}`, { headers });

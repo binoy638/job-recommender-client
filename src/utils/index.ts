@@ -20,6 +20,29 @@ export class Utils {
     if (utype === UserType.EMPLOYER) redirectUrl = '/signin/employer';
     return redirectUrl;
   };
+
+  static formatDate = (date: Date | string) => {
+    // eslint-disable-next-line no-param-reassign
+    if (typeof date === 'string') date = new Date(date);
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    return `${day} ${monthNames[monthIndex]} ${year}`;
+  };
 }
 
 export const requireAuthentication = (

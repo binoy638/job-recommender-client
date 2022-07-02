@@ -13,6 +13,7 @@ import type { JobCategories } from '@types';
 import { JobMode, WorkHours } from '@types';
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
+import type { JobFormData } from 'schemas';
 import { jobPostSchema } from 'schemas';
 
 import TextEditor from '@/components/UI/TextEditor';
@@ -29,20 +30,7 @@ interface BasicJobDetailFormProps {
 const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
   const form = useForm({
     schema: zodResolver(jobPostSchema),
-    initialValues: {
-      jobTitle: '',
-      mode: '',
-      category: '',
-      workHours: '',
-      numberOfOpenings: '',
-      applyBy: '',
-      startDate: '',
-      salaryMin: '',
-      salaryMax: '',
-      salaryNegotiable: false,
-      description: '',
-      requiredSkills: [''],
-    },
+    initialValues: {} as JobFormData,
   });
   const [editorValue, setEditorValue] = useState('');
 

@@ -20,7 +20,7 @@ export const accountCreationSchema = z.object({
     .min(6, { message: 'Password should have at least 8 characters' }),
 });
 
-export type AccountCreationSchema = z.infer<typeof accountCreationSchema>;
+export type AccountCreationFormData = z.infer<typeof accountCreationSchema>;
 
 export const companyCreationSchema = z.object({
   name: z
@@ -48,7 +48,7 @@ export const companyCreationSchema = z.object({
     .min(2, { message: 'State should have at least 2 characters' }),
 });
 
-export type CompanyCreationSchema = z.infer<typeof companyCreationSchema>;
+export type CompanyCreationFormData = z.infer<typeof companyCreationSchema>;
 
 export const jobPostSchema = z.object({
   jobTitle: z
@@ -63,9 +63,11 @@ export const jobPostSchema = z.object({
   category: z.string(),
   applyBy: z.date(),
   startDate: z.date(),
-  salaryMin: z.string().optional(),
-  salaryMax: z.string().optional(),
-  salaryNegotiable: z.boolean().optional(),
+  salary: z.object({
+    min: z.number().optional(),
+    max: z.number().optional(),
+    negotiable: z.boolean(),
+  }),
   description: z
     .string()
     .min(3, { message: 'Description should have at least 3 characters' })

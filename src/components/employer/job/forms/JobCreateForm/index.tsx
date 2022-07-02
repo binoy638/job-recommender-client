@@ -34,6 +34,8 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
   });
   const [editorValue, setEditorValue] = useState('');
 
+  const [salary, setSalary] = useState({ min: 0, max: 0, negotiable: false });
+
   const [selectedSkills, setSelectedSKills] = useState<
     { value: string; _id: string }[]
   >([]);
@@ -150,13 +152,19 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
         <div className="mb-4 flex gap-4">
           <NumberInput
             size="md"
-            {...form.getInputProps('salaryMin')}
             placeholder="min"
+            onChange={(value) => {
+              if (!value) return;
+              setSalary({ ...salary, min: value });
+            }}
             hideControls
           />
           <NumberInput
             size="md"
-            {...form.getInputProps('salaryMax')}
+            onChange={(value) => {
+              if (!value) return;
+              setSalary({ ...salary, max: value });
+            }}
             placeholder="max"
             hideControls
           />
@@ -164,7 +172,9 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
 
         <Checkbox
           label="Negotiable"
-          {...form.getInputProps('salaryNegotiable')}
+          // onChange={(event)={
+          //     setSalary({...salary,negotiable:event.target.checked})
+          //   }}
         />
       </div>
       <div>

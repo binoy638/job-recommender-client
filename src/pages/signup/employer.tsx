@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
+import type { CompanyCreationFormData } from 'schemas';
 import { accountCreationSchema, companyCreationSchema } from 'schemas';
 
 import AuthAPI from '@/API/authAPI';
@@ -69,14 +70,12 @@ const EmployerSignUp = () => {
     initialValues: {
       name: '',
       description: '',
-      yearFounded: 2020,
       website: '',
-      employees: 1,
       // logo: string;
       city: '',
       state: '',
       country: '',
-    },
+    } as CompanyCreationFormData,
   });
   const formSubmitHandler = () => {
     const { city, country, state, ...otherComanyDetails } =

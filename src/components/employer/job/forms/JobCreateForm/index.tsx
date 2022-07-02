@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  Loader,
   NumberInput,
   Radio,
   RadioGroup,
@@ -13,9 +14,11 @@ import type { JobCategories } from '@types';
 import { JobMode, WorkHours } from '@types';
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
 import type { JobFormData } from 'schemas';
 import { jobPostSchema } from 'schemas';
 
+import EmployerAPI from '@/API/EmployerAPI';
 import TextEditor from '@/components/UI/TextEditor';
 
 import SkillSelection from './SkillSelection';
@@ -28,13 +31,19 @@ interface BasicJobDetailFormProps {
 }
 
 const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
+  const { mutate, isLoading } = useMutation(EmployerAPI.addJob);
+
   const form = useForm({
     schema: zodResolver(jobPostSchema),
-    initialValues: {} as JobFormData,
+    initialValues: {
+      jobTitle: '',
+    } as JobFormData,
   });
   const [editorValue, setEditorValue] = useState('');
 
-  const [salary, setSalary] = useState({ min: 0, max: 0, negotiable: false });
+  const [salary, setSalary] = useState<
+    { min: number; max: number; negotiable: boolean } | undefined
+  >();
 
   const [selectedSkills, setSelectedSKills] = useState<
     { value: string; _id: string }[]
@@ -51,11 +60,11 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
   }, [selectedSkills]);
 
   useEffect(() => {
-    console.log(form.values);
-  }, [form.values]);
+    form.setFieldValue('salary', salary);
+  }, [salary]);
 
   const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
+    mutate(values);
   };
 
   return (
@@ -155,7 +164,11 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
             placeholder="min"
             onChange={(value) => {
               if (!value) return;
-              setSalary({ ...salary, min: value });
+              setSalary({
+                max: salary?.max || 0,
+                negotiable: salary?.negotiable || false,
+                min: value,
+              });
             }}
             hideControls
           />
@@ -163,7 +176,11 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
             size="md"
             onChange={(value) => {
               if (!value) return;
-              setSalary({ ...salary, max: value });
+              setSalary({
+                min: salary?.max || 0,
+                negotiable: salary?.negotiable || false,
+                max: value,
+              });
             }}
             placeholder="max"
             hideControls
@@ -172,9 +189,13 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
 
         <Checkbox
           label="Negotiable"
-          // onChange={(event)={
-          //     setSalary({...salary,negotiable:event.target.checked})
-          //   }}
+          onChange={(event) =>
+            setSalary({
+              min: salary?.max || 0,
+              max: salary?.max || 0,
+              negotiable: event.currentTarget.checked,
+            })
+          }
         />
       </div>
       <div>
@@ -207,7 +228,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
         setSelectedSkills={setSelectedSKills}
       />
       <Button type="submit" variant="outline">
-        Post Job
+        {isLoading ? <Loader size={20} /> : 'Post Job'}
       </Button>
     </form>
   );

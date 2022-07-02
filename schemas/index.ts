@@ -63,11 +63,13 @@ export const jobPostSchema = z.object({
   category: z.string(),
   applyBy: z.date(),
   startDate: z.date(),
-  salary: z.object({
-    min: z.number().optional(),
-    max: z.number().optional(),
-    negotiable: z.boolean(),
-  }),
+  salary: z
+    .object({
+      min: z.number(),
+      max: z.number(),
+      negotiable: z.boolean(),
+    })
+    .optional(),
   description: z
     .string()
     .min(3, { message: 'Description should have at least 3 characters' })

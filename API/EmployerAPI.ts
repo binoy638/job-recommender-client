@@ -1,4 +1,5 @@
 import type { AxiosRequestHeaders } from 'axios';
+import type { JobFormData } from 'schemas';
 
 import { API } from './config';
 
@@ -17,15 +18,10 @@ class EmployerAPI {
   static getJob = async (id: string, headers?: AxiosRequestHeaders) =>
     API.get(`/employer/job/${id}`, { headers });
 
-  //! need typing for form data
-  static addJob = async (data: any, headers?: AxiosRequestHeaders) =>
-    API.post('/employer/job', data, { headers });
+  static addJob = async (data: JobFormData) => API.post('/employer/job', data);
 
-  static updateJob = async (
-    id: string,
-    data: any,
-    headers?: AxiosRequestHeaders
-  ) => API.put(`/employer/job/${id}`, data, { headers });
+  static updateJob = async (id: string, data: Partial<JobFormData>) =>
+    API.put(`/employer/job/${id}`, data);
 
   static deleteJob = async (id: string, headers?: AxiosRequestHeaders) =>
     API.delete(`/employer/job/${id}`, { headers });

@@ -2,10 +2,10 @@ import { Button, NumberInput, Textarea, TextInput } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
 import React from 'react';
-import type { CompanyCreationSchema } from 'schemas';
+import type { CompanyCreationFormData } from 'schemas';
 
 interface CompnayCreationFormProps {
-  form: UseFormReturnType<CompanyCreationSchema>;
+  form: UseFormReturnType<CompanyCreationFormData>;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 

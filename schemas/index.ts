@@ -78,3 +78,39 @@ export const jobPostSchema = z.object({
 });
 
 export type JobFormData = z.infer<typeof jobPostSchema>;
+
+export const EmployerProfileEdit = z.object({
+  firstName: z
+    .string()
+    .min(2, { message: 'First Name should have at least 2 characters' }),
+  lastName: z
+    .string()
+    .min(2, { message: 'Last Name should have at least 2 characters' }),
+  email: z.string().email({ message: 'Invalid email' }),
+  phone: z
+    .string()
+    .min(10, { message: 'Phone number should have at least 10 digits' }),
+  name: z
+    .string()
+    .min(2, { message: 'Company Name should have at least 2 characters' }),
+  description: z
+    .string()
+    .min(2, { message: 'Description should have at least 10 characters' })
+    .max(1000, {
+      message: 'Description can have at most least 1000 characters',
+    }),
+  employees: z.number().min(1, { message: 'At least 1 employee is required' }),
+  yearFounded: z
+    .number()
+    .min(1900, { message: 'Year founded should be at least 1900' }),
+  website: z.string().url({ message: 'Invalid website' }),
+  city: z
+    .string()
+    .min(2, { message: 'City should have at least 2 characters' }),
+  state: z
+    .string()
+    .min(2, { message: 'State should have at least 2 characters' }),
+  country: z
+    .string()
+    .min(2, { message: 'State should have at least 2 characters' }),
+});

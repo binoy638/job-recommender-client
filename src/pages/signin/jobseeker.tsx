@@ -4,8 +4,8 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 import React from 'react';
 
-import AuthContainer from '@/components/Auth/AuthContainer';
-import SignInForm from '@/components/Auth/forms/SignInForm';
+import SignInForm from '@/components/forms/SignInForm';
+import AuthContainer from '@/components/UI/AuthContainer';
 import Layout from '@/layouts/BasicLayout';
 
 const JobSeekerSignIn = () => {

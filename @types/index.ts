@@ -16,6 +16,7 @@ export interface Company {
   name: string;
   description: string;
   yearFounded: number;
+  employees: number;
   website: string;
   logo: string;
   address: Address;

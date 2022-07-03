@@ -5,9 +5,9 @@ import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
-import AuthContainer from '@/components/Auth/AuthContainer';
 import EmployerSvg from '@/components/Svg/EmployerSvg';
 import JobSeekerSvg from '@/components/Svg/JobSeekerSvg';
+import AuthContainer from '@/components/UI/AuthContainer';
 import Layout from '@/layouts/BasicLayout';
 
 interface UserOptionProps {

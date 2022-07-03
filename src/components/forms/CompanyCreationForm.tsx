@@ -50,8 +50,7 @@ const CompanyCreationForm: FC<CompnayCreationFormProps> = ({
       <TextInput label="Country" {...form.getInputProps('country')} required />
 
       <Button radius={'xl'} type="submit">
-        {' '}
-        Next{' '}
+        Next
       </Button>
     </form>
   );

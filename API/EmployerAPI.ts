@@ -13,6 +13,9 @@ class EmployerAPI {
   static status = (headers?: AxiosRequestHeaders) =>
     API.get<{ status: EmployerStatus }>('/employer/status', { headers });
 
+  static updateProfile = async (data: any) =>
+    API.put(`/employer/profile-update`, data);
+
   static getJobs = async (headers?: AxiosRequestHeaders) =>
     API.get<{ jobs: Job[] }>('/employer/jobs', { headers });
 

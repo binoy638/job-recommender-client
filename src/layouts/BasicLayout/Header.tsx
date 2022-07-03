@@ -1,4 +1,4 @@
-import { LogoutIcon } from '@heroicons/react/outline';
+import { LogoutIcon, UserIcon } from '@heroicons/react/outline';
 import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
   ActionIcon,
@@ -29,6 +29,9 @@ interface HeaderProps {
 
 const ProfileMenu = ({ initial }: { initial: string }) => {
   const router = useRouter();
+
+  const { type } = useTypedSelector((state) => state.user);
+
   const dispatch = useTypedDispatch();
   const handleLogout = () => {
     AuthAPI.signOut().then(() => {
@@ -36,6 +39,15 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
       dispatch(clearUser());
     });
   };
+
+  const handleProfile = () => {
+    if (type === UserType.EMPLOYER) {
+      router.push('/employer/profile');
+    } else {
+      router.push('/jobseeker/profile');
+    }
+  };
+
   return (
     <Menu
       control={
@@ -45,35 +57,18 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
       }
       trigger="hover"
     >
-      <Menu.Label>Profile</Menu.Label>
       <Menu.Item
         onClick={handleLogout}
         icon={<LogoutIcon className="h-5 w-5" />}
       >
         Log out
       </Menu.Item>
-      {/* <Menu.Item icon={<MessageCircle size={14} />}>Messages</Menu.Item>
-      <Menu.Item icon={<Photo size={14} />}>Gallery</Menu.Item>
       <Menu.Item
-        icon={<Search size={14} />}
-        rightSection={
-          <Text size="xs" color="dimmed">
-            ⌘K
-          </Text>
-        }
+        onClick={handleProfile}
+        icon={<UserIcon className="h-5 w-5" />}
       >
-        Search
+        Profile
       </Menu.Item>
-
-      <Divider />
-
-      <Menu.Label>Danger zone</Menu.Label>
-      <Menu.Item icon={<ArrowsLeftRight size={14} />}>
-        Transfer my data
-      </Menu.Item>
-      <Menu.Item color="red" icon={<Trash size={14} />}>
-        Delete my account
-      </Menu.Item> */}
     </Menu>
   );
 };

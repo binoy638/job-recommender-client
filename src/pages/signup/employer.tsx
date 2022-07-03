@@ -15,12 +15,10 @@ import type { CompanyCreationFormData } from 'schemas';
 import { accountCreationSchema, companyCreationSchema } from 'schemas';
 
 import AuthAPI from '@/API/authAPI';
-import AuthContainer from '@/components/Auth/AuthContainer';
-import {
-  AccountCreationForm,
-  CompanyCreationForm,
-} from '@/components/Auth/forms';
+import AccountCreationForm from '@/components/forms/AccountCreationForm';
+import CompanyCreationForm from '@/components/forms/CompanyCreationForm';
 import AdminVerificationSvg from '@/components/Svg/AdminVerificationSvg';
+import AuthContainer from '@/components/UI/AuthContainer';
 import Layout from '@/layouts/BasicLayout';
 
 interface StepperComponentProps {

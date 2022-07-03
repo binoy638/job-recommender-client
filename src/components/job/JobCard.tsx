@@ -10,7 +10,7 @@ import React from 'react';
 
 import { Utils } from '@/utils';
 
-const formatCTC = (salary: { min: number; max: number }) => {
+export const formatCTC = (salary: { min: number; max: number }) => {
   let minLPA: number = 0;
   let maxLPA: number = 0;
   if (salary.min > 0) {
@@ -40,7 +40,7 @@ interface ItemProps {
   value: string;
   icon: React.ReactElement;
 }
-const Item = ({ label, value, icon }: ItemProps) => {
+export const Item = ({ label, value, icon }: ItemProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-1">

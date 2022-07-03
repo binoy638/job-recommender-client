@@ -57,7 +57,12 @@ export interface Admin {
   email: string;
 }
 
-export interface JobCategories {
+export interface Skill {
+  _id: string;
+  name: string;
+}
+
+export interface JobCategory {
   _id: string;
   name: string;
 }
@@ -117,4 +122,11 @@ export interface State {
 export interface City {
   name: string;
   stateID: number;
+}
+
+export interface JobWithPopulatedFields
+  extends Omit<Job, 'category' | 'employer' | 'requiredSkills'> {
+  category: JobCategory;
+  employer: Pick<Employer, 'company'>;
+  requiredSkills: Skill[];
 }

@@ -10,7 +10,7 @@ import {
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
-import type { JobCategories } from '@types';
+import type { JobCategory } from '@types';
 import { JobMode, WorkHours } from '@types';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
@@ -28,7 +28,7 @@ const placeholder =
   'Enter Job requirements, skills, and other details about the job. This will be displayed on the job listing page.';
 
 interface BasicJobDetailFormProps {
-  categories: JobCategories[];
+  categories: JobCategory[];
 }
 
 const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
@@ -185,7 +185,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
             onChange={(value) => {
               if (!value) return;
               setSalary({
-                min: salary?.max || 0,
+                min: salary?.min || 0,
                 negotiable: salary?.negotiable || false,
                 max: value,
               });

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Table } from '@mantine/core';
-import type { JobCategories } from '@types';
+import type { JobCategory } from '@types';
 import { UserType } from '@types';
 import type { GetServerSideProps } from 'next';
 import type { ReactElement } from 'react';
@@ -17,11 +17,7 @@ const fetchJobCategories = async () => {
   return data;
 };
 
-const AdminJobCategories = ({
-  categories,
-}: {
-  categories: JobCategories[];
-}) => {
+const AdminJobCategories = ({ categories }: { categories: JobCategory[] }) => {
   const { data } = useQuery('categories', fetchJobCategories, {
     initialData: categories,
   });

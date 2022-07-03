@@ -71,7 +71,6 @@ const EmployerSignUp = () => {
       name: '',
       description: '',
       website: '',
-      // logo: string;
       city: '',
       state: '',
       country: '',

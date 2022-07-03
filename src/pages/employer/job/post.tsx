@@ -1,5 +1,5 @@
 import { Paper } from '@mantine/core';
-import type { JobCategories } from '@types';
+import type { JobCategory } from '@types';
 import { UserType } from '@types';
 import type { GetServerSideProps } from 'next';
 import type { ReactElement } from 'react';
@@ -10,7 +10,7 @@ import JobForm from '@/components/employer/job/forms/JobForm';
 import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
-const JobCreate = ({ categories }: { categories: JobCategories[] }) => {
+const JobCreate = ({ categories }: { categories: JobCategory[] }) => {
   return (
     <main className={`lg:mx-40 `}>
       <Paper withBorder style={{ padding: '2rem' }}>

@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import React from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
-import JobCard from '@/components/employer/job/JobCard';
+import JobCard from '@/components/job/JobCard';
 import Layout from '@/layouts/BasicLayout';
 import { Utils } from '@/utils';
 
@@ -14,7 +14,7 @@ interface JobsProps {
 
 const Jobs = ({ jobs }: JobsProps) => {
   return (
-    <main>
+    <main className="flex flex-col gap-4">
       {jobs.map((job) => {
         return <JobCard key={job.id} job={job} />;
       })}

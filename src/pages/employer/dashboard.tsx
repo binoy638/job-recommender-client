@@ -9,8 +9,8 @@ import React from 'react';
 
 import type { EmployerStatus } from '@/API/EmployerAPI';
 import EmployerAPI from '@/API/EmployerAPI';
-import ListJobs from '@/components/employer/dashboard/ListJobs';
 import NotVerifiedAlert from '@/components/employer/dashboard/NotVerifiedAlert';
+import JobsList from '@/components/job/JobsList';
 import ContainerWithHeader from '@/components/UI/ContainerWithHeader';
 import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication, Utils } from '@/utils';
@@ -32,7 +32,7 @@ const EmployerDashboard = ({ status, jobs }: EmployerDashboardProps) => {
   return (
     <ContainerWithHeader header="Dashboard">
       {jobs.length > 0 ? (
-        <ListJobs jobs={jobs} />
+        <JobsList jobs={jobs} />
       ) : (
         <div>
           No jobs found.

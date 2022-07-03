@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import React from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
-import JobDetails from '@/components/employer/job/JobDetails';
+import JobDetails from '@/components/job/JobDetails';
 import Layout from '@/layouts/BasicLayout';
 import { Utils } from '@/utils';
 

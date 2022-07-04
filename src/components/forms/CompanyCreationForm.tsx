@@ -1,8 +1,10 @@
 import { Button, NumberInput, Textarea, TextInput } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { CompanyCreationFormData } from 'schemas';
+
+import AddressSelector from '../UI/AddressSelector';
 
 interface CompnayCreationFormProps {
   form: UseFormReturnType<CompanyCreationFormData>;
@@ -13,6 +15,16 @@ const CompanyCreationForm: FC<CompnayCreationFormProps> = ({
   form,
   setActiveStep,
 }) => {
+  const [address, setAddress] = useState({
+    country: '',
+    state: '',
+    city: '',
+  });
+
+  useEffect(() => {
+    form.setFieldValue('address', address);
+  }, [address]);
+
   const handleSubmit = () => {
     setActiveStep(2);
   };
@@ -45,13 +57,9 @@ const CompanyCreationForm: FC<CompnayCreationFormProps> = ({
         {...form.getInputProps('employees')}
       />
       <TextInput label="Website" {...form.getInputProps('website')} required />
-      <TextInput label="City" {...form.getInputProps('city')} required />
-      <TextInput label="State" {...form.getInputProps('state')} required />
-      <TextInput label="Country" {...form.getInputProps('country')} required />
+      <AddressSelector address={address} setAddress={setAddress} />
 
-      <Button radius={'xl'} type="submit">
-        Next
-      </Button>
+      <Button type="submit">Next</Button>
     </form>
   );
 };

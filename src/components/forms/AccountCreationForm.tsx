@@ -57,9 +57,7 @@ const AccountCreationForm: FC<AccountCreationFormProps> = ({
         {...form.getInputProps('confirmPassword')}
         required
       />
-      <Button radius={'xl'} type="submit">
-        Next
-      </Button>
+      <Button type="submit">Next</Button>
     </form>
   );
 };

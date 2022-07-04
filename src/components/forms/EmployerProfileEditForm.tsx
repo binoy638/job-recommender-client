@@ -143,9 +143,20 @@ const EmployerProfileEditForm = ({ user }: { user: Employer }) => {
           {...form.getInputProps('website')}
           required
         />
-        <TextInput label="City" {...form.getInputProps('city')} required />
-        <TextInput label="State" {...form.getInputProps('state')} required />
         <TextInput
+          disabled
+          label="City"
+          {...form.getInputProps('city')}
+          required
+        />
+        <TextInput
+          disabled
+          label="State"
+          {...form.getInputProps('state')}
+          required
+        />
+        <TextInput
+          disabled
           label="Country"
           {...form.getInputProps('country')}
           required

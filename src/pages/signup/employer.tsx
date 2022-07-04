@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import type { CompanyCreationFormData } from 'schemas';
+import type { AccountCreationFormData, CompanyCreationFormData } from 'schemas';
 import { accountCreationSchema, companyCreationSchema } from 'schemas';
 
 import AuthAPI from '@/API/authAPI';
@@ -53,10 +53,9 @@ const EmployerSignUp = () => {
       firstName: '',
       lastName: '',
       email: '',
-      phone: '',
       password: '',
       confirmPassword: '',
-    },
+    } as AccountCreationFormData,
     validate: {
       confirmPassword: (value, values) =>
         value !== values.password ? 'Passwords did not match' : null,
@@ -69,21 +68,12 @@ const EmployerSignUp = () => {
       name: '',
       description: '',
       website: '',
-      city: '',
-      state: '',
-      country: '',
     } as CompanyCreationFormData,
   });
   const formSubmitHandler = () => {
-    const { city, country, state, ...otherComanyDetails } =
-      CompanyDetailsForm.values;
-    const formattedCompanyDetails = {
-      address: { city, country, state },
-      ...otherComanyDetails,
-    };
     const formValues = {
       ...AccountDetailsForm.values,
-      company: formattedCompanyDetails,
+      company: CompanyDetailsForm.values,
     };
     mutate({ form: formValues, utype: UserType.EMPLOYER });
   };

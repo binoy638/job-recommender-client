@@ -2,17 +2,14 @@ import { Button, PasswordInput, TextInput } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
 import React from 'react';
-import type { AccountCreationFormData } from 'schemas';
+import type { AccountFormData } from 'schemas';
 
-interface AccountCreationFormProps {
-  form: UseFormReturnType<AccountCreationFormData>;
+interface AccountFormProps {
+  form: UseFormReturnType<AccountFormData>;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const AccountCreationForm: FC<AccountCreationFormProps> = ({
-  form,
-  setActiveStep,
-}) => {
+const AccountForm: FC<AccountFormProps> = ({ form, setActiveStep }) => {
   const handleSubmit = (values: typeof form.values) => {
     if (values.password !== values.confirmPassword) {
       form.setFieldError('confirmPassword', 'Passwords did not match');
@@ -62,4 +59,4 @@ const AccountCreationForm: FC<AccountCreationFormProps> = ({
   );
 };
 
-export default AccountCreationForm;
+export default AccountForm;

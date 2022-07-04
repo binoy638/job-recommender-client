@@ -1,7 +1,7 @@
 import { JobMode, WorkHours } from '@types';
 import { z } from 'zod';
 
-export const accountCreationSchema = z.object({
+export const accountSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: 'First Name should have at least 2 characters' }),
@@ -22,7 +22,7 @@ export const accountCreationSchema = z.object({
     .min(6, { message: 'Password should have at least 6 characters' }),
 });
 
-export type AccountCreationFormData = z.infer<typeof accountCreationSchema>;
+export type AccountFormData = z.infer<typeof accountSchema>;
 
 export const addressSchema = z.object({
   city: z
@@ -36,7 +36,9 @@ export const addressSchema = z.object({
     .min(2, { message: 'State should have at least 2 characters' }),
 });
 
-export const companyCreationSchema = z.object({
+export type Address = z.infer<typeof addressSchema>;
+
+export const companySchema = z.object({
   name: z
     .string()
     .min(2, { message: 'Company Name should have at least 2 characters' }),
@@ -54,7 +56,7 @@ export const companyCreationSchema = z.object({
   address: addressSchema,
 });
 
-export type CompanyCreationFormData = z.infer<typeof companyCreationSchema>;
+export type CompanyFormData = z.infer<typeof companySchema>;
 
 export const jobPostSchema = z.object({
   jobTitle: z
@@ -85,7 +87,7 @@ export const jobPostSchema = z.object({
 
 export type JobFormData = z.infer<typeof jobPostSchema>;
 
-export const EmployerProfileEdit = accountCreationSchema
+export const EmployerProfileEdit = accountSchema
   .omit({
     password: true,
     confirmPassword: true,

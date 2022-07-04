@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import AdminAPI from '@/API/adminAPI';
 
-const CategoryCreationForm = () => {
+const CategoryForm = () => {
   const form = useForm({
     initialValues: {
       name: '',
@@ -54,4 +54,4 @@ const CategoryCreationForm = () => {
   );
 };
 
-export default CategoryCreationForm;
+export default CategoryForm;

@@ -11,12 +11,12 @@ import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import type { AccountCreationFormData, CompanyCreationFormData } from 'schemas';
-import { accountCreationSchema, companyCreationSchema } from 'schemas';
+import type { AccountFormData, CompanyFormData } from 'schemas';
+import { accountSchema, companySchema } from 'schemas';
 
 import AuthAPI from '@/API/authAPI';
-import AccountCreationForm from '@/components/forms/AccountCreationForm';
-import CompanyCreationForm from '@/components/forms/CompanyCreationForm';
+import AccountForm from '@/components/forms/AccountForm';
+import CompanyForm from '@/components/forms/CompanyForm';
 import AdminVerificationSvg from '@/components/Svg/AdminVerificationSvg';
 import AuthContainer from '@/components/UI/AuthContainer';
 import Layout from '@/layouts/BasicLayout';
@@ -48,14 +48,14 @@ const EmployerSignUp = () => {
   });
 
   const AccountDetailsForm = useForm({
-    schema: zodResolver(accountCreationSchema),
+    schema: zodResolver(accountSchema),
     initialValues: {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
-    } as AccountCreationFormData,
+    } as AccountFormData,
     validate: {
       confirmPassword: (value, values) =>
         value !== values.password ? 'Passwords did not match' : null,
@@ -63,12 +63,12 @@ const EmployerSignUp = () => {
   });
 
   const CompanyDetailsForm = useForm({
-    schema: zodResolver(companyCreationSchema),
+    schema: zodResolver(companySchema),
     initialValues: {
       name: '',
       description: '',
       website: '',
-    } as CompanyCreationFormData,
+    } as CompanyFormData,
   });
   const formSubmitHandler = () => {
     const formValues = {
@@ -82,14 +82,14 @@ const EmployerSignUp = () => {
     switch (activeStep) {
       case 0:
         return (
-          <AccountCreationForm
+          <AccountForm
             form={AccountDetailsForm}
             setActiveStep={setActiveStep}
           />
         );
       case 1:
         return (
-          <CompanyCreationForm
+          <CompanyForm
             form={CompanyDetailsForm}
             setActiveStep={setActiveStep}
           />

@@ -1,5 +1,6 @@
 import { Select } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
+import type { Address } from 'schemas';
 
 import GeneralAPI from '@/API/generalAPI';
 
@@ -19,21 +20,10 @@ const fetchCities = async (stateID: number) => {
 };
 
 interface AddressSelectorProps {
-  address: {
-    country: string;
-    state: string;
-    city: string;
-  };
-  setAddress: React.Dispatch<
-    React.SetStateAction<{
-      country: string;
-      state: string;
-      city: string;
-    }>
-  >;
+  setAddress: React.Dispatch<React.SetStateAction<Address>>;
 }
 
-const AddressSelector = ({ address, setAddress }: AddressSelectorProps) => {
+const AddressSelector = ({ setAddress }: AddressSelectorProps) => {
   const [countries, setCountries] = useState<
     { value: string; label: string }[]
   >([]);
@@ -73,9 +63,11 @@ const AddressSelector = ({ address, setAddress }: AddressSelectorProps) => {
       (country) => country.value === selectedCountryID
     );
     if (selectedCountry) {
-      setAddress({
-        ...address,
-        country: selectedCountry.label,
+      setAddress((prev) => {
+        return {
+          ...prev,
+          country: selectedCountry.label,
+        };
       });
     }
   }, [selectedCountryID]);
@@ -92,9 +84,11 @@ const AddressSelector = ({ address, setAddress }: AddressSelectorProps) => {
       (state) => state.value === selectedStateID
     );
     if (selectedState) {
-      setAddress({
-        ...address,
-        state: selectedState.label,
+      setAddress((prev) => {
+        return {
+          ...prev,
+          state: selectedState.label,
+        };
       });
     }
   }, [selectedStateID]);
@@ -102,9 +96,11 @@ const AddressSelector = ({ address, setAddress }: AddressSelectorProps) => {
   useEffect(() => {
     const selectedCity = cities.find((city) => city.value === selectedCityID);
     if (selectedCity) {
-      setAddress({
-        ...address,
-        city: selectedCity.label,
+      setAddress((prev) => {
+        return {
+          ...prev,
+          city: selectedCity.label,
+        };
       });
     }
   }, [selectedCityID]);

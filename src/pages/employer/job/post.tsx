@@ -6,7 +6,7 @@ import type { ReactElement } from 'react';
 import React from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
-import JobForm from '@/components/job/forms/JobForm';
+import JobForm from '@/components/forms/JobForm';
 import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication, Utils } from '@/utils';
 

@@ -14,15 +14,16 @@ import type { JobCategory } from '@types';
 import { JobMode, WorkHours } from '@types';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import type { JobFormData } from 'schemas';
 import { jobPostSchema } from 'schemas';
 
 import EmployerAPI from '@/API/EmployerAPI';
 import TextEditor from '@/components/UI/TextEditor';
+import useSetFormFieldValue from '@/hooks/useSetFormFieldValue';
 
-import SkillSelection from './SkillSelection';
+import SkillSelector from '../SpecialFields/SkillSelector';
 
 const placeholder =
   'Enter Job requirements, skills, and other details about the job. This will be displayed on the job listing page.';
@@ -53,23 +54,15 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
     { min: number; max: number; negotiable: boolean } | undefined
   >();
 
-  const [selectedSkills, setSelectedSKills] = useState<
-    { value: string; _id: string }[]
-  >([]);
+  const [skills, setSkills] = useState<string[]>([]);
 
   const handleRichTextEditorChange = (value: string) => {
     setEditorValue(value);
     form.setFieldValue('description', value);
   };
 
-  useEffect(() => {
-    const selectedSkillsIds = selectedSkills.map((skill) => skill._id);
-    form.setFieldValue('requiredSkills', selectedSkillsIds);
-  }, [selectedSkills]);
-
-  useEffect(() => {
-    form.setFieldValue('salary', salary);
-  }, [salary]);
+  useSetFormFieldValue(form, 'requiredSkills', skills);
+  useSetFormFieldValue(form, 'salary', salary);
 
   const handleSubmit = (values: typeof form.values) => {
     mutate(values);
@@ -231,10 +224,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
           onChange={handleRichTextEditorChange}
         />
       </div>
-      <SkillSelection
-        selectedSkills={selectedSkills}
-        setSelectedSkills={setSelectedSKills}
-      />
+      <SkillSelector setSkills={setSkills} />
       {error && <small className="text-red-500">{error}</small>}
       <Button type="submit" variant="outline">
         {isLoading ? <Loader size={20} /> : 'Post Job'}

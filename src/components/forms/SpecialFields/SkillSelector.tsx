@@ -12,25 +12,22 @@ const fetchSkills = async (q: string) => {
 };
 
 interface Props {
-  selectedSkills: {
-    value: string;
-    _id: string;
-  }[];
-  setSelectedSkills: React.Dispatch<
-    React.SetStateAction<
-      {
-        value: string;
-        _id: string;
-      }[]
-    >
-  >;
+  setSkills: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const SkillSelection: FC<Props> = ({ selectedSkills, setSelectedSkills }) => {
+const SkillSelector: FC<Props> = ({ setSkills }) => {
   const [value, setValue] = useState('');
   const [data, setData] = useState<{ value: string; _id: string }[]>([]);
 
+  const [selectedSkills, setSelectedSkills] = useState<
+    { value: string; _id: string }[]
+  >([]);
+
   const [debounceValue] = useDebouncedValue(value, 200);
+
+  useEffect(() => {
+    setSkills(selectedSkills.map((s) => s.value));
+  }, [selectedSkills]);
 
   useEffect(() => {
     if (!debounceValue || debounceValue.length < 2) return;
@@ -82,4 +79,4 @@ const SkillSelection: FC<Props> = ({ selectedSkills, setSelectedSkills }) => {
   );
 };
 
-export default SkillSelection;
+export default SkillSelector;

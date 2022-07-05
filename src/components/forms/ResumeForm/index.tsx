@@ -9,9 +9,10 @@ import type {
   JobSeekerResumeFormData,
 } from 'schemas/jobseeker';
 
-import AddressSelector from '@/components/UI/AddressSelector';
+import AddressSelector from '@/components/forms/SpecialFields/AddressSelector';
 import useSetFormFieldValue from '@/hooks/useSetFormFieldValue';
 
+import SkillSelector from '../SpecialFields/SkillSelector';
 import EducationForm from './EducationForm';
 import ExperienceForm from './ExperienceForm';
 
@@ -27,6 +28,8 @@ const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
     city: '',
   });
 
+  const [skills, setSkills] = useState<string[]>([]);
+
   const [openedExpModal, setOpenedExpModal] = useState(false);
   const [openedEduModal, setOpenedEduModal] = useState(false);
 
@@ -36,6 +39,7 @@ const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
   useSetFormFieldValue(form, 'address', address);
   useSetFormFieldValue(form, 'education', eductions);
   useSetFormFieldValue(form, 'experience', experiences);
+  useSetFormFieldValue(form, 'skills', skills);
 
   const handleSubmit = (values: typeof form.values) => {
     console.log(values);
@@ -82,7 +86,7 @@ const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
       </Modal>
 
       <AddressSelector setAddress={setAddress} />
-
+      <SkillSelector setSkills={setSkills} />
       <Button type="submit">Next</Button>
     </form>
   );

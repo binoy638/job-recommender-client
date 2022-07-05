@@ -6,7 +6,7 @@ import type { CompanyFormData } from 'schemas';
 
 import useSetFormFieldValue from '@/hooks/useSetFormFieldValue';
 
-import AddressSelector from '../UI/AddressSelector';
+import AddressSelector from './SpecialFields/AddressSelector';
 
 interface CompnayFormProps {
   form: UseFormReturnType<CompanyFormData>;

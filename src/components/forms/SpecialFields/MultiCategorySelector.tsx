@@ -35,7 +35,6 @@ const MultiCategorySelector = ({
       value={categories}
       onChange={setCategories}
       label="Select Prefered Job Categories"
-      placeholder="Select categories"
     />
   );
 };

@@ -224,7 +224,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
           onChange={handleRichTextEditorChange}
         />
       </div>
-      <SkillSelector setSkills={setSkills} />
+      <SkillSelector label="Required Skills" setSkills={setSkills} />
       {error && <small className="text-red-500">{error}</small>}
       <Button type="submit" variant="outline">
         {isLoading ? <Loader size={20} /> : 'Post Job'}

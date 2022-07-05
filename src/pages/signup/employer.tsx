@@ -53,6 +53,7 @@ const EmployerSignUp = () => {
       firstName: '',
       lastName: '',
       email: '',
+      phone: '',
       password: '',
       confirmPassword: '',
     } as AccountFormData,

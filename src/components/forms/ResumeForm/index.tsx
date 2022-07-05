@@ -1,8 +1,9 @@
+import { CalendarIcon } from '@heroicons/react/outline';
 import { Button, Modal, Textarea } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type {
   EducationFormData,
   ExperienceFormData,
@@ -22,7 +23,7 @@ interface ResumeFormProps {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
+const ResumeForm: FC<ResumeFormProps> = ({ form, setActiveStep }) => {
   const [address, setAddress] = useState({
     country: '',
     state: '',
@@ -44,8 +45,12 @@ const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
   useSetFormFieldValue(form, 'skills', skills);
   useSetFormFieldValue(form, 'jobPreferences', categories);
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
+  useEffect(() => {
+    console.log(skills);
+  }, [skills]);
+
+  const handleSubmit = () => {
+    setActiveStep(2);
   };
 
   return (
@@ -57,6 +62,7 @@ const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
         {...form.getInputProps('dob')}
         size="md"
         label="Date of Birth"
+        icon={<CalendarIcon className="h-5 w-5" />}
         required
       />
       <Textarea label="About" {...form.getInputProps('about')} required />
@@ -89,7 +95,7 @@ const ResumeForm: FC<ResumeFormProps> = ({ form }) => {
       </Modal>
 
       <AddressSelector setAddress={setAddress} />
-      <SkillSelector setSkills={setSkills} />
+      <SkillSelector label="Skills" setSkills={setSkills} />
       <MultiCategorySelector
         categories={categories}
         setCategories={setCategories}

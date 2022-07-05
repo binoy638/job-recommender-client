@@ -12,10 +12,11 @@ const fetchSkills = async (q: string) => {
 };
 
 interface Props {
+  label: string;
   setSkills: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const SkillSelector: FC<Props> = ({ setSkills }) => {
+const SkillSelector: FC<Props> = ({ label, setSkills }) => {
   const [value, setValue] = useState('');
   const [data, setData] = useState<{ value: string; _id: string }[]>([]);
 
@@ -26,7 +27,7 @@ const SkillSelector: FC<Props> = ({ setSkills }) => {
   const [debounceValue] = useDebouncedValue(value, 200);
 
   useEffect(() => {
-    setSkills(selectedSkills.map((s) => s.value));
+    setSkills(selectedSkills.map((s) => s._id));
   }, [selectedSkills]);
 
   useEffect(() => {
@@ -52,8 +53,7 @@ const SkillSelector: FC<Props> = ({ setSkills }) => {
         value={value}
         onChange={setValue}
         onItemSubmit={handleSkillSelect}
-        label="Required Skills"
-        placeholder="Select required skills"
+        label={label}
         data={data}
       />
       <div className="mt-2 flex gap-2">

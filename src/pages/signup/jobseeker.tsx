@@ -25,11 +25,16 @@ import Layout from '@/layouts/BasicLayout';
 
 interface StepperComponentProps {
   activeStep: number;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 }
-const StepperComponent: FC<StepperComponentProps> = ({ activeStep }) => {
+const StepperComponent: FC<StepperComponentProps> = ({
+  activeStep,
+  setActiveStep,
+}) => {
   return (
     <Stepper
       active={activeStep}
+      onStepClick={setActiveStep}
       completedIcon={<CheckIcon className="h-5 w-5" />}
     >
       <Stepper.Step icon={<UserIcon className="h-5 w-5" />} />
@@ -45,7 +50,7 @@ const JobSeekerSignUp = () => {
 
   const { mutate, isLoading, error } = useMutation(AuthAPI.signUp, {
     onSuccess: () => {
-      setActiveStep(3);
+      router.push('/signin/jobseeker');
     },
   });
 
@@ -55,6 +60,7 @@ const JobSeekerSignUp = () => {
       firstName: '',
       lastName: '',
       email: '',
+      phone: '',
       password: '',
       confirmPassword: '',
     } as AccountFormData,
@@ -75,6 +81,7 @@ const JobSeekerSignUp = () => {
       ...AccountDetailsForm.values,
       ...resumeForm.values,
     };
+    console.log(formValues);
     mutate({ form: formValues, utype: UserType.JOBSEEKER });
   };
 
@@ -95,7 +102,7 @@ const JobSeekerSignUp = () => {
             <div className="flex flex-col items-center justify-center gap-6">
               <div className="flex flex-col items-center justify-center gap-6">
                 <AdminVerificationSvg height={200} width={200} />
-                <Text px={60}>Complete Registration</Text>
+                <Text px={60}>Complete Registration?</Text>
               </div>
               <Button
                 onClick={formSubmitHandler}
@@ -118,7 +125,7 @@ const JobSeekerSignUp = () => {
                   }}
                   fullWidth
                   variant="outline"
-                  radius={'xl'}
+                  radius="xl"
                 >
                   Try again
                 </Button>
@@ -131,9 +138,9 @@ const JobSeekerSignUp = () => {
                     router.push('/signin/jobseeker');
                   }}
                   fullWidth
-                  color={'green'}
+                  color="green"
                   variant="outline"
-                  radius={'xl'}
+                  radius="xl"
                 >
                   Log In now
                 </Button>
@@ -150,7 +157,10 @@ const JobSeekerSignUp = () => {
         <span className="mb-6 flex items-center justify-center text-2xl ">
           Register as an JobSeeker
         </span>
-        <StepperComponent activeStep={activeStep} />
+        <StepperComponent
+          setActiveStep={setActiveStep}
+          activeStep={activeStep}
+        />
         <div className="mt-8 flex items-center justify-center">
           {FormComponent()}
         </div>

@@ -12,8 +12,7 @@ export const accountSchema = z.object({
   phone: z
     .string()
     .min(10, { message: 'Phone number should have at least 10 digits' })
-    .regex(/^\d+$/)
-    .transform(Number),
+    .regex(/^\d+$/),
   password: z
     .string()
     .min(6, { message: 'Password should have at least 6 characters' }),

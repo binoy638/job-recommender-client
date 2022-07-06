@@ -47,6 +47,7 @@ export enum JobMode {
 }
 
 export interface Job extends JobFormData {
+  _id: string;
   id: number;
   isActive: boolean;
   createdAt: string;
@@ -130,4 +131,18 @@ export interface JobWithPopulatedFields
   category: JobCategory;
   employer: Pick<Employer, 'company'>;
   requiredSkills: Skill[];
+}
+
+export enum ApplicationStatus {
+  PENDING = 'PENDING',
+  SHORTLISTED = 'SHORTLISTED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
+export interface JobApplication {
+  id: number;
+  job: Job;
+  jobSeeker: string;
+  status: ApplicationStatus;
 }

@@ -50,7 +50,7 @@ const JobSeekerSignUp = () => {
 
   const { mutate, isLoading, error } = useMutation(AuthAPI.signUp, {
     onSuccess: () => {
-      router.push('/signin/jobseeker');
+      setActiveStep(3);
     },
   });
 
@@ -81,7 +81,6 @@ const JobSeekerSignUp = () => {
       ...AccountDetailsForm.values,
       ...resumeForm.values,
     };
-    console.log(formValues);
     mutate({ form: formValues, utype: UserType.JOBSEEKER });
   };
 
@@ -132,7 +131,7 @@ const JobSeekerSignUp = () => {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4">
-                <Text>Application successfully submitted</Text>
+                <Text>Registered Successfully</Text>
                 <Button
                   onClick={() => {
                     router.push('/signin/jobseeker');

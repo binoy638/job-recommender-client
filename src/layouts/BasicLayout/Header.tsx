@@ -1,4 +1,4 @@
-import { LogoutIcon, UserIcon } from '@heroicons/react/outline';
+import { LogoutIcon, UserIcon, ViewGridIcon } from '@heroicons/react/outline';
 import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
   ActionIcon,
@@ -30,7 +30,7 @@ interface HeaderProps {
 const ProfileMenu = ({ initial }: { initial: string }) => {
   const router = useRouter();
 
-  const { type } = useTypedSelector((state) => state.user);
+  const { user, type } = useTypedSelector((state) => state.user);
 
   const dispatch = useTypedDispatch();
   const handleLogout = () => {
@@ -43,8 +43,16 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
   const handleProfile = () => {
     if (type === UserType.EMPLOYER) {
       router.push('/employer/profile');
+    } else if (type === UserType.JOBSEEKER) {
+      router.push(`/jobseeker/${user.id}`);
+    }
+  };
+
+  const handleDashboard = () => {
+    if (type === UserType.EMPLOYER) {
+      router.push('/employer/dashboard');
     } else {
-      router.push('/jobseeker/profile');
+      router.push('/jobseeker/dashboard');
     }
   };
 
@@ -58,16 +66,22 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
       trigger="hover"
     >
       <Menu.Item
-        onClick={handleLogout}
-        icon={<LogoutIcon className="h-5 w-5" />}
+        onClick={handleDashboard}
+        icon={<ViewGridIcon className="h-5 w-5" />}
       >
-        Log out
+        Dashboard
       </Menu.Item>
       <Menu.Item
         onClick={handleProfile}
         icon={<UserIcon className="h-5 w-5" />}
       >
-        Profile
+        {type === UserType.EMPLOYER ? 'Profile Edit' : 'Profile'}
+      </Menu.Item>
+      <Menu.Item
+        onClick={handleLogout}
+        icon={<LogoutIcon className="h-5 w-5" />}
+      >
+        Log out
       </Menu.Item>
     </Menu>
   );

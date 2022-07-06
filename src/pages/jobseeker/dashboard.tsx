@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import { Alert, Button } from '@mantine/core';
-import type { JobApplication } from '@types';
+import type { JobSeekerJobApplication } from '@types';
 import { UserType } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { GetServerSideProps } from 'next';
@@ -9,18 +9,19 @@ import type { ReactElement } from 'react';
 import React from 'react';
 
 import JobSeekerAPI from '@/API/JobSeekerAPI';
+import ApplicationList from '@/components/jobseeker/ApplicationList';
 import ContainerWithHeader from '@/components/UI/ContainerWithHeader';
 import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
 interface JobSeekerDashboardProps {
-  applications: JobApplication[];
+  applications: JobSeekerJobApplication[];
 }
 
 const EmployerDashboard = ({ applications }: JobSeekerDashboardProps) => {
   if (applications.length === 0) {
     return (
-      <ContainerWithHeader header="Dashboard">
+      <ContainerWithHeader header="My Applications">
         <Alert icon={<ExclamationCircleIcon />} title="Bummer!" color="red">
           <span>You have not applied to any jobs yet</span>
         </Alert>
@@ -34,8 +35,8 @@ const EmployerDashboard = ({ applications }: JobSeekerDashboardProps) => {
   }
 
   return (
-    <ContainerWithHeader header="Dashboard">
-      <div>Have applications</div>
+    <ContainerWithHeader header="My Applications">
+      <ApplicationList applications={applications} />
     </ContainerWithHeader>
   );
 };

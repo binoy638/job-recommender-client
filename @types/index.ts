@@ -1,4 +1,4 @@
-import type { JobFormData } from 'schemas';
+import type { CompanyFormData, JobFormData } from 'schemas';
 
 export enum UserType {
   EMPLOYER = 'employer',
@@ -91,6 +91,7 @@ export interface Experience {
 }
 
 export interface JobSeeker {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -140,9 +141,15 @@ export enum ApplicationStatus {
   REJECTED = 'REJECTED',
 }
 
-export interface JobApplication {
+export interface JobSeekerJobApplication {
   id: number;
-  job: Job;
-  jobSeeker: string;
+  job: {
+    jobTitle: string;
+    employer: {
+      company: CompanyFormData;
+    };
+    applications: string[];
+  };
   status: ApplicationStatus;
+  createdAt: string;
 }

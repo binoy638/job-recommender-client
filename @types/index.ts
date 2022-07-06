@@ -153,3 +153,11 @@ export interface JobSeekerJobApplication {
   status: ApplicationStatus;
   createdAt: string;
 }
+
+export interface EmployerJobApplication {
+  id: number;
+  job: string;
+  jobseeker: JobSeeker;
+  status: ApplicationStatus;
+  createdAt: string;
+}

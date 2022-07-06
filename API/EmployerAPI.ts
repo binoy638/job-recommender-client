@@ -1,4 +1,4 @@
-import type { Job } from '@types';
+import type { EmployerJobApplication, Job } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { JobFormData } from 'schemas';
 
@@ -29,6 +29,15 @@ class EmployerAPI {
 
   static deleteJob = async (id: string, headers?: AxiosRequestHeaders) =>
     API.delete(`/employer/job/${id}`, { headers });
+
+  static getJobApplications = async (
+    id: number,
+    headers?: AxiosRequestHeaders
+  ) =>
+    API.get<{ applications: EmployerJobApplication[] }>(
+      `/employer/job/applications/${id}`,
+      { headers }
+    );
 }
 
 export default EmployerAPI;

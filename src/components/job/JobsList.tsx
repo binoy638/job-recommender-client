@@ -1,5 +1,6 @@
 import { Alert, Table, Text } from '@mantine/core';
 import type { Job } from '@types';
+import Link from 'next/link';
 import type { FC } from 'react';
 import React from 'react';
 
@@ -13,7 +14,9 @@ const ListJobs: FC<ListJobsProps> = ({ jobs }) => {
   const rows = jobs.map((job) => (
     <tr key={job.id}>
       <td>{Utils.formatDate(job.createdAt)}</td>
-      <td>{job.jobTitle}</td>
+      <td>
+        <Link href={`/employer/job/${job.id}`}>{job.jobTitle}</Link>
+      </td>
       <td>{job.isActive ? 'Active' : 'Closed'}</td>
       <td>4</td>
       <td>{Utils.formatDate(job.applyBy)}</td>

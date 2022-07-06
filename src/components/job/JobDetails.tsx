@@ -13,6 +13,7 @@ import { showNotification } from '@mantine/notifications';
 import type { Address, JobWithPopulatedFields } from '@types';
 import { JobMode } from '@types';
 import type { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';
 
@@ -49,9 +50,11 @@ const LabelWithIcon = ({
 
 interface JobDetailsProps {
   job: JobWithPopulatedFields;
+  isEmployer?: boolean;
 }
 
-const JobDetails = ({ job }: JobDetailsProps) => {
+const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
+  const router = useRouter();
   const { mutate } = useMutation(JobSeekerAPI.postApplication, {
     onSuccess: () => {
       showNotification({
@@ -74,9 +77,13 @@ const JobDetails = ({ job }: JobDetailsProps) => {
   });
 
   const handleSubmit = () => {
-    mutate({
-      job: job._id,
-    });
+    if (isEmployer) {
+      router.push(`/employer/job/${job.id}/applications`);
+    } else {
+      mutate({
+        job: job._id,
+      });
+    }
   };
 
   return (
@@ -152,9 +159,15 @@ const JobDetails = ({ job }: JobDetailsProps) => {
           </div>
         </div>
         <div className="mt-8 flex">
-          <Button onClick={handleSubmit} color="green" px={50}>
-            Apply
-          </Button>
+          {isEmployer ? (
+            <Button onClick={handleSubmit} variant="outline" px={50}>
+              View Applications
+            </Button>
+          ) : (
+            <Button onClick={handleSubmit} color="green" px={50}>
+              Apply
+            </Button>
+          )}
         </div>
       </div>
     </Paper>

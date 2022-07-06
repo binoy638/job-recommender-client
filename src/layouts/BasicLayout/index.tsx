@@ -21,10 +21,14 @@ const Layout: FC<LayoutProps> = ({ children }) => {
 
   useEffect(() => {
     if (!user) {
-      AuthAPI.getLoggedInUser().then((res) => {
-        const { data } = res;
-        dispatch(setUser(data));
-      });
+      AuthAPI.getLoggedInUser()
+        .then((res) => {
+          const { data } = res;
+          dispatch(setUser(data));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [user]);
 

@@ -8,18 +8,20 @@ import {
   UsersIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { Anchor, Button, Divider, Paper, Text } from '@mantine/core';
+import { Anchor, Badge, Button, Divider, Paper, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import type { Address, JobWithPopulatedFields } from '@types';
-import { JobMode } from '@types';
+import { JobMode, UserType } from '@types';
 import type { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useMutation } from 'react-query';
+import { useTypedSelector } from 'store';
 
 import JobSeekerAPI from '@/API/JobSeekerAPI';
 import { Utils } from '@/utils';
 
+import LabelWithLeftIcon from '../UI/LabelWithLeftIcon';
 import { formatCTC, Item } from './JobCard';
 
 const formatLocation = (location: Address) => {
@@ -33,28 +35,16 @@ const displayLocation = (mode: JobMode, location: Address) => {
   return 'Remote';
 };
 
-const LabelWithIcon = ({
-  label,
-  icon,
-}: {
-  label: string;
-  icon: React.ReactElement;
-}) => {
-  return (
-    <div className="flex items-center gap-1">
-      {icon}
-      <Text size="sm">{label}</Text>
-    </div>
-  );
-};
-
 interface JobDetailsProps {
   job: JobWithPopulatedFields;
   isEmployer?: boolean;
 }
 
 const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
+  const { type } = useTypedSelector((state) => state.user);
+
   const router = useRouter();
+
   const { mutate } = useMutation(JobSeekerAPI.postApplication, {
     onSuccess: () => {
       showNotification({
@@ -79,11 +69,18 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
   const handleSubmit = () => {
     if (isEmployer) {
       router.push(`/employer/job/${job.id}/applications`);
-    } else {
+      return;
+    }
+    if (type === UserType.JOBSEEKER) {
       mutate({
         job: job._id,
       });
     }
+    showNotification({
+      message: 'You need to be logged in as Job Seeker to apply for a job',
+      color: 'red',
+      icon: <XIcon className="h-5 w-5 " />,
+    });
   };
 
   return (
@@ -97,7 +94,7 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
             {job.employer.company.name}
           </Text>
         </div>
-        <LabelWithIcon
+        <LabelWithLeftIcon
           icon={<LocationMarkerIcon className="h-4 w-4 text-gray-600" />}
           label={displayLocation(job.mode, job.employer.company.address)}
         />
@@ -126,6 +123,20 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
         <div>
           <div dangerouslySetInnerHTML={{ __html: job.description }} />
         </div>
+        <div className="flex flex-col gap-2">
+          <Text size="md" weight={'bolder'}>
+            Skills Required
+          </Text>
+          <div className="flex gap-2">
+            {job.requiredSkills.map((skill) => {
+              return (
+                <Badge color="gray" key={skill._id}>
+                  {skill.name}
+                </Badge>
+              );
+            })}
+          </div>
+        </div>
         <Divider />
         <div className="flex flex-col gap-3">
           <div>
@@ -144,12 +155,12 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
 
           <div>
             {job.employer.company.employees && (
-              <LabelWithIcon
+              <LabelWithLeftIcon
                 icon={<UsersIcon className="h-4 w-4 text-gray-600" />}
                 label={job.employer.company.employees.toString()}
               />
             )}
-            <LabelWithIcon
+            <LabelWithLeftIcon
               icon={<LocationMarkerIcon className="h-4 w-4 text-gray-600" />}
               label={formatLocation(job.employer.company.address)}
             />

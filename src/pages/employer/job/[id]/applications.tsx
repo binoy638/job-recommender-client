@@ -8,6 +8,7 @@ import type { ReactElement } from 'react';
 import React from 'react';
 
 import EmployerAPI from '@/API/EmployerAPI';
+import ApplicationCardList from '@/components/job/ApplicationCardList';
 import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
@@ -22,10 +23,14 @@ const Applications = ({ pending, shortlisted, hired, rejected }: Props) => {
   return (
     <div>
       <Tabs color="blue" grow>
-        <Tabs.Tab label={`Pending(${pending.length})`}></Tabs.Tab>
+        <Tabs.Tab label={`Pending(${pending.length})`}>
+          <ApplicationCardList applications={pending} />
+        </Tabs.Tab>
         <Tabs.Tab label={`Shortlisted(${shortlisted.length})`}></Tabs.Tab>
         <Tabs.Tab label={`Hired(${hired.length})`}></Tabs.Tab>
-        <Tabs.Tab label={`Rejected(${rejected.length})`}></Tabs.Tab>
+        <Tabs.Tab label={`Rejected(${rejected.length})`}>
+          <ApplicationCardList applications={rejected} />
+        </Tabs.Tab>
       </Tabs>
     </div>
   );

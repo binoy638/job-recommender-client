@@ -5,6 +5,21 @@ import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import AuthAPI from '@/API/authAPI';
 
 export class Utils {
+  static monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   static redirect = (url: string) => {
     return {
       redirect: {
@@ -24,24 +39,25 @@ export class Utils {
   static formatDate = (date: Date | string) => {
     // eslint-disable-next-line no-param-reassign
     if (typeof date === 'string') date = new Date(date);
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
+
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
-    return `${day} ${monthNames[monthIndex]} ${year}`;
+    return `${day} ${Utils.monthNames[monthIndex]} ${year}`;
+  };
+
+  static formatWithTime = (date: Date | string) => {
+    // eslint-disable-next-line no-param-reassign
+    if (typeof date === 'string') date = new Date(date);
+
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${day} ${Utils.monthNames[monthIndex]} ${year} - ${hours}:${minutes}:${seconds}`;
   };
 }
 

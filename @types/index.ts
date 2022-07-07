@@ -157,7 +157,7 @@ export interface JobSeekerJobApplication {
 export interface EmployerJobApplication {
   id: number;
   job: string;
-  jobseeker: JobSeeker;
+  jobSeeker: JobSeeker;
   status: ApplicationStatus;
   createdAt: string;
 }

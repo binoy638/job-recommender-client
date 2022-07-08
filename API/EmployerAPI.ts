@@ -1,4 +1,4 @@
-import type { EmployerJobApplication, Job } from '@types';
+import type { ApplicationStatus, EmployerJobApplication, Job } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { JobFormData } from 'schemas';
 
@@ -38,6 +38,14 @@ class EmployerAPI {
       `/employer/job/applications/${id}`,
       { headers }
     );
+
+  static updateJobApplicationStatus = async (data: {
+    id: number;
+    status: ApplicationStatus;
+  }) =>
+    API.put(`/employer/job/application/update-status/${data.id}`, {
+      status: data.status,
+    });
 }
 
 export default EmployerAPI;

@@ -75,6 +75,7 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
       mutate({
         job: job._id,
       });
+      return;
     }
     showNotification({
       message: 'You need to be logged in as Job Seeker to apply for a job',

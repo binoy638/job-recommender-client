@@ -1,9 +1,10 @@
+import { PencilIcon } from '@heroicons/react/outline';
 import {
   AtSymbolIcon,
   LocationMarkerIcon,
   PhoneIcon,
 } from '@heroicons/react/solid';
-import { Divider, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import type { JobSeeker } from '@types';
 import React from 'react';
 
@@ -22,13 +23,23 @@ const Item = ({ label, icon }: { label: string; icon: React.ReactElement }) => {
   );
 };
 
-const ProfileView = ({ profile }: { profile: JobSeeker }) => {
+const ProfileView = ({
+  profile,
+  editable = false,
+}: {
+  profile: JobSeeker;
+  editable: boolean;
+}) => {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <Text style={{ fontSize: '2rem' }} weight="bolder">
-          {profile.firstName} {profile.lastName}
-        </Text>
+        <div className="flex items-center gap-2">
+          <Text style={{ fontSize: '2rem' }} weight="bolder">
+            {profile.firstName} {profile.lastName}
+          </Text>
+          {editable && <PencilIcon className="h-5 w-5" />}
+        </div>
+
         <Item
           label={formatAddress(profile.address)}
           icon={<LocationMarkerIcon className="h-5 w-5 text-gray-600" />}
@@ -42,15 +53,10 @@ const ProfileView = ({ profile }: { profile: JobSeeker }) => {
           icon={<PhoneIcon className="h-5 w-5 text-gray-600" />}
         />
       </div>
-      <Divider />
 
-      <EducationList educations={profile.education} />
+      <EducationList editable={editable} educations={profile.education} />
 
-      <Divider />
-
-      <ExperienceList experiences={profile.experience} />
-
-      <Divider />
+      <ExperienceList editable={editable} experiences={profile.experience} />
 
       <SkillList skills={profile.skills} />
     </div>

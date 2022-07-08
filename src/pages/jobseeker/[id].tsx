@@ -12,7 +12,7 @@ import { Utils } from '@/utils';
 const Resume = ({ profile }: { profile: JobSeeker }) => {
   return (
     <Paper withBorder p={20}>
-      <ProfileView profile={profile} />
+      <ProfileView profile={profile} editable={false} />
     </Paper>
   );
 };

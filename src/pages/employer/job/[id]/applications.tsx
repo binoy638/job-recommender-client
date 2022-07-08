@@ -4,11 +4,14 @@ import { ApplicationStatus, UserType } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import console from 'console';
 import type { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import type { ReactElement } from 'react';
 import React from 'react';
 
-import EmployerAPI from '@/API/EmployerAPI';
 import ApplicationCardList from '@/components/job/ApplicationCardList';
+import useFetchJobApplications, {
+  fetchJobApplications,
+} from '@/hooks/useFetchJobApplications';
 import Layout from '@/layouts/BasicLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
@@ -20,16 +23,51 @@ interface Props {
 }
 
 const Applications = ({ pending, shortlisted, hired, rejected }: Props) => {
+  const router = useRouter();
+
+  const id = router.query.id as unknown as number;
+
+  const { data } = useFetchJobApplications(id, {
+    pending,
+    shortlisted,
+    hired,
+    rejected,
+  });
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <div>
       <Tabs color="blue" grow>
-        <Tabs.Tab label={`Pending(${pending.length})`}>
-          <ApplicationCardList applications={pending} />
+        <Tabs.Tab label={`Pending(${data.pending.length})`}>
+          <ApplicationCardList
+            jobID={id}
+            applications={data.pending}
+            type={ApplicationStatus.PENDING}
+          />
         </Tabs.Tab>
-        <Tabs.Tab label={`Shortlisted(${shortlisted.length})`}></Tabs.Tab>
-        <Tabs.Tab label={`Hired(${hired.length})`}></Tabs.Tab>
-        <Tabs.Tab label={`Rejected(${rejected.length})`}>
-          <ApplicationCardList applications={rejected} />
+        <Tabs.Tab label={`Shortlisted(${data.shortlisted.length})`}>
+          <ApplicationCardList
+            jobID={id}
+            applications={data.shortlisted}
+            type={ApplicationStatus.REJECTED}
+          />
+        </Tabs.Tab>
+        <Tabs.Tab label={`Hired(${data.hired.length})`}>
+          <ApplicationCardList
+            jobID={id}
+            applications={data.hired}
+            type={ApplicationStatus.APPROVED}
+          />
+        </Tabs.Tab>
+        <Tabs.Tab label={`Rejected(${data.rejected.length})`}>
+          <ApplicationCardList
+            jobID={id}
+            applications={data.rejected}
+            type={ApplicationStatus.REJECTED}
+          />
         </Tabs.Tab>
       </Tabs>
     </div>
@@ -42,36 +80,11 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     const id = params?.id as unknown as number;
     const headers = req.headers as AxiosRequestHeaders;
     try {
-      const {
-        data: { applications },
-      } = await EmployerAPI.getJobApplications(id, headers);
-
-      const pending: EmployerJobApplication[] = [];
-      const shortlisted: EmployerJobApplication[] = [];
-      const hired: EmployerJobApplication[] = [];
-      const rejected: EmployerJobApplication[] = [];
-
-      applications.forEach((application) => {
-        if (application.status === ApplicationStatus.PENDING) {
-          pending.push(application);
-        }
-        if (application.status === ApplicationStatus.SHORTLISTED) {
-          shortlisted.push(application);
-        }
-        if (application.status === ApplicationStatus.APPROVED) {
-          hired.push(application);
-        }
-        if (application.status === ApplicationStatus.REJECTED) {
-          rejected.push(application);
-        }
-      });
+      const applications = await fetchJobApplications(id, headers);
 
       return {
         props: {
-          pending,
-          shortlisted,
-          hired,
-          rejected,
+          ...applications,
         },
       };
     } catch (error) {

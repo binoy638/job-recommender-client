@@ -8,7 +8,7 @@ import { Utils } from '@/utils';
 
 import LabelWithLeftIcon from '../UI/LabelWithLeftIcon';
 
-const formatAddress = (address: Address) => {
+export const formatAddress = (address: Address) => {
   return `${address.city}, ${address.state}, ${address.country}`;
 };
 

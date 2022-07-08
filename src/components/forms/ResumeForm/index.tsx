@@ -1,5 +1,5 @@
-import { CalendarIcon } from '@heroicons/react/outline';
-import { Button, Modal, Textarea } from '@mantine/core';
+import { CalendarIcon, PlusSmIcon } from '@heroicons/react/outline';
+import { Button, Modal, Text, Textarea } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import type { UseFormReturnType } from '@mantine/form/lib/use-form';
 import type { FC } from 'react';
@@ -16,7 +16,9 @@ import useSetFormFieldValue from '@/hooks/useSetFormFieldValue';
 import MultiCategorySelector from '../SpecialFields/MultiCategorySelector';
 import SkillSelector from '../SpecialFields/SkillSelector';
 import EducationForm from './EducationForm';
+import EducationList from './EducationList';
 import ExperienceForm from './ExperienceForm';
+import ExperienceList from './ExperienceList';
 
 interface ResumeFormProps {
   form: UseFormReturnType<JobSeekerResumeFormData>;
@@ -65,14 +67,21 @@ const ResumeForm: FC<ResumeFormProps> = ({ form, setActiveStep }) => {
         icon={<CalendarIcon className="h-5 w-5" />}
         required
       />
-      <Textarea label="About" {...form.getInputProps('about')} required />
+      <Textarea
+        label="About"
+        size="md"
+        {...form.getInputProps('about')}
+        required
+      />
+      <EducationList setEducations={setEducations} educations={eductions} />
+      <div
+        className="flex cursor-pointer text-blue-500"
+        onClick={() => setOpenedEduModal(true)}
+      >
+        <PlusSmIcon className="h-4 w-4" />
+        <Text size="xs"> Add Education</Text>
+      </div>
 
-      <Button variant="outline" onClick={() => setOpenedExpModal(true)}>
-        Add Experience
-      </Button>
-      <Button variant="outline" onClick={() => setOpenedEduModal(true)}>
-        Add Education
-      </Button>
       <Modal
         opened={openedExpModal}
         onClose={() => setOpenedExpModal(false)}
@@ -95,6 +104,17 @@ const ResumeForm: FC<ResumeFormProps> = ({ form, setActiveStep }) => {
       </Modal>
 
       <AddressSelector setAddress={setAddress} />
+      <ExperienceList
+        setExperiences={setExperiences}
+        experiences={experiences}
+      />
+      <div
+        className="flex cursor-pointer text-blue-500"
+        onClick={() => setOpenedExpModal(true)}
+      >
+        <PlusSmIcon className="h-4 w-4" />
+        <Text size="xs">Add Experience</Text>
+      </div>
       <SkillSelector label="Skills" setSkills={setSkills} />
       <MultiCategorySelector
         categories={categories}

@@ -75,19 +75,20 @@ export interface SvgProps {
 }
 
 export interface Education {
+  _id?: string;
   degree: string;
   institute: string;
   startYear: number;
   endYear: number;
-  percentage: number;
 }
 
 export interface Experience {
+  _id?: string;
   role: string;
   startYear: number;
-  endYear: number;
+  endYear?: number;
   company: string;
-  description: string;
+  description?: string;
 }
 
 export interface JobSeeker {
@@ -103,7 +104,7 @@ export interface JobSeeker {
   education: Education[];
   experience: Experience[];
   //* store skill id's
-  skills?: string[];
+  skills?: Skill[];
   //* store jobcategory id's
   jobPreferences: string[];
   resume?: string;

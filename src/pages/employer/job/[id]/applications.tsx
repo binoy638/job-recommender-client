@@ -52,7 +52,7 @@ const Applications = ({ pending, shortlisted, hired, rejected }: Props) => {
           <ApplicationCardList
             jobID={id}
             applications={data.shortlisted}
-            type={ApplicationStatus.REJECTED}
+            type={ApplicationStatus.SHORTLISTED}
           />
         </Tabs.Tab>
         <Tabs.Tab label={`Hired(${data.hired.length})`}>

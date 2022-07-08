@@ -1,5 +1,6 @@
-import { LocationMarkerIcon } from '@heroicons/react/solid';
-import { Badge, Button, Paper, Text } from '@mantine/core';
+import { CheckIcon, LocationMarkerIcon } from '@heroicons/react/solid';
+import { Badge, Button, Loader, Paper, Text } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import type {
   Education,
   EmployerJobApplication,
@@ -31,13 +32,11 @@ const ExperienceList = ({ experiences }: { experiences: Experience[] }) => {
         EXPERIENCE :
       </Text>
       <div>
-        {experiences.map((experience) => {
+        {experiences.map((experience, index) => {
           return (
-            <>
-              <Text key={experience.role} size="xs">
-                {experience.role} - {experience.company}
-              </Text>
-            </>
+            <Text key={experience.role + index} size="xs">
+              {experience.role} - {experience.company}
+            </Text>
           );
         })}
       </div>
@@ -89,6 +88,7 @@ const ButtonList = ({
   jobID,
   appID,
   jobSeekerID,
+  type,
 }: // type,
 {
   jobID: number;
@@ -98,31 +98,82 @@ const ButtonList = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(EmployerAPI.updateJobApplicationStatus, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['job-applications', jobID]);
-    },
-  });
+  const { mutate, isLoading } = useMutation(
+    EmployerAPI.updateJobApplicationStatus,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['job-applications', jobID]);
+        showNotification({
+          message: 'Application status changed successfully',
+          color: 'teal',
+          icon: <CheckIcon className="h-5 w-5 " />,
+        });
+      },
+    }
+  );
+
+  const handleClick = (status: ApplicationStatus) => {
+    mutate({ id: appID, status });
+  };
+  if (type === ApplicationStatus.PENDING) {
+    return (
+      <div className="mt-8 flex justify-between">
+        <Link href={`/jobseeker/${jobSeekerID}`}>
+          <Button variant="outline">
+            {isLoading ? <Loader /> : 'View Profile'}
+          </Button>
+        </Link>
+        <div className="flex gap-2">
+          <Button
+            color="teal"
+            variant="outline"
+            onClick={() => handleClick(ApplicationStatus.SHORTLISTED)}
+          >
+            {isLoading ? <Loader /> : 'Shortlist'}
+          </Button>
+          <Button
+            onClick={() => handleClick(ApplicationStatus.REJECTED)}
+            color="red"
+            variant="outline"
+          >
+            {isLoading ? <Loader /> : 'Reject'}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === ApplicationStatus.SHORTLISTED) {
+    return (
+      <div className="mt-8 flex justify-between">
+        <Link href={`/jobseeker/${jobSeekerID}`}>
+          <Button variant="outline">View Profile</Button>
+        </Link>
+        <div className="flex gap-2">
+          <Button
+            color="teal"
+            variant="outline"
+            onClick={() => handleClick(ApplicationStatus.APPROVED)}
+          >
+            {isLoading ? <Loader /> : 'Hire'}
+          </Button>
+          <Button
+            onClick={() => handleClick(ApplicationStatus.REJECTED)}
+            color="red"
+            variant="outline"
+          >
+            {isLoading ? <Loader /> : 'Reject'}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-8 flex justify-between">
       <Link href={`/jobseeker/${jobSeekerID}`}>
         <Button variant="outline">View Profile</Button>
       </Link>
-      <div className="flex gap-2">
-        <Button
-          color="teal"
-          variant="outline"
-          onClick={() => {
-            mutate({ id: appID, status: ApplicationStatus.SHORTLISTED });
-          }}
-        >
-          Shortlist
-        </Button>
-        <Button color="red" variant="outline">
-          Reject
-        </Button>
-      </div>
     </div>
   );
 };

@@ -12,17 +12,11 @@ class AdminAPI {
   public static verifyEmployer = async (id: string) =>
     API.put(`/admin/employer/verify/${id}`);
 
-  public static addCategory = async (
-    data: { name: string },
-    headers?: AxiosRequestHeaders
-  ) =>
-    API.post(
-      '/admin/jobcategory',
-      { name: data.name },
-      {
-        headers,
-      }
-    );
+  public static addCategory = async (data: { name: string }) =>
+    API.post('/admin/jobcategory', { name: data.name });
+
+  public static addSkills = async (name: string) =>
+    API.post('/admin/skills', { name });
 }
 
 export default AdminAPI;

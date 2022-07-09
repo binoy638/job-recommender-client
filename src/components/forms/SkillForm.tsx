@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import AdminAPI from '@/API/adminAPI';
 
-const CategoryForm = () => {
+const SkillForm = () => {
   const form = useForm({
     initialValues: {
       name: '',
@@ -15,14 +15,14 @@ const CategoryForm = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading } = useMutation(AdminAPI.addCategory, {
+  const { mutate, isLoading } = useMutation(AdminAPI.addSkills, {
     onSuccess: () => {
       form.setFieldValue('name', '');
-      queryClient.invalidateQueries('categories');
+      queryClient.invalidateQueries('skills');
     },
     onError: (err: AxiosError) => {
       if (err && err?.response?.status === 422) {
-        form.setErrors({ name: 'Category already exists' });
+        form.setErrors({ name: 'Skill already exists' });
         return;
       }
       form.setErrors({ name: 'Something went wrong' });
@@ -30,7 +30,7 @@ const CategoryForm = () => {
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    mutate({ name: values.name });
+    mutate(values.name);
   };
 
   return (
@@ -40,7 +40,7 @@ const CategoryForm = () => {
     >
       <Input
         required
-        placeholder="Category Name"
+        placeholder="Skill Name"
         {...form.getInputProps('name')}
       />
       {form.errors && form.errors.name && (
@@ -55,4 +55,4 @@ const CategoryForm = () => {
   );
 };
 
-export default CategoryForm;
+export default SkillForm;

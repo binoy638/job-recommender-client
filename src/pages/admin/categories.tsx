@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   UserType.ADMIN,
   async () => {
     try {
-      const categories = fetchJobCategories();
+      const categories = await fetchJobCategories();
       return {
         props: {
           categories,

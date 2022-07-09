@@ -10,7 +10,12 @@ import { API } from './config';
 
 class GeneralAPI {
   static searchSkills = (q: string) =>
-    API.get<{ name: string; _id: string }[]>(`/skills?q=${q}`);
+    API.get<{ name: string; _id: string }[]>(`/search/skills?q=${q}`);
+
+  static getSkills = (page: number, limit: number) =>
+    API.get<{ name: string; _id: string }[]>(
+      `/skills?page=${page}&limit=${limit}`
+    );
 
   static getJobs = (page: number) =>
     API.get<{ jobs: JobWithPopulatedFields[] }>(`/jobs?page=${page}`);

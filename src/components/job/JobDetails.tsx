@@ -128,7 +128,7 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
           <Text size="md" weight={'bolder'}>
             Skills Required
           </Text>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {job.requiredSkills.map((skill) => {
               return (
                 <Badge color="gray" key={skill._id}>

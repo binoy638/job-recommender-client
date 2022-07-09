@@ -94,7 +94,7 @@ const JobCard = ({ job }: JobCardProps) => {
         />
       </div>
       <div className="mt-4 flex gap-2">
-        {job.requiredSkills.map((skill) => {
+        {job.requiredSkills.slice(0, 10).map((skill) => {
           return (
             <Badge color="green" key={skill._id}>
               {skill.name}

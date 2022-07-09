@@ -35,7 +35,9 @@ const AdminJobCategories = ({ categories }: { categories: JobCategory[] }) => {
 
   return (
     <div>
-      <Table>
+      <CategoryForm />
+
+      <Table mt={30}>
         <thead>
           <tr>
             <th>#</th>
@@ -44,7 +46,6 @@ const AdminJobCategories = ({ categories }: { categories: JobCategory[] }) => {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
-      <CategoryForm />
     </div>
   );
 };

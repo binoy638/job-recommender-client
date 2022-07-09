@@ -34,7 +34,7 @@ export const experienceSchema = z.object({
     .optional(),
   description: z
     .string()
-    .max(100, { message: 'Description can have at most 100 characters' })
+    .max(1000, { message: 'Description can have at most 100 characters' })
     .optional(),
 });
 

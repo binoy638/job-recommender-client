@@ -3,6 +3,7 @@ import type {
   Country,
   JobCategory,
   JobWithPopulatedFields,
+  Skill,
   State,
 } from '@types';
 
@@ -13,7 +14,7 @@ class GeneralAPI {
     API.get<{ name: string; _id: string }[]>(`/search/skills?q=${q}`);
 
   static getSkills = (page: number, limit: number) =>
-    API.get<{ name: string; _id: string }[]>(
+    API.get<{ skills: Skill[]; count: number }>(
       `/skills?page=${page}&limit=${limit}`
     );
 

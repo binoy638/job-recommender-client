@@ -16,18 +16,18 @@ const fetchSkills = async (page: number, limit: number) => {
   return data;
 };
 
-const AdminSkills = ({ skills }: { skills: Skill[] }) => {
+const AdminSkills = ({ skills, count }: { skills: Skill[]; count: number }) => {
   const [page, setPage] = useState(1);
 
-  const { data } = useQuery(['skills', page], () => fetchSkills(page, 20), {
-    initialData: skills,
+  const { data } = useQuery(['skills', page], () => fetchSkills(page, 10), {
+    initialData: { skills, count },
   });
 
   const rows = useMemo(() => {
     return data
-      ? data.map((skill, index) => (
+      ? data.skills.map((skill, index) => (
           <tr key={skill._id}>
-            <td>{index + 1}</td>
+            <td>{index + 1 + (page - 1) * 10}</td>
             <td>{skill.name}</td>
           </tr>
         ))
@@ -36,17 +36,23 @@ const AdminSkills = ({ skills }: { skills: Skill[] }) => {
 
   return (
     <div>
-      <Table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Skill</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-      <Pagination page={page} onChange={setPage} total={10} />
       <SkillForm />
+      <div className="flex flex-col items-center justify-center gap-4">
+        <Table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Skill</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+        <Pagination
+          page={page}
+          onChange={setPage}
+          total={Math.ceil(count / 10)}
+        />
+      </div>
     </div>
   );
 };
@@ -55,10 +61,11 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   UserType.ADMIN,
   async () => {
     try {
-      const skills = await fetchSkills(1, 20);
+      const { skills, count } = await fetchSkills(1, 10);
       return {
         props: {
           skills,
+          count,
         },
       };
     } catch (error) {

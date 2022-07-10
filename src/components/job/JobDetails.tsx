@@ -85,7 +85,7 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
   };
 
   return (
-    <Paper withBorder p={20}>
+    <Paper withBorder shadow="xs" p={20}>
       <div className="flex flex-col gap-4">
         <div>
           <Text style={{ fontSize: '26px' }} weight="bolder">

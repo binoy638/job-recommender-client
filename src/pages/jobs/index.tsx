@@ -5,6 +5,7 @@ import React from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
 import JobCard from '@/components/job/JobCard';
+import SearchBar from '@/components/search/SearchBar';
 import Layout from '@/layouts/BasicLayout';
 import { Utils } from '@/utils';
 
@@ -15,6 +16,7 @@ interface JobsProps {
 const Jobs = ({ jobs }: JobsProps) => {
   return (
     <main className="flex flex-col gap-4">
+      <SearchBar />
       {jobs.map((job) => {
         return <JobCard key={job.id} job={job} />;
       })}

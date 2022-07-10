@@ -162,3 +162,11 @@ export interface EmployerJobApplication {
   status: ApplicationStatus;
   createdAt: string;
 }
+
+export enum JobSearchType {
+  SKILL = 'skill',
+  LOCATION = 'location',
+  CATEGORY = 'category',
+  JOB_TITLE = 'jobTitle',
+  COMPANY = 'company',
+}

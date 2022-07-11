@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
 
-const fetchSkills = async (q: string) => {
+export const fetchSkills = async (q: string) => {
   const { data } = await GeneralAPI.searchSkills(q);
   return data;
 };

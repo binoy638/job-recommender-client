@@ -1,37 +1,61 @@
 import { SearchIcon } from '@heroicons/react/outline';
-import { Button, Select, TextInput } from '@mantine/core';
+import { Autocomplete, Button, Select } from '@mantine/core';
 import { JobSearchType } from '@types';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+import { fetchSkills } from '../forms/SpecialFields/SkillSelector';
 
 const SearchBar = () => {
   const router = useRouter();
 
+  const [data, setData] = useState<string[]>([]);
+
   const [query, setQuery] = useState('');
 
-  const [value, setValue] = useState(JobSearchType.JOB_TITLE);
+  const [type, setType] = useState(JobSearchType.JOB_TITLE);
 
   const placeholder: string = useMemo(() => {
-    if (value === JobSearchType.JOB_TITLE) {
+    if (type === JobSearchType.JOB_TITLE) {
       return 'Search by job title';
     }
-    if (value === JobSearchType.COMPANY) {
+    if (type === JobSearchType.COMPANY) {
       return 'Search by company name';
     }
-    if (value === JobSearchType.LOCATION) {
+    if (type === JobSearchType.LOCATION) {
       return 'Search by city';
     }
     return 'Search by skill';
-  }, [value]);
+  }, [type]);
 
-  const handleSearch = () => {
-    router.push(`/jobs/search?query=${query}&type=${value}`);
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    router.push({
+      pathname: '/jobs/search',
+      query: { query, type },
+    });
   };
+
+  useEffect(() => {
+    if (type === JobSearchType.SKILL && query.length > 2) {
+      fetchSkills(query)
+        .then((d) => {
+          const formattedData = d.map((skill) => skill.name);
+          setData(formattedData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [query, type]);
+
+  useEffect(() => {
+    setQuery('');
+  }, [type]);
 
   const rightSection = (
     <Button
       sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-      onClick={handleSearch}
       color="teal"
       type="submit"
     >
@@ -40,12 +64,12 @@ const SearchBar = () => {
   );
 
   return (
-    <form className="mb-6 mr-3 flex gap-2">
+    <form className="mb-6 mr-3 flex gap-2" onSubmit={handleSearch}>
       <Select
-        value={value}
+        value={type}
         onChange={(val) => {
           if (val) {
-            setValue(val as JobSearchType);
+            setType(val as JobSearchType);
           }
         }}
         data={[
@@ -55,12 +79,14 @@ const SearchBar = () => {
           { value: JobSearchType.SKILL, label: 'Skill' },
         ]}
       />
-      <TextInput
+
+      <Autocomplete
         style={{ width: '100%' }}
-        placeholder={placeholder}
-        rightSection={rightSection}
         value={query}
-        onChange={(event) => setQuery(event.currentTarget.value)}
+        onChange={setQuery}
+        placeholder={placeholder}
+        data={data}
+        rightSection={rightSection}
         required
       />
     </form>

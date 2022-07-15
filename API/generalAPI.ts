@@ -25,7 +25,9 @@ class GeneralAPI {
     );
 
   static getJobs = (page: number) =>
-    API.get<{ jobs: JobWithPopulatedFields[] }>(`/jobs?page=${page}`);
+    API.get<{ jobs: JobWithPopulatedFields[]; count: number }>(
+      `/jobs?page=${page}`
+    );
 
   static getJob = (id: number) =>
     API.get<{ job: JobWithPopulatedFields }>(`/job/${id}`);

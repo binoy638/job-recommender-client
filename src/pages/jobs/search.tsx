@@ -1,8 +1,8 @@
-import { Skeleton } from '@mantine/core';
+import { Pagination, Skeleton } from '@mantine/core';
 import type { JobSearchType } from '@types';
 import { useRouter } from 'next/router';
 import type { ReactElement } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import GeneralAPI from '@/API/generalAPI';
@@ -15,6 +15,8 @@ const JobSearchPage = () => {
   const { query } = router.query;
   const { type } = router.query;
   const page = router.query.page || 1;
+
+  const [activePage, setPage] = useState(1);
 
   const { data, isLoading, isError } = useQuery(
     ['search-jobs', query, type, page],
@@ -30,6 +32,14 @@ const JobSearchPage = () => {
       return jobs;
     }
   );
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    router.push({
+      pathname: router.pathname,
+      query: { page: activePage, query, type },
+    });
+  }, [activePage]);
 
   if (isLoading) {
     return (
@@ -57,6 +67,14 @@ const JobSearchPage = () => {
       {data.map((job) => {
         return <JobCard key={job.id} job={job} />;
       })}
+      <div className="mt-4 flex items-center justify-center">
+        <Pagination
+          page={activePage}
+          onChange={setPage}
+          total={10}
+          color="teal"
+        />
+      </div>
     </main>
   );
 };

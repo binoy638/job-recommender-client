@@ -1,6 +1,8 @@
+import { Button, Text } from '@mantine/core';
 import { UserType } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { GetServerSideProps } from 'next';
+import Link from 'next/link';
 import type { ReactElement } from 'react';
 
 import AuthAPI from '@/API/authAPI';
@@ -12,7 +14,18 @@ import type { NextPageWithLayout } from './_app';
 const Index: NextPageWithLayout = () => {
   // const router = useRouter();
 
-  return <main>Hello</main>;
+  return (
+    <main className="mt-10 flex flex-col items-center justify-center gap-10">
+      <Text weight={700} style={{ fontSize: '2rem' }}>
+        Find Your Dream Job Now
+      </Text>
+      <Link href="/jobs">
+        <Button color="green" variant="outline">
+          Browse Jobs
+        </Button>
+      </Link>
+    </main>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {

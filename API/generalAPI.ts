@@ -15,7 +15,7 @@ class GeneralAPI {
     API.get<{ name: string; _id: string }[]>(`/search/skills?q=${q}`);
 
   static searchJobs = (query: string, page: number, type: JobSearchType) =>
-    API.get<{ jobs: JobWithPopulatedFields[] }>(
+    API.get<{ jobs: JobWithPopulatedFields[]; count: number }>(
       `/search/jobs?query=${query}&page=${page}&type=${type}&limit=10`
     );
 

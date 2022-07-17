@@ -22,14 +22,14 @@ const JobSearchPage = () => {
     ['search-jobs', query, type, page],
     async () => {
       const {
-        data: { jobs },
+        data: { jobs, count },
       } = await GeneralAPI.searchJobs(
         query as string,
         page as number,
         type as JobSearchType
       );
 
-      return jobs;
+      return { jobs, count };
     }
   );
 
@@ -64,14 +64,14 @@ const JobSearchPage = () => {
   return (
     <main className="flex flex-col gap-4">
       <SearchBar />
-      {data.map((job) => {
+      {data.jobs.map((job) => {
         return <JobCard key={job.id} job={job} />;
       })}
       <div className="mt-4 flex items-center justify-center">
         <Pagination
           page={activePage}
           onChange={setPage}
-          total={10}
+          total={Math.ceil(data.count / 10)}
           color="teal"
         />
       </div>

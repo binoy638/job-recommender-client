@@ -4,7 +4,14 @@ import { JobSearchType } from '@types';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 
+import GeneralAPI from '@/API/generalAPI';
+
 import { fetchSkills } from '../forms/SpecialFields/SkillSelector';
+
+const fetchCategories = async () => {
+  const { data } = await GeneralAPI.getJobCategories();
+  return data;
+};
 
 const SearchBar = () => {
   const router = useRouter();
@@ -24,6 +31,9 @@ const SearchBar = () => {
     }
     if (type === JobSearchType.LOCATION) {
       return 'Search by city';
+    }
+    if (type === JobSearchType.CATEGORY) {
+      return 'Search by category';
     }
     return 'Search by skill';
   }, [type]);
@@ -47,10 +57,21 @@ const SearchBar = () => {
           console.log(err);
         });
     }
+    if (type === JobSearchType.CATEGORY && query.length > 2) {
+      fetchCategories()
+        .then((d) => {
+          const formattedData = d.map((cat) => cat.name);
+          setData(formattedData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [query, type]);
 
   useEffect(() => {
     setQuery('');
+    setData([]);
   }, [type]);
 
   const rightSection = (

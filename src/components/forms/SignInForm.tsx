@@ -72,7 +72,11 @@ const SignInForm: FC<SignInFormProps> = ({ userType }) => {
         {...form.getInputProps('password')}
         icon={<KeyIcon className="h-5 w-5" />}
       />
-      {error && <small className="text-red-500">{error}</small>}
+      {error && (
+        <small className="flex items-center justify-center text-red-500 ">
+          {error}
+        </small>
+      )}
       <Button radius={'lg'} type="submit">
         Sign In
       </Button>

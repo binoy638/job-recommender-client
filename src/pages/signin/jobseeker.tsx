@@ -12,7 +12,7 @@ const JobSeekerSignIn = () => {
   return (
     <AuthContainer>
       <div className="mb-20 flex flex-col items-center justify-center px-4 lg:px-20">
-        <span className="mb-6 text-2xl">Log in to JobFinder</span>
+        <span className="mb-6 text-2xl">Log in as Job Seeker</span>
 
         <SignInForm userType={UserType.JOBSEEKER} />
       </div>

@@ -29,12 +29,12 @@ interface StepperComponentProps {
 }
 const StepperComponent: FC<StepperComponentProps> = ({
   activeStep,
-  setActiveStep,
+  // setActiveStep,
 }) => {
   return (
     <Stepper
       active={activeStep}
-      onStepClick={setActiveStep}
+      // onStepClick={setActiveStep}
       completedIcon={<CheckIcon className="h-5 w-5" />}
     >
       <Stepper.Step icon={<UserIcon className="h-5 w-5" />} />

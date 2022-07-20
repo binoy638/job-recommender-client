@@ -4,18 +4,18 @@ import type { AxiosRequestHeaders } from 'axios';
 import { API } from './config';
 
 class AdminAPI {
-  public static getEmployers = async (headers?: AxiosRequestHeaders) =>
+  static getEmployers = async (headers?: AxiosRequestHeaders) =>
     API.get<Employer[]>('/admin/employers', {
       headers,
     });
 
-  public static verifyEmployer = async (id: string) =>
+  static verifyEmployer = async (id: string) =>
     API.put(`/admin/employer/verify/${id}`);
 
-  public static addCategory = async (data: { name: string }) =>
+  static addCategory = async (data: { name: string }) =>
     API.post('/admin/jobcategory', { name: data.name });
 
-  public static addSkills = async (name: string) =>
+  static addSkills = async (name: string) =>
     API.post('/admin/skills', { name });
 }
 

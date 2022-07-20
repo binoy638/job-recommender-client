@@ -87,14 +87,38 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
   );
 };
 
+const LogInMenu = () => {
+  const router = useRouter();
+
+  return (
+    <Menu
+      control={<Text style={{ cursor: 'pointer' }}>Log In</Text>}
+      trigger="hover"
+    >
+      <Menu.Item
+        onClick={() => {
+          router.push('/signin/employer');
+        }}
+      >
+        Employer
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          router.push('/signin/jobseeker');
+        }}
+      >
+        Job Seeker
+      </Menu.Item>
+    </Menu>
+  );
+};
+
 const AuthSection = () => {
   const { user, type } = useTypedSelector((state) => state.user);
   if (!user || type === UserType.ADMIN || !type) {
     return (
       <>
-        <Link href={'/signin'} passHref>
-          <Text style={{ cursor: 'pointer' }}>Log In</Text>
-        </Link>
+        <LogInMenu />
         <Link href={'/signup'}>
           <Button radius={'xl'} color="green">
             Sign Up

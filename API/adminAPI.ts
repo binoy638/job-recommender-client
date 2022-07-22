@@ -3,13 +3,20 @@ import type { AxiosRequestHeaders } from 'axios';
 
 import { API } from './config';
 
+export enum EmployerFilter {
+  ALL = 'all',
+  VERIFIED = 'verified',
+  UNVERIFIED = 'unverified',
+  BANNED = 'banned',
+  UNBANNED = 'unbanned',
+}
 class AdminAPI {
   static getEmployers = async (
-    data: { page: number; limit: number },
+    data: { page: number; limit: number; filter: EmployerFilter },
     headers?: AxiosRequestHeaders
   ) =>
     API.get<{ employers: Employer[]; count: number }>(
-      `/admin/employers?page=${data.page}&limit=${data.limit}`,
+      `/admin/employers?page=${data.page}&limit=${data.limit}&filter=${data.filter}`,
       {
         headers,
       }

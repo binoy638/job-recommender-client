@@ -1,8 +1,8 @@
 import { CheckIcon } from '@heroicons/react/solid';
-import { Button, Pagination, Table } from '@mantine/core';
+import { Button, Pagination, Select, Table, Title } from '@mantine/core';
 import type { Employer } from '@types';
 import { UserType } from '@types';
-import AdminAPI from 'API/adminAPI';
+import AdminAPI, { EmployerFilter } from 'API/adminAPI';
 import type { AxiosRequestHeaders } from 'axios';
 import axios from 'axios';
 import type { GetServerSideProps } from 'next/types';
@@ -13,8 +13,12 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AdminLayout from '@/layouts/AdminLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
-const fetchEmployers = async (page: number, limit: number) => {
-  const { data } = await AdminAPI.getEmployers({ page, limit });
+const fetchEmployers = async (
+  page: number,
+  limit: number,
+  filter: EmployerFilter
+) => {
+  const { data } = await AdminAPI.getEmployers({ page, limit, filter });
   return data;
 };
 
@@ -27,9 +31,11 @@ const AdminEmployer = ({
 }) => {
   const [page, setPage] = useState(1);
 
+  const [filter, setFilter] = useState<EmployerFilter>(EmployerFilter.ALL);
+
   const { data } = useQuery(
-    ['employers', page],
-    () => fetchEmployers(page, 20),
+    ['employers', page, filter],
+    () => fetchEmployers(page, 20, filter),
     {
       initialData: { employers, count },
     }
@@ -71,26 +77,46 @@ const AdminEmployer = ({
       : [];
   }, [data]);
 
+  if (!data) return null;
+
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <Table striped>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Company</th>
-            <th>Verified</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-      <Pagination
-        page={page}
-        onChange={setPage}
-        total={Math.ceil(count / 10)}
-      />
+    <div>
+      <div className="mb-4 flex flex-col gap-8">
+        <Title order={3}>Employers List</Title>
+        <Select
+          style={{ width: '30%' }}
+          label="Filter"
+          data={[
+            { value: EmployerFilter.ALL, label: 'All' },
+            { value: EmployerFilter.VERIFIED, label: 'Verfied' },
+            { value: EmployerFilter.UNVERIFIED, label: 'Not Verified' },
+          ]}
+          onChange={(val) => {
+            setFilter(val as EmployerFilter);
+          }}
+          value={filter}
+        />
+      </div>
+      <div className="flex flex-col items-center justify-center gap-4">
+        <Table striped>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Company</th>
+              <th>Verified</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+        <Pagination
+          page={page}
+          onChange={setPage}
+          total={Math.ceil(data.count / 20)}
+        />
+      </div>
     </div>
   );
 };
@@ -102,7 +128,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       const {
         data: { employers, count },
       } = await AdminAPI.getEmployers(
-        { page: 1, limit: 20 },
+        { page: 1, limit: 20, filter: EmployerFilter.VERIFIED },
         req.headers as AxiosRequestHeaders
       );
       return {

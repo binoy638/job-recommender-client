@@ -3,7 +3,7 @@ import type { GetServerSideProps } from 'next';
 import type { ReactElement } from 'react';
 
 import AdminLayout from '@/layouts/AdminLayout';
-import { requireAuthentication } from '@/utils';
+import { requireAuthentication, Utils } from '@/utils';
 
 import type { NextPageWithLayout } from '../_app';
 
@@ -14,9 +14,7 @@ const AdminDashboard: NextPageWithLayout = () => {
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   UserType.ADMIN,
   async () => {
-    return {
-      props: {},
-    };
+    return Utils.redirect('/admin/employers');
   }
 );
 

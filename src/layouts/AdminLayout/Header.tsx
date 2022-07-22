@@ -1,12 +1,12 @@
-import { UserIcon } from '@heroicons/react/solid';
-import {
-  Avatar,
-  Burger,
-  Header as HeaderComp,
-  MediaQuery,
-} from '@mantine/core';
+import { LogoutIcon } from '@heroicons/react/outline';
+import { Burger, Header as HeaderComp, MediaQuery, Text } from '@mantine/core';
 import Link from 'next/link';
+import router from 'next/router';
 import type { FC } from 'react';
+import { useTypedDispatch } from 'store';
+import { clearUser } from 'store/slice/user.slice';
+
+import AuthAPI from '@/API/authAPI';
 
 interface HeaderProps {
   opened: boolean;
@@ -14,6 +14,13 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
+  const dispatch = useTypedDispatch();
+  const handleLogout = () => {
+    AuthAPI.signOut().then(() => {
+      router.push('/');
+      dispatch(clearUser());
+    });
+  };
   return (
     <HeaderComp height={60} p="md">
       <div
@@ -35,14 +42,18 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
         </MediaQuery>
         <div className="flex  h-full w-full  justify-between ">
           <Link href={'/'}>
-            <span className="cursor-pointer   text-2xl font-bold  hover:opacity-75">
+            <span className="cursor-pointer text-2xl  font-bold text-green-600   hover:opacity-90">
               JobFinder
             </span>
           </Link>
           <span className="flex cursor-pointer items-center justify-center">
-            <Avatar color="cyan" radius="xl">
-              <UserIcon className="h-5 w-5" />
-            </Avatar>
+            <div
+              className="flex cursor-pointer items-center justify-center gap-2"
+              onClick={handleLogout}
+            >
+              <Text>Log out</Text>
+              <LogoutIcon className="h-5 w-5" />
+            </div>
           </span>
         </div>
         {/* <Text className="font-balsamiqSans">Application header</Text> */}

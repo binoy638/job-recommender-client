@@ -1,4 +1,4 @@
-import { Button, Input, Loader } from '@mantine/core';
+import { Button, Loader, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { AxiosError } from 'axios';
 import React from 'react';
@@ -35,10 +35,10 @@ const SkillForm = () => {
 
   return (
     <form
-      className="flex w-1/4 flex-col gap-2"
+      className="mb-10 flex w-1/4 gap-2"
       onSubmit={form.onSubmit(handleSubmit)}
     >
-      <Input
+      <TextInput
         required
         placeholder="Skill Name"
         {...form.getInputProps('name')}

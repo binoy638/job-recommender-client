@@ -15,7 +15,7 @@ const AdminLogin = () => {
 
   const { mutate } = useMutation(AuthAPI.signIn, {
     onSuccess: () => {
-      router.push('/admin');
+      router.push('/admin/employers');
     },
     onError: (err: AxiosError) => {
       if (err) {

@@ -34,12 +34,6 @@ const Sidebar: FC<SidebarProps> = ({ show }) => {
       }}
     >
       <MenuItem
-        name="Dashboard"
-        route="/admin"
-        icon={<HomeIcon className="h-5 w-5" />}
-      />
-
-      <MenuItem
         name="Employers"
         route="/admin/employers"
         icon={<HomeIcon className="h-5 w-5" />}

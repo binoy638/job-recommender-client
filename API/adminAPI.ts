@@ -4,10 +4,16 @@ import type { AxiosRequestHeaders } from 'axios';
 import { API } from './config';
 
 class AdminAPI {
-  static getEmployers = async (headers?: AxiosRequestHeaders) =>
-    API.get<Employer[]>('/admin/employers', {
-      headers,
-    });
+  static getEmployers = async (
+    data: { page: number; limit: number },
+    headers?: AxiosRequestHeaders
+  ) =>
+    API.get<{ employers: Employer[]; count: number }>(
+      `/admin/employers?page=${data.page}&limit=${data.limit}`,
+      {
+        headers,
+      }
+    );
 
   static verifyEmployer = async (id: string) =>
     API.put(`/admin/employer/verify/${id}`);

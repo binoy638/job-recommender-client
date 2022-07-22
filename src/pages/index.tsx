@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     );
 
     if (data.type === UserType.ADMIN) {
-      return Utils.redirect('/admin/dashboard');
+      return Utils.redirect('/admin/employers');
     }
     if (data.type === UserType.EMPLOYER) {
       return Utils.redirect('/employer/dashboard');

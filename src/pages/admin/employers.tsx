@@ -1,5 +1,5 @@
 import { CheckIcon } from '@heroicons/react/solid';
-import { Button, Table } from '@mantine/core';
+import { Button, Pagination, Table } from '@mantine/core';
 import type { Employer } from '@types';
 import { UserType } from '@types';
 import AdminAPI from 'API/adminAPI';
@@ -7,21 +7,33 @@ import type { AxiosRequestHeaders } from 'axios';
 import axios from 'axios';
 import type { GetServerSideProps } from 'next/types';
 import type { ReactElement } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import AdminLayout from '@/layouts/AdminLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
-const fetchEmployers = async () => {
-  const { data } = await AdminAPI.getEmployers();
+const fetchEmployers = async (page: number, limit: number) => {
+  const { data } = await AdminAPI.getEmployers({ page, limit });
   return data;
 };
 
-const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
-  const { data } = useQuery('employers', fetchEmployers, {
-    initialData: employers,
-  });
+const AdminEmployer = ({
+  employers,
+  count,
+}: {
+  employers: Employer[];
+  count: number;
+}) => {
+  const [page, setPage] = useState(1);
+
+  const { data } = useQuery(
+    ['employers', page],
+    () => fetchEmployers(page, 20),
+    {
+      initialData: { employers, count },
+    }
+  );
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(AdminAPI.verifyEmployer, {
@@ -36,7 +48,7 @@ const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
 
   const rows = useMemo(() => {
     return data
-      ? data.map((employer) => (
+      ? data.employers.map((employer) => (
           <tr key={employer.id}>
             <td>{employer.id}</td>
             <td>{employer.email}</td>
@@ -60,7 +72,7 @@ const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
   }, [data]);
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center gap-4">
       <Table striped>
         <thead>
           <tr>
@@ -74,6 +86,11 @@ const AdminEmployer = ({ employers }: { employers: Employer[] }) => {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
+      <Pagination
+        page={page}
+        onChange={setPage}
+        total={Math.ceil(count / 10)}
+      />
     </div>
   );
 };
@@ -82,12 +99,16 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   UserType.ADMIN,
   async ({ req }) => {
     try {
-      const { data } = await AdminAPI.getEmployers(
+      const {
+        data: { employers, count },
+      } = await AdminAPI.getEmployers(
+        { page: 1, limit: 20 },
         req.headers as AxiosRequestHeaders
       );
       return {
         props: {
-          employers: data,
+          employers,
+          count,
         },
       };
     } catch (error) {

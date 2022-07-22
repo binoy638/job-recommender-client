@@ -1,4 +1,8 @@
-import { HomeIcon } from '@heroicons/react/solid';
+import {
+  BriefcaseIcon,
+  LightningBoltIcon,
+  ViewGridIcon,
+} from '@heroicons/react/outline';
 import { Navbar } from '@mantine/core';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -36,17 +40,17 @@ const Sidebar: FC<SidebarProps> = ({ show }) => {
       <MenuItem
         name="Employers"
         route="/admin/employers"
-        icon={<HomeIcon className="h-5 w-5" />}
+        icon={<BriefcaseIcon className="h-5 w-5" />}
       />
       <MenuItem
         name="Categories"
         route="/admin/categories"
-        icon={<HomeIcon className="h-5 w-5" />}
+        icon={<ViewGridIcon className="h-5 w-5" />}
       />
       <MenuItem
         name="Skills"
         route="/admin/skills"
-        icon={<HomeIcon className="h-5 w-5" />}
+        icon={<LightningBoltIcon className="h-5 w-5" />}
       />
     </Navbar>
   );

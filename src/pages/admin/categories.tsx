@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Table } from '@mantine/core';
+import { Table, Title } from '@mantine/core';
 import type { JobCategory } from '@types';
 import { UserType } from '@types';
 import type { GetServerSideProps } from 'next';
@@ -34,10 +34,11 @@ const AdminJobCategories = ({ categories }: { categories: JobCategory[] }) => {
   }, [data]);
 
   return (
-    <div>
-      <CategoryForm />
+    <div className="flex flex-col gap-4">
+      <Title order={3}>Category List</Title>
 
-      <Table mt={30}>
+      <CategoryForm />
+      <Table>
         <thead>
           <tr>
             <th>#</th>

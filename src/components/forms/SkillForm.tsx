@@ -47,7 +47,7 @@ const SkillForm = () => {
         <small className="text-red-500">{form.errors.name}</small>
       )}
       <div>
-        <Button rightIcon={isLoading && <Loader />} type="submit">
+        <Button rightIcon={isLoading && <Loader />} color="teal" type="submit">
           Add
         </Button>
       </div>

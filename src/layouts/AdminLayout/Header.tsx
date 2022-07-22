@@ -1,5 +1,12 @@
-import { LogoutIcon } from '@heroicons/react/outline';
-import { Burger, Header as HeaderComp, MediaQuery, Text } from '@mantine/core';
+import { LogoutIcon, MoonIcon, SunIcon } from '@heroicons/react/outline';
+import {
+  ActionIcon,
+  Burger,
+  Header as HeaderComp,
+  MediaQuery,
+  Text,
+  useMantineColorScheme,
+} from '@mantine/core';
 import Link from 'next/link';
 import router from 'next/router';
 import type { FC } from 'react';
@@ -14,6 +21,8 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === 'dark';
   const dispatch = useTypedDispatch();
   const handleLogout = () => {
     AuthAPI.signOut().then(() => {
@@ -47,6 +56,22 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
             </span>
           </Link>
           <span className="flex cursor-pointer items-center justify-center">
+            <ActionIcon
+              variant="outline"
+              mr={30}
+              color={dark ? 'yellow' : 'blue'}
+              onClick={() => toggleColorScheme()}
+              title="Toggle color scheme"
+            >
+              {dark ? (
+                <SunIcon style={{ height: '20px', width: '20x' }} />
+              ) : (
+                <MoonIcon
+                  color="black"
+                  style={{ height: '20px', width: '20x' }}
+                />
+              )}
+            </ActionIcon>
             <div
               className="flex cursor-pointer items-center justify-center gap-2"
               onClick={handleLogout}

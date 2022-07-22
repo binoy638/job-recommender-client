@@ -1,4 +1,4 @@
-import { Pagination, Table } from '@mantine/core';
+import { Pagination, Table, Title } from '@mantine/core';
 import type { Skill } from '@types';
 import { UserType } from '@types';
 import type { GetServerSideProps } from 'next';
@@ -35,7 +35,8 @@ const AdminSkills = ({ skills, count }: { skills: Skill[]; count: number }) => {
   }, [data]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
+      <Title order={3}>Skill List</Title>
       <SkillForm />
       <div className="flex flex-col items-center justify-center gap-4">
         <Table>
@@ -48,6 +49,7 @@ const AdminSkills = ({ skills, count }: { skills: Skill[]; count: number }) => {
           <tbody>{rows}</tbody>
         </Table>
         <Pagination
+          color="teal"
           page={page}
           onChange={setPage}
           total={Math.ceil(count / 10)}

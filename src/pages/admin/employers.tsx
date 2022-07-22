@@ -81,7 +81,7 @@ const AdminEmployer = ({
 
   return (
     <div>
-      <div className="mb-4 flex flex-col gap-8">
+      <div className="mb-4 flex flex-col gap-4">
         <Title order={3}>Employers List</Title>
         <Select
           style={{ width: '30%' }}
@@ -112,6 +112,7 @@ const AdminEmployer = ({
           <tbody>{rows}</tbody>
         </Table>
         <Pagination
+          color="teal"
           page={page}
           onChange={setPage}
           total={Math.ceil(data.count / 20)}

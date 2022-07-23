@@ -30,7 +30,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
   const [queryClient] = useState(() => new QueryClient());
 
   const toggleColorScheme = (value?: ColorScheme) =>

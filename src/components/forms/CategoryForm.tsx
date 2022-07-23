@@ -1,5 +1,7 @@
+import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Button, Loader, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
@@ -17,10 +19,22 @@ const CategoryForm = () => {
 
   const { mutate, isLoading } = useMutation(AdminAPI.addCategory, {
     onSuccess: () => {
+      showNotification({
+        // title: 'Default notification',
+        message: 'New Category Added Successfully',
+        color: 'teal',
+        icon: <CheckIcon className="h-5 w-5 " />,
+      });
       form.setFieldValue('name', '');
       queryClient.invalidateQueries('categories');
     },
     onError: (err: AxiosError) => {
+      showNotification({
+        // title: 'Default notification',
+        message: 'Oh no! Something went wrong',
+        color: 'red',
+        icon: <XIcon className="h-5 w-5 " />,
+      });
       if (err && err?.response?.status === 422) {
         form.setErrors({ name: 'Category already exists' });
         return;
@@ -43,9 +57,7 @@ const CategoryForm = () => {
         placeholder="Category Name"
         {...form.getInputProps('name')}
       />
-      {form.errors && form.errors.name && (
-        <small className="text-red-500">{form.errors.name}</small>
-      )}
+
       <div>
         <Button rightIcon={isLoading && <Loader />} color="teal" type="submit">
           Add

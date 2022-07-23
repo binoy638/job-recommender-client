@@ -3,9 +3,11 @@ import {
   CheckIcon,
   ClipboardIcon,
   UserIcon,
+  XIcon,
 } from '@heroicons/react/solid';
 import { Button, Loader, Stepper, Text } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
 import { UserType } from '@types';
 import { useRouter } from 'next/router';
 import type { FC, ReactElement } from 'react';
@@ -50,7 +52,19 @@ const JobSeekerSignUp = () => {
 
   const { mutate, isLoading, error } = useMutation(AuthAPI.signUp, {
     onSuccess: () => {
+      showNotification({
+        message: 'Registered Successfully',
+        color: 'teal',
+        icon: <CheckIcon className="h-5 w-5 " />,
+      });
       setActiveStep(3);
+    },
+    onError: () => {
+      showNotification({
+        message: 'Oh no! Something went wrong',
+        color: 'red',
+        icon: <XIcon className="h-5 w-5 " />,
+      });
     },
   });
 
@@ -103,11 +117,8 @@ const JobSeekerSignUp = () => {
                 <AdminVerificationSvg height={200} width={200} />
                 <Text px={60}>Complete Registration?</Text>
               </div>
-              <Button
-                onClick={formSubmitHandler}
-                rightIcon={isLoading && <Loader />}
-              >
-                Submit
+              <Button onClick={formSubmitHandler}>
+                {isLoading ? <Loader size={'sm'} /> : 'Submit'}
               </Button>
             </div>
           </div>

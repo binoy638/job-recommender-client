@@ -39,7 +39,10 @@ const SkillSelector: FC<Props> = ({ label, setSkills }) => {
   }, [debounceValue]);
 
   const handleSkillSelect = (skill: { value: string; _id: string }) => {
-    setSelectedSkills([...selectedSkills, skill]);
+    const alreadyExists = selectedSkills.find((s) => s._id === skill._id);
+    if (!alreadyExists) {
+      setSelectedSkills([...selectedSkills, skill]);
+    }
     setValue('');
   };
 
@@ -56,7 +59,7 @@ const SkillSelector: FC<Props> = ({ label, setSkills }) => {
         label={label}
         data={data}
       />
-      <div className="mt-2 flex gap-2">
+      <div className="mt-2 flex flex-wrap gap-2">
         {selectedSkills.map((skill) => {
           return (
             <Badge

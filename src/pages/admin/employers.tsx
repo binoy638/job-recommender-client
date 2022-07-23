@@ -1,5 +1,7 @@
-import { CheckIcon } from '@heroicons/react/solid';
+import { DocumentSearchIcon } from '@heroicons/react/outline';
+import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Button, Pagination, Select, Table, Title } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import type { Employer } from '@types';
 import { UserType } from '@types';
 import AdminAPI, { EmployerFilter } from 'API/adminAPI';
@@ -44,7 +46,19 @@ const AdminEmployer = ({
 
   const { mutate } = useMutation(AdminAPI.verifyEmployer, {
     onSuccess: () => {
+      showNotification({
+        message: 'Verified Successfully',
+        color: 'teal',
+        icon: <CheckIcon className="h-5 w-5 " />,
+      });
       queryClient.invalidateQueries('employers');
+    },
+    onError: () => {
+      showNotification({
+        message: 'Oh no! Something went wrong',
+        color: 'red',
+        icon: <XIcon className="h-5 w-5 " />,
+      });
     },
   });
 
@@ -67,8 +81,12 @@ const AdminEmployer = ({
               {employer.isVerified ? (
                 <CheckIcon className="h-5 w-5 text-green-500" />
               ) : (
-                <Button onClick={() => verifyHandler(employer.id)}>
-                  Verify
+                <Button
+                  variant="outline"
+                  onClick={() => verifyHandler(employer.id)}
+                  rightIcon={<DocumentSearchIcon className="h-5 w-5" />}
+                >
+                  verify
                 </Button>
               )}
             </td>
@@ -88,7 +106,7 @@ const AdminEmployer = ({
           label="Filter"
           data={[
             { value: EmployerFilter.ALL, label: 'All' },
-            { value: EmployerFilter.VERIFIED, label: 'Verfied' },
+            { value: EmployerFilter.VERIFIED, label: 'Verified' },
             { value: EmployerFilter.UNVERIFIED, label: 'Not Verified' },
           ]}
           onChange={(val) => {

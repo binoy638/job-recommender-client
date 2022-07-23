@@ -119,9 +119,7 @@ const ButtonList = ({
     return (
       <div className="mt-8 flex justify-between">
         <Link href={`/jobseeker/${jobSeekerID}`}>
-          <Button variant="outline">
-            {isLoading ? <Loader /> : 'View Profile'}
-          </Button>
+          <Button variant="outline">View Profile</Button>
         </Link>
         <div className="flex gap-2">
           <Button
@@ -129,14 +127,14 @@ const ButtonList = ({
             variant="outline"
             onClick={() => handleClick(ApplicationStatus.SHORTLISTED)}
           >
-            {isLoading ? <Loader /> : 'Shortlist'}
+            {isLoading ? <Loader size="sm" /> : 'Shortlist'}
           </Button>
           <Button
             onClick={() => handleClick(ApplicationStatus.REJECTED)}
             color="red"
             variant="outline"
           >
-            {isLoading ? <Loader /> : 'Reject'}
+            {isLoading ? <Loader size="sm" /> : 'Reject'}
           </Button>
         </div>
       </div>

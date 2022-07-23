@@ -1,4 +1,9 @@
-import { LogoutIcon, UserIcon, ViewGridIcon } from '@heroicons/react/outline';
+import {
+  BriefcaseIcon,
+  LogoutIcon,
+  UserIcon,
+  ViewGridIcon,
+} from '@heroicons/react/outline';
 import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
   ActionIcon,
@@ -71,6 +76,25 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
       >
         Dashboard
       </Menu.Item>
+      {type === UserType.JOBSEEKER ? (
+        <Menu.Item
+          onClick={() => {
+            router.push('/jobs');
+          }}
+          icon={<BriefcaseIcon className="h-5 w-5" />}
+        >
+          Jobs
+        </Menu.Item>
+      ) : (
+        <Menu.Item
+          onClick={() => {
+            router.push('/employer/job/post');
+          }}
+          icon={<BriefcaseIcon className="h-5 w-5" />}
+        >
+          Add Job
+        </Menu.Item>
+      )}
       <Menu.Item
         onClick={handleProfile}
         icon={<UserIcon className="h-5 w-5" />}
@@ -158,6 +182,7 @@ const RightSection: FC = () => {
             <MoonIcon color="black" style={{ height: '20px', width: '20x' }} />
           )}
         </ActionIcon>
+
         <AuthSection />
       </div>
     </div>

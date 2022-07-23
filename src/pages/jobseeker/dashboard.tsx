@@ -37,6 +37,13 @@ const EmployerDashboard = ({ applications }: JobSeekerDashboardProps) => {
   return (
     <ContainerWithHeader header="My Applications">
       <ApplicationList applications={applications} />
+      <div className="mt-10 flex items-center justify-center">
+        <Link href="/jobs" passHref>
+          <Button mt={20} variant="outline" color="green">
+            Browse Jobs
+          </Button>
+        </Link>
+      </div>
     </ContainerWithHeader>
   );
 };

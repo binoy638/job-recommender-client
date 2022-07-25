@@ -1,10 +1,25 @@
-import { Textarea } from '@mantine/core';
-import dynamic from 'next/dynamic';
+import { RichTextEditor } from '@mantine/rte';
 
-export default dynamic(() => import('@mantine/rte'), {
-  // Disable during server side rendering
-  ssr: false,
+interface Props {
+  value: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+}
 
-  // Render anything as fallback on server, e.g. loader or html content without editor
-  loading: () => <Textarea />,
-});
+const TextEditor = ({ value, placeholder, onChange }: Props) => {
+  return (
+    <RichTextEditor
+      controls={[
+        ['bold', 'italic', 'underline'],
+        ['unorderedList', 'orderedList', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+        ['sup', 'sub'],
+        ['alignLeft', 'alignCenter', 'alignRight'],
+      ]}
+      value={value}
+      placeholder={placeholder}
+      onChange={onChange}
+    />
+  );
+};
+
+export default TextEditor;

@@ -20,7 +20,6 @@ const CategoryForm = () => {
   const { mutate, isLoading } = useMutation(AdminAPI.addCategory, {
     onSuccess: () => {
       showNotification({
-        // title: 'Default notification',
         message: 'New Category Added Successfully',
         color: 'teal',
         icon: <CheckIcon className="h-5 w-5 " />,
@@ -30,7 +29,6 @@ const CategoryForm = () => {
     },
     onError: (err: AxiosError) => {
       showNotification({
-        // title: 'Default notification',
         message: 'Oh no! Something went wrong',
         color: 'red',
         icon: <XIcon className="h-5 w-5 " />,

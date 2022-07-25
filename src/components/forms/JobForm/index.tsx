@@ -6,12 +6,14 @@ import {
   Radio,
   RadioGroup,
   Text,
+  Textarea,
   TextInput,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
 import type { JobCategory } from '@types';
 import { JobMode, WorkHours } from '@types';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import React, { useState } from 'react';
@@ -20,13 +22,19 @@ import type { JobFormData } from 'schemas';
 import { jobPostSchema } from 'schemas';
 
 import EmployerAPI from '@/API/EmployerAPI';
-import TextEditor from '@/components/UI/TextEditor';
 import useSetFormFieldValue from '@/hooks/useSetFormFieldValue';
 
 import SkillSelector from '../SpecialFields/SkillSelector';
 
 const placeholder =
   'Enter Job requirements, skills, and other details about the job. This will be displayed on the job listing page.';
+
+const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), {
+  // Disable during server side rendering
+  ssr: false,
+  // Render anything as fallback on server, e.g. loader or html content without editor
+  loading: () => <Textarea />,
+});
 
 interface BasicJobDetailFormProps {
   categories: JobCategory[];
@@ -204,21 +212,6 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
           Job Description<span className="text-red-500">*</span>
         </Text>
         <TextEditor
-          controls={[
-            ['bold', 'italic', 'underline'],
-            [
-              'unorderedList',
-              'orderedList',
-              'h1',
-              'h2',
-              'h3',
-              'h4',
-              'h5',
-              'h6',
-            ],
-            ['sup', 'sub'],
-            ['alignLeft', 'alignCenter', 'alignRight'],
-          ]}
           value={editorValue}
           placeholder={placeholder}
           onChange={handleRichTextEditorChange}

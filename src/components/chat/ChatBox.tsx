@@ -191,11 +191,14 @@ const ChatBox = ({
           <ul className="h-[32rem] overflow-auto">
             <li>
               {data.map((chat) => {
+                const active = activeChat?._id === chat._id;
                 return (
                   <div
                     key={chat._id}
                     onClick={() => handleClick(chat._id)}
-                    className="flex cursor-pointer items-center  border-b border-gray-300 px-3 py-2 text-sm transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none dark:border-gray-800"
+                    className={`flex cursor-pointer items-center  border-b border-gray-300 px-3 py-2 text-sm transition duration-150 ease-in-out hover:bg-gray-100 ${
+                      active && 'bg-gray-100'
+                    } focus:outline-none dark:border-gray-800`}
                   >
                     <Avatar color="cyan" radius="xl">
                       {getInitial(
@@ -214,6 +217,7 @@ const ChatBox = ({
                             inline
                             color={'red'}
                             label={getUnreadCount(chat.messages, user?._id)}
+                            style={{ zIndex: '1' }}
                             size={16}
                           >
                             <span className="ml-2 block text-sm text-gray-600">

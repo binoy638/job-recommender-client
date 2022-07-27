@@ -1,12 +1,11 @@
 import React from 'react';
 
-const JobSearch = () => {
+const JobSearchSvg = ({ className }: { className: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       data-name="Layer 1"
-      width="500"
-      height="300"
+      className={className}
       viewBox="0 0 931 633.23506"
     >
       <g id="a2bfc056-849c-4ec6-91e1-f91319e9ec32" data-name="Group 41">
@@ -305,4 +304,4 @@ const JobSearch = () => {
   );
 };
 
-export default JobSearch;
+export default JobSearchSvg;

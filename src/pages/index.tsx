@@ -6,7 +6,7 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 
 import AuthAPI from '@/API/authAPI';
-import JobSearch from '@/components/Svg/JobSearch';
+import JobSearchSvg from '@/components/Svg/JobSearchSvg';
 import Layout from '@/layouts/BasicLayout';
 import { Utils } from '@/utils';
 
@@ -17,8 +17,8 @@ const Index: NextPageWithLayout = () => {
 
   return (
     <main className="mt-10 flex flex-col items-center justify-center gap-10">
-      <JobSearch />
-      <Text weight={700} style={{ fontSize: '2rem' }}>
+      <JobSearchSvg className="h-full w-full lg:h-1/2 lg:w-1/2" />
+      <Text weight={700} style={{ fontSize: '1.7rem' }}>
         Find Your Dream Job Now
       </Text>
       <Link href="/jobs">

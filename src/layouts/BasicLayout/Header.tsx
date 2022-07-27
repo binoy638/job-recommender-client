@@ -8,14 +8,11 @@ import { MoonIcon, SunIcon } from '@heroicons/react/solid';
 import {
   ActionIcon,
   Avatar,
-  Burger,
   Button,
   Header as HeaderMantine,
-  MediaQuery,
   Menu,
   Text,
   useMantineColorScheme,
-  useMantineTheme,
 } from '@mantine/core';
 import { UserType } from '@types';
 import Link from 'next/link';
@@ -26,11 +23,6 @@ import { useTypedDispatch, useTypedSelector } from 'store';
 import { clearUser } from 'store/slice/user.slice';
 
 import AuthAPI from '@/API/authAPI';
-
-interface HeaderProps {
-  opened: boolean;
-  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const ProfileMenu = ({ initial }: { initial: string }) => {
   const router = useRouter();
@@ -189,8 +181,7 @@ const RightSection: FC = () => {
   );
 };
 
-const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
-  const theme = useMantineTheme();
+const Header = () => {
   return (
     <HeaderMantine
       height={60}
@@ -202,16 +193,7 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
         width: '100%',
       }}
     >
-      <div className="flex w-full max-w-[65rem] items-center justify-center px-4 lg:px-0">
-        <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-          <Burger
-            color={theme.colors.gray[6]}
-            opened={opened}
-            onClick={() => setOpened((o) => !o)}
-            size="sm"
-            mr="xl"
-          />
-        </MediaQuery>
+      <div className="flex w-full max-w-[65rem] items-center justify-center overflow-hidden px-4 lg:px-0">
         <RightSection />
       </div>
     </HeaderMantine>

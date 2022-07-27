@@ -93,7 +93,7 @@ const JobCard = ({ job }: JobCardProps) => {
           icon={<CalendarIcon className="h-3 w-3 text-gray-600" />}
         />
       </div>
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         {job.requiredSkills.slice(0, 10).map((skill) => {
           return (
             <Badge color="green" key={skill._id}>

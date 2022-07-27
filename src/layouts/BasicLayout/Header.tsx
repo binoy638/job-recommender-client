@@ -108,10 +108,7 @@ const LogInMenu = () => {
   const router = useRouter();
 
   return (
-    <Menu
-      control={<Text style={{ cursor: 'pointer' }}>Log In</Text>}
-      trigger="hover"
-    >
+    <Menu control={<Text style={{ cursor: 'pointer' }}>Log In</Text>}>
       <Menu.Item
         onClick={() => {
           router.push('/signin/employer');

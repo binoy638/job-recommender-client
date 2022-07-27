@@ -6,8 +6,11 @@ import {
 } from '@heroicons/react/solid';
 import { Text } from '@mantine/core';
 import type { JobSeeker } from '@types';
+import { UserType } from '@types';
 import React from 'react';
+import { useTypedSelector } from 'store';
 
+import MessageButton from '@/components/employer/MessageButton';
 import { formatAddress } from '@/components/job/ApplicationCardList';
 
 import EducationList from './EducationList';
@@ -30,6 +33,8 @@ const ProfileView = ({
   profile: JobSeeker;
   editable: boolean;
 }) => {
+  const { type } = useTypedSelector((state) => state.user);
+
   return (
     <div className="flex flex-col gap-4">
       <div>
@@ -59,6 +64,11 @@ const ProfileView = ({
       <ExperienceList editable={editable} experiences={profile.experience} />
 
       <SkillList skills={profile.skills} />
+      <div className="mt-4 flex justify-end">
+        {type === UserType.EMPLOYER && (
+          <MessageButton jobseeker={profile._id} />
+        )}
+      </div>
     </div>
   );
 };

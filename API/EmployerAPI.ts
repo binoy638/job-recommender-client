@@ -46,6 +46,17 @@ class EmployerAPI {
     API.put(`/employer/job/application/update-status/${data.id}`, {
       status: data.status,
     });
+
+  static createChat = async (data: { jobseeker: string; message: string }) =>
+    API.post(`/employer/chat/create`, data);
+
+  static sendMessage = async (data: { chatID: string; message: string }) =>
+    API.post(`/employer/chat/message`, data);
+
+  static markAsRead = async (data: { chatID: string }) =>
+    API.put(`/employer/chat/mark-as-read`, data);
+
+  static getChat = async () => API.get(`/employer/chat`);
 }
 
 export default EmployerAPI;

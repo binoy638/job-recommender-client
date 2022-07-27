@@ -92,6 +92,7 @@ export interface Experience {
 }
 
 export interface JobSeeker {
+  _id: string;
   id: string;
   firstName: string;
   lastName: string;

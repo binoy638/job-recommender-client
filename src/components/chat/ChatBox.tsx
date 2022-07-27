@@ -1,12 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
-import {
-  Alert,
-  Avatar,
-  Indicator,
-  Text,
-  useMantineColorScheme,
-} from '@mantine/core';
-import type { Chat, Message } from '@types';
+import { Alert, Avatar, Text, useMantineColorScheme } from '@mantine/core';
+import type { Chat } from '@types';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useTypedSelector } from 'store';
@@ -23,12 +17,12 @@ const getInitial = (firstName: string, lastName: string) => {
   return `${firstName[0]}${lastName[0]}`;
 };
 
-const getUnreadCount = (messages: Message[], userID?: string) => {
-  if (!userID) return 0;
-  return messages.filter(
-    (message) => message.unread && userID !== message.sender
-  ).length;
-};
+// const getUnreadCount = (messages: Message[], userID?: string) => {
+//   if (!userID) return 0;
+//   return messages.filter(
+//     (message) => message.unread && userID !== message.sender
+//   ).length;
+// };
 
 const ChatBody = ({
   activeChat,
@@ -53,6 +47,12 @@ const ChatBody = ({
       mutate({ chatID: activeChat._id, message: value });
     }
   };
+
+  // useEffect(() => {
+  //   if (activeChat) {
+  //     EmployerAPI.markAsRead({ chatID: activeChat._id });
+  //   }
+  // }, [activeChat]);
 
   if (!activeChat) {
     return null;
@@ -150,7 +150,7 @@ const ChatBox = ({
 
   const [activeChat, setActiveChat] = useState((data && data[0]) || null);
 
-  const { user } = useTypedSelector((state) => state.user);
+  // const { user } = useTypedSelector((state) => state.user);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -212,12 +212,12 @@ const ChatBox = ({
                         <Text weight={'bold'} color="dimmed" p={10}>
                           {chat[receiver].firstName} {chat[receiver].lastName}
                         </Text>
-                        {getUnreadCount(chat.messages, user?._id) > 0 ? (
+                        {/* {getUnreadCount(chat.messages, user?._id) > 0 ? (
                           <Indicator
                             inline
-                            color={'red'}
+                            color={"red"}
                             label={getUnreadCount(chat.messages, user?._id)}
-                            style={{ zIndex: '1' }}
+                            style={{ zIndex: "1" }}
                             size={16}
                           >
                             <span className="ml-2 block text-sm text-gray-600">
@@ -228,7 +228,10 @@ const ChatBox = ({
                           <span className="ml-2 block text-sm text-gray-600">
                             {Utils.formatDate(chat.createdAt)}
                           </span>
-                        )}
+                        )} */}
+                        <span className="ml-2 block text-sm text-gray-600">
+                          {Utils.formatDate(chat.createdAt)}
+                        </span>
                       </div>
                     </div>
                   </div>

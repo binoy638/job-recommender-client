@@ -87,7 +87,7 @@ const SignUp = () => {
         )}
         <Text>
           Already have an account?
-          <Link href="/signin">
+          <Link href="/signin/jobseeker">
             <a className="text-green-600">&nbsp;Log In</a>
           </Link>
         </Text>

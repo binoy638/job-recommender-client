@@ -1,4 +1,5 @@
 import { AppShell } from '@mantine/core';
+import Head from 'next/head';
 import type { FC } from 'react';
 import React, { useState } from 'react';
 
@@ -19,6 +20,9 @@ const AdminLayout: FC<LayoutProps> = ({ children }) => {
       navbar={<Sidebar show={opened} />}
       header={<Header opened={opened} setOpened={setOpened} />}
     >
+      <Head>
+        <title>JobFinder</title>
+      </Head>
       {children}
     </AppShell>
   );

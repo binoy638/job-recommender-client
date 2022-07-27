@@ -1,3 +1,4 @@
+import { ShieldExclamationIcon } from '@heroicons/react/outline';
 import { CheckIcon, LocationMarkerIcon } from '@heroicons/react/solid';
 import { Badge, Button, Loader, Paper, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
@@ -185,7 +186,7 @@ interface Props {
 const ApplicationCardList = ({ jobID, applications, type }: Props) => {
   return (
     <div className="flex flex-col gap-4">
-      {applications.length > 0 &&
+      {applications.length > 0 ? (
         applications.map((app) => {
           return (
             <Paper withBorder p={20} key={app.id}>
@@ -223,7 +224,13 @@ const ApplicationCardList = ({ jobID, applications, type }: Props) => {
               </div>
             </Paper>
           );
-        })}
+        })
+      ) : (
+        <div className="flex items-center justify-center gap-2 py-10 text-red-500">
+          <ShieldExclamationIcon className="h-5 w-5 " />
+          <p>No applications found</p>
+        </div>
+      )}
     </div>
   );
 };

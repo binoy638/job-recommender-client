@@ -145,6 +145,7 @@ export enum ApplicationStatus {
 export interface JobSeekerJobApplication {
   id: number;
   job: {
+    id: number;
     jobTitle: string;
     employer: {
       company: CompanyFormData;

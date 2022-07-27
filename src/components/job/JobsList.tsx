@@ -10,6 +10,13 @@ interface ListJobsProps {
   jobs: Job[];
 }
 
+const getJobCount = (jobs: string[]): number => {
+  if (!jobs) {
+    return 0;
+  }
+  return jobs.length;
+};
+
 const ListJobs: FC<ListJobsProps> = ({ jobs }) => {
   const rows = jobs.map((job) => (
     <tr key={job.id}>
@@ -18,7 +25,11 @@ const ListJobs: FC<ListJobsProps> = ({ jobs }) => {
         <Link href={`/employer/job/${job.id}`}>{job.jobTitle}</Link>
       </td>
       <td>{job.isActive ? 'Active' : 'Closed'}</td>
-      <td>4</td>
+      <td>
+        <Link href={`/employer/job/${job.id}/applications`} passHref>
+          <a>{getJobCount(job.applications)}</a>
+        </Link>
+      </td>
       <td>{Utils.formatDate(job.applyBy)}</td>
     </tr>
   ));

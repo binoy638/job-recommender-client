@@ -1,4 +1,9 @@
-import type { ApplicationStatus, EmployerJobApplication, Job } from '@types';
+import type {
+  ApplicationStatus,
+  Chat,
+  EmployerJobApplication,
+  Job,
+} from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { JobFormData } from 'schemas';
 
@@ -51,12 +56,13 @@ class EmployerAPI {
     API.post(`/employer/chat/create`, data);
 
   static sendMessage = async (data: { chatID: string; message: string }) =>
-    API.post(`/employer/chat/message`, data);
+    API.post(`/employer/chat/send`, data);
 
   static markAsRead = async (data: { chatID: string }) =>
     API.put(`/employer/chat/mark-as-read`, data);
 
-  static getChat = async () => API.get(`/employer/chat`);
+  static getChat = async (headers?: AxiosRequestHeaders) =>
+    API.get<{ chat: Chat[] }>(`/employer/chat`, { headers });
 }
 
 export default EmployerAPI;

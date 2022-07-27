@@ -46,6 +46,16 @@ export class Utils {
     return `${day} ${Utils.monthNames[monthIndex]} ${year}`;
   };
 
+  static formatTime = (date: Date | string) => {
+    // eslint-disable-next-line no-param-reassign
+    if (typeof date === 'string') date = new Date(date);
+
+    // const day = date.getDate();
+    // const monthIndex = date.getMonth();
+    // const year = date.getFullYear();
+    return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  };
+
   static formatWithTime = (date: Date | string) => {
     // eslint-disable-next-line no-param-reassign
     if (typeof date === 'string') date = new Date(date);

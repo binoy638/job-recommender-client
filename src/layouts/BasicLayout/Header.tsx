@@ -1,5 +1,6 @@
 import {
   BriefcaseIcon,
+  ChatAltIcon,
   LogoutIcon,
   UserIcon,
   ViewGridIcon,
@@ -56,7 +57,7 @@ const ProfileMenu = ({ initial }: { initial: string }) => {
   return (
     <Menu
       control={
-        <Avatar color="cyan" radius="xl">
+        <Avatar color="teal" radius="xl">
           {initial}
         </Avatar>
       }
@@ -154,6 +155,8 @@ const AuthSection = () => {
 const RightSection: FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
+
+  const { type, user } = useTypedSelector((state) => state.user);
   return (
     <div className="flex  h-full w-full  justify-between ">
       <Link href={'/'}>
@@ -174,6 +177,17 @@ const RightSection: FC = () => {
             <MoonIcon color="black" style={{ height: '20px', width: '20x' }} />
           )}
         </ActionIcon>
+        {user && (
+          <Link
+            href={`/${
+              type === UserType.JOBSEEKER ? 'jobseeker' : 'employer'
+            }/chat`}
+          >
+            <ActionIcon color={'teal'}>
+              <ChatAltIcon className="h-6 w-6 cursor-pointer" />
+            </ActionIcon>
+          </Link>
+        )}
 
         <AuthSection />
       </div>

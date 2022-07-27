@@ -1,4 +1,4 @@
-import type { JobSeeker, JobSeekerJobApplication } from '@types';
+import type { Chat, JobSeeker, JobSeekerJobApplication } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 
 import { API } from './config';
@@ -20,6 +20,15 @@ class JobSeekerAPI {
 
   static postApplication = async (data: { job: string }) =>
     API.post(`/jobseeker/application`, data);
+
+  static sendMessage = async (data: { chatID: string; message: string }) =>
+    API.post(`/jobseeker/chat/send`, data);
+
+  static markAsRead = async (data: { chatID: string }) =>
+    API.put(`/jobseeker/chat/mark-as-read`, data);
+
+  static getChat = async (headers?: AxiosRequestHeaders) =>
+    API.get<{ chat: Chat[] }>(`/jobseeker/chat`, { headers });
 }
 
 export default JobSeekerAPI;

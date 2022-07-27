@@ -23,6 +23,7 @@ export interface Company {
 }
 
 export interface Employer {
+  _id: string;
   id: string;
   firstName: string;
   lastName: string;
@@ -55,6 +56,7 @@ export interface Job extends JobFormData {
 }
 
 export interface Admin {
+  _id: string;
   username: string;
   email: string;
 }
@@ -171,4 +173,21 @@ export enum JobSearchType {
   CATEGORY = 'category',
   JOB_TITLE = 'jobTitle',
   COMPANY = 'company',
+}
+
+export interface Message {
+  _id: string;
+  message: string;
+  sender: 'employer' | 'jobseeker';
+  unread: boolean;
+  createdAt: string;
+}
+
+export interface Chat {
+  _id: string;
+  employer: { _id: string; firstName: string; lastName: string };
+  jobseeker: { _id: string; firstName: string; lastName: string };
+  messages: Message[];
+  isBlocked: boolean;
+  createdAt: string;
 }

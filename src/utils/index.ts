@@ -1,3 +1,4 @@
+import type { Address } from '@types';
 import { UserType } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
@@ -68,6 +69,10 @@ export class Utils {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
     return `${day} ${Utils.monthNames[monthIndex]} ${year} - ${hours}:${minutes}:${seconds}`;
+  };
+
+  static formatLocation = (location: Address) => {
+    return `${location.city}, ${location.state}, ${location.country}`;
   };
 }
 

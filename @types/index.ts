@@ -132,10 +132,14 @@ export interface City {
 }
 
 export interface JobWithPopulatedFields
-  extends Omit<Job, 'category' | 'employer' | 'requiredSkills'> {
+  extends Omit<
+    Job,
+    'category' | 'employer' | 'requiredSkills' | 'applications'
+  > {
   category: JobCategory;
   employer: Pick<Employer, 'company'>;
   requiredSkills: Skill[];
+  applications: EmployerJobApplication[];
 }
 
 export enum ApplicationStatus {

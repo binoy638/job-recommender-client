@@ -154,7 +154,7 @@ const ButtonList = ({
             variant="outline"
             onClick={() => handleClick(ApplicationStatus.APPROVED)}
           >
-            {isLoading ? <Loader /> : 'Hire'}
+            {isLoading ? <Loader /> : 'Select'}
           </Button>
           <Button
             onClick={() => handleClick(ApplicationStatus.REJECTED)}

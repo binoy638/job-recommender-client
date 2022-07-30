@@ -1,5 +1,7 @@
-import type { Employer } from '@types';
+import type { Employer, JobWithPopulatedFields } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
+
+import type { SearchFilter } from '@/pages/admin/employers';
 
 import { API } from './config';
 
@@ -10,13 +12,32 @@ export enum EmployerFilter {
   BANNED = 'banned',
   UNBANNED = 'unbanned',
 }
+
 class AdminAPI {
   static getEmployers = async (
-    data: { page: number; limit: number; filter: EmployerFilter },
+    data: {
+      page: number;
+      limit: number;
+      filter: EmployerFilter;
+      searchFilter?: SearchFilter['type'];
+      searchQuery?: string;
+    },
     headers?: AxiosRequestHeaders
   ) =>
     API.get<{ employers: Employer[]; count: number }>(
-      `/admin/employers?page=${data.page}&limit=${data.limit}&filter=${data.filter}`,
+      `/admin/employers?page=${data.page}&limit=${data.limit}&filter=${
+        data.filter
+      }&searchFilter=${data.searchFilter || 'id'}&searchQuery=${
+        data.searchQuery || ''
+      }`,
+      {
+        headers,
+      }
+    );
+
+  static getEmployer = async (id: string, headers?: AxiosRequestHeaders) =>
+    API.get<{ employer: Employer; jobs: JobWithPopulatedFields }>(
+      `/admin/employer/${id}`,
       {
         headers,
       }

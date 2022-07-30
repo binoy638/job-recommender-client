@@ -24,13 +24,9 @@ import { Utils } from '@/utils';
 import LabelWithLeftIcon from '../UI/LabelWithLeftIcon';
 import { formatCTC, Item } from './JobCard';
 
-const formatLocation = (location: Address) => {
-  return `${location.city}, ${location.state}, ${location.country}`;
-};
-
 const displayLocation = (mode: JobMode, location: Address) => {
   if (mode === JobMode.WFO) {
-    return formatLocation(location);
+    return Utils.formatLocation(location);
   }
   return 'Remote';
 };
@@ -100,7 +96,7 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
           label={displayLocation(job.mode, job.employer.company.address)}
         />
 
-        <div className=" flex gap-12">
+        <div className="flex gap-12">
           <Item
             label="START DATE"
             value={Utils.formatDate(job.startDate)}
@@ -163,7 +159,7 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
             )}
             <LabelWithLeftIcon
               icon={<LocationMarkerIcon className="h-4 w-4 text-gray-600" />}
-              label={formatLocation(job.employer.company.address)}
+              label={Utils.formatLocation(job.employer.company.address)}
             />
           </div>
           <div>

@@ -1,12 +1,22 @@
 import { DocumentSearchIcon } from '@heroicons/react/outline';
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
-import { Button, Pagination, Select, Table, Title } from '@mantine/core';
+import {
+  Button,
+  Pagination,
+  Select,
+  Table,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import type { Employer } from '@types';
 import { UserType } from '@types';
 import AdminAPI, { EmployerFilter } from 'API/adminAPI';
 import type { AxiosRequestHeaders } from 'axios';
 import axios from 'axios';
+import Link from 'next/link';
 import type { GetServerSideProps } from 'next/types';
 import type { ReactElement } from 'react';
 import { useMemo, useState } from 'react';
@@ -15,32 +25,66 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AdminLayout from '@/layouts/AdminLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
+interface Props {
+  employers: Employer[];
+  count: number;
+}
+
+export type SearchFilter = {
+  type: 'email' | 'name' | 'phone' | 'company' | 'id';
+  q: string;
+};
+
 const fetchEmployers = async (
   page: number,
   limit: number,
-  filter: EmployerFilter
+  filter: EmployerFilter,
+  searchFilter: SearchFilter['type'],
+  searchQuery: SearchFilter['q']
 ) => {
-  const { data } = await AdminAPI.getEmployers({ page, limit, filter });
+  const { data } = await AdminAPI.getEmployers({
+    page,
+    limit,
+    filter,
+    searchFilter,
+    searchQuery,
+  });
   return data;
 };
 
-const AdminEmployer = ({
-  employers,
-  count,
-}: {
-  employers: Employer[];
-  count: number;
-}) => {
+const useGetEmployers = (
+  page: number,
+  filter: EmployerFilter,
+  initialData: Props,
+  searchFilter: SearchFilter['type'],
+  searchQuery: SearchFilter['q']
+) => {
+  return useQuery(
+    ['employers', page, filter, searchFilter, searchQuery],
+    () => fetchEmployers(page, 20, filter, searchFilter, searchQuery),
+    {
+      initialData,
+    }
+  );
+};
+
+const AdminEmployer = ({ employers, count }: Props) => {
   const [page, setPage] = useState(1);
 
   const [filter, setFilter] = useState<EmployerFilter>(EmployerFilter.ALL);
+  const [searchFilter, setSearchFilter] = useState<SearchFilter>({
+    type: 'name',
+    q: '',
+  });
 
-  const { data } = useQuery(
-    ['employers', page, filter],
-    () => fetchEmployers(page, 20, filter),
-    {
-      initialData: { employers, count },
-    }
+  const [debounced] = useDebouncedValue(searchFilter.q, 300);
+
+  const { data, isLoading } = useGetEmployers(
+    page,
+    filter,
+    { employers, count },
+    searchFilter.type,
+    debounced
   );
   const queryClient = useQueryClient();
 
@@ -70,7 +114,11 @@ const AdminEmployer = ({
     return data
       ? data.employers.map((employer) => (
           <tr key={employer.id}>
-            <td>{employer.id}</td>
+            <td>
+              <Link href={`/admin/employer/${employer.id}`} passHref>
+                <a>{employer.id}</a>
+              </Link>
+            </td>
             <td>{employer.email}</td>
             <td>
               {employer.firstName} {employer.lastName}
@@ -95,6 +143,15 @@ const AdminEmployer = ({
       : [];
   }, [data]);
 
+  const handleSearchFilterQueryChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchFilter({
+      ...searchFilter,
+      q: e.target.value,
+    });
+  };
+
   if (!data) return null;
 
   return (
@@ -114,6 +171,32 @@ const AdminEmployer = ({
           }}
           value={filter}
         />
+        <div className="flex flex-col">
+          <Text size="sm">Search</Text>
+          <div className="flex ">
+            <Select
+              style={{ width: '10%' }}
+              data={[
+                { value: 'email', label: 'Email' },
+                { value: 'name', label: 'Name' },
+                { value: 'phone', label: 'Phone' },
+                { value: 'company', label: 'Company' },
+              ]}
+              onChange={(val) => {
+                setSearchFilter({
+                  type: val as SearchFilter['type'],
+                  q: '',
+                });
+              }}
+              value={searchFilter.type}
+            />
+            <TextInput
+              placeholder="Enter search query"
+              onChange={handleSearchFilterQueryChange}
+              value={searchFilter.q}
+            />
+          </div>
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center gap-4">
         <Table striped>
@@ -127,7 +210,7 @@ const AdminEmployer = ({
               <th>Verified</th>
             </tr>
           </thead>
-          <tbody>{rows}</tbody>
+          {isLoading ? <div>Loading..</div> : <tbody>{rows}</tbody>}
         </Table>
         <Pagination
           color="teal"

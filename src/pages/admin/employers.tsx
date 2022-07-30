@@ -1,5 +1,5 @@
 import { DocumentSearchIcon } from '@heroicons/react/outline';
-import { CheckIcon, XIcon } from '@heroicons/react/solid';
+import { CheckIcon } from '@heroicons/react/solid';
 import {
   Button,
   Pagination,
@@ -10,7 +10,6 @@ import {
   Title,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { showNotification } from '@mantine/notifications';
 import type { Employer } from '@types';
 import { UserType } from '@types';
 import AdminAPI, { EmployerFilter } from 'API/adminAPI';
@@ -20,8 +19,9 @@ import Link from 'next/link';
 import type { GetServerSideProps } from 'next/types';
 import type { ReactElement } from 'react';
 import { useMemo, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
+import useVerifyEmployer from '@/hooks/useVerifyEmployer';
 import AdminLayout from '@/layouts/AdminLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
@@ -86,25 +86,8 @@ const AdminEmployer = ({ employers, count }: Props) => {
     searchFilter.type,
     debounced
   );
-  const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(AdminAPI.verifyEmployer, {
-    onSuccess: () => {
-      showNotification({
-        message: 'Verified Successfully',
-        color: 'teal',
-        icon: <CheckIcon className="h-5 w-5 " />,
-      });
-      queryClient.invalidateQueries('employers');
-    },
-    onError: () => {
-      showNotification({
-        message: 'Oh no! Something went wrong',
-        color: 'red',
-        icon: <XIcon className="h-5 w-5 " />,
-      });
-    },
-  });
+  const { mutate } = useVerifyEmployer('employers');
 
   const verifyHandler = async (id: string) => {
     mutate(id);

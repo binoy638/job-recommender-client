@@ -36,7 +36,7 @@ class AdminAPI {
     );
 
   static getEmployer = async (id: string, headers?: AxiosRequestHeaders) =>
-    API.get<{ employer: Employer; jobs: JobWithPopulatedFields }>(
+    API.get<{ employer: Employer; jobs: JobWithPopulatedFields[] }>(
       `/admin/employer/${id}`,
       {
         headers,

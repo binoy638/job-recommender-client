@@ -1,10 +1,11 @@
 import {
   CubeIcon,
+  DocumentSearchIcon,
   ExclamationCircleIcon,
   OfficeBuildingIcon,
   UserIcon,
 } from '@heroicons/react/solid';
-import { Alert, Divider, Paper, Text } from '@mantine/core';
+import { Alert, Button, Divider, Paper, Text } from '@mantine/core';
 import type {
   Employer,
   EmployerJobApplication,
@@ -13,10 +14,13 @@ import type {
 import { ApplicationStatus, UserType } from '@types';
 import type { AxiosRequestHeaders } from 'axios';
 import type { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import type { ReactElement } from 'react';
 import React from 'react';
+import { useQuery } from 'react-query';
 
 import AdminAPI from '@/API/adminAPI';
+import useVerifyEmployer from '@/hooks/useVerifyEmployer';
 import AdminLayout from '@/layouts/AdminLayout';
 import { requireAuthentication, Utils } from '@/utils';
 
@@ -109,6 +113,11 @@ const JobDetails = ({ job }: { job: JobWithPopulatedFields }) => {
   );
 };
 
+const fetchEmployer = async (id: string) => {
+  const { data } = await AdminAPI.getEmployer(id);
+  return { employer: data.employer, jobs: data.jobs };
+};
+
 const EmployerDetails = ({
   employer,
   jobs,
@@ -116,6 +125,21 @@ const EmployerDetails = ({
   employer: Employer;
   jobs: JobWithPopulatedFields[];
 }) => {
+  const router = useRouter();
+  const id = router.query?.id as string;
+  const { data } = useQuery(['employer', id], () => fetchEmployer(id), {
+    initialData: { employer, jobs },
+  });
+
+  const { mutate } = useVerifyEmployer(['employer', id]);
+
+  const verifyHandler = async (empid: string) => {
+    mutate(empid);
+  };
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Paper withBorder shadow="xs" p={20}>
       <div className="flex flex-col gap-4">
@@ -137,11 +161,22 @@ const EmployerDetails = ({
             />
             <DataRow
               title="Status"
-              data={`${employer.isVerified ? 'Verified' : 'Not Verified'}`}
+              data={`${data.employer.isVerified ? 'Verified' : 'Not Verified'}`}
               className={`${
-                employer.isVerified ? 'text-green-500' : 'text-red-500'
+                data.employer.isVerified ? 'text-green-500' : 'text-red-500'
               }`}
             />
+            {!data?.employer.isVerified && (
+              <div>
+                <Button
+                  variant="outline"
+                  onClick={() => verifyHandler(employer.id)}
+                  rightIcon={<DocumentSearchIcon className="h-5 w-5" />}
+                >
+                  verify
+                </Button>
+              </div>
+            )}
           </div>
         </div>
         <Divider my={10} />

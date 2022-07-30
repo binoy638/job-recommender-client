@@ -7,6 +7,7 @@ import type {
   Skill,
   State,
 } from '@types';
+import type { AxiosRequestHeaders } from 'axios';
 
 import { API } from './config';
 
@@ -24,9 +25,10 @@ class GeneralAPI {
       `/skills?page=${page}&limit=${limit}`
     );
 
-  static getJobs = (page: number) =>
+  static getJobs = (page: number, headers?: AxiosRequestHeaders) =>
     API.get<{ jobs: JobWithPopulatedFields[]; count: number }>(
-      `/jobs?page=${page}`
+      `/jobs?page=${page}`,
+      { headers }
     );
 
   static getJob = (id: number) =>

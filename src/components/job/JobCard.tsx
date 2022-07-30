@@ -1,6 +1,7 @@
 import {
   CalendarIcon,
   CurrencyDollarIcon,
+  OfficeBuildingIcon,
   PlayIcon,
 } from '@heroicons/react/outline';
 import { Badge, Paper, Text } from '@mantine/core';
@@ -68,7 +69,13 @@ const JobCard = ({ job }: JobCardProps) => {
           </Text>
         </Link>
 
-        <Text size="sm" weight="bolder" color="dimmed">
+        <Text
+          size="sm"
+          weight="bolder"
+          color="dimmed"
+          style={{ display: 'flex', gap: '2px', alignItems: 'center' }}
+        >
+          <OfficeBuildingIcon className="h-4 w-4 " />
           {job.employer.company.name}
         </Text>
       </div>

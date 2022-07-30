@@ -65,6 +65,7 @@ const JobCreateForm: FC<BasicJobDetailFormProps> = ({ categories }) => {
   const [skills, setSkills] = useState<string[]>([]);
 
   const handleRichTextEditorChange = (value: string) => {
+    console.log(value);
     setEditorValue(value);
     form.setFieldValue('description', value);
   };

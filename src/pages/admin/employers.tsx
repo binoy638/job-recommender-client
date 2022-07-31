@@ -61,7 +61,7 @@ const useGetEmployers = (
 ) => {
   return useQuery(
     ['employers', page, filter, searchFilter, searchQuery],
-    () => fetchEmployers(page, 20, filter, searchFilter, searchQuery),
+    () => fetchEmployers(page, 15, filter, searchFilter, searchQuery),
     {
       initialData,
     }
@@ -156,9 +156,10 @@ const AdminEmployer = ({ employers, count }: Props) => {
         />
         <div className="flex flex-col">
           <Text size="sm">Search</Text>
-          <div className="flex ">
+          <div className="flex gap-2">
             <Select
               style={{ width: '10%' }}
+              radius={'xl'}
               data={[
                 { value: 'email', label: 'Email' },
                 { value: 'name', label: 'Name' },
@@ -174,6 +175,7 @@ const AdminEmployer = ({ employers, count }: Props) => {
               value={searchFilter.type}
             />
             <TextInput
+              radius={'xl'}
               placeholder="Enter search query"
               onChange={handleSearchFilterQueryChange}
               value={searchFilter.q}
@@ -195,12 +197,14 @@ const AdminEmployer = ({ employers, count }: Props) => {
           </thead>
           {isLoading ? <div>Loading..</div> : <tbody>{rows}</tbody>}
         </Table>
-        <Pagination
-          color="teal"
-          page={page}
-          onChange={setPage}
-          total={Math.ceil(data.count / 20)}
-        />
+        <div className="flex items-center justify-center py-6">
+          <Pagination
+            color="teal"
+            page={page}
+            onChange={setPage}
+            total={Math.ceil(data.count / 15)}
+          />
+        </div>
       </div>
     </div>
   );
@@ -213,7 +217,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       const {
         data: { employers, count },
       } = await AdminAPI.getEmployers(
-        { page: 1, limit: 20, filter: EmployerFilter.VERIFIED },
+        { page: 1, limit: 15, filter: EmployerFilter.VERIFIED },
         req.headers as AxiosRequestHeaders
       );
       return {

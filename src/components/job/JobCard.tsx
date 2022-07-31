@@ -61,7 +61,17 @@ interface JobCardProps {
 
 const JobCard = ({ job }: JobCardProps) => {
   return (
-    <Paper withBorder shadow="sm" p={20}>
+    <Paper
+      sx={(theme) => ({
+        borderBottom: `2px solid ${
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark[6]
+            : theme.colors.gray[2]
+        }`,
+      })}
+      radius={0}
+      p={20}
+    >
       <div className="flex flex-col gap-1">
         <Link href={`/jobs/${job.id}`} passHref>
           <Text size="xl" weight="bolder" className="cursor-pointer">

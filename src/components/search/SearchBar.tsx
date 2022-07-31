@@ -2,7 +2,7 @@ import { SearchIcon } from '@heroicons/react/outline';
 import { Autocomplete, Button, Select } from '@mantine/core';
 import { JobSearchType } from '@types';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import GeneralAPI from '@/API/generalAPI';
 
@@ -13,30 +13,18 @@ const fetchCategories = async () => {
   return data;
 };
 
+const rightSection = <Button hidden type="submit"></Button>;
+
 const SearchBar = () => {
   const router = useRouter();
+
+  const searchType = router.query.type as JobSearchType;
 
   const [data, setData] = useState<string[]>([]);
 
   const [query, setQuery] = useState('');
 
-  const [type, setType] = useState(JobSearchType.JOB_TITLE);
-
-  const placeholder: string = useMemo(() => {
-    if (type === JobSearchType.JOB_TITLE) {
-      return 'Search by job title';
-    }
-    if (type === JobSearchType.COMPANY) {
-      return 'Search by company name';
-    }
-    if (type === JobSearchType.LOCATION) {
-      return 'Search by city';
-    }
-    if (type === JobSearchType.CATEGORY) {
-      return 'Search by category';
-    }
-    return 'Search by skill';
-  }, [type]);
+  const [type, setType] = useState(searchType || JobSearchType.JOB_TITLE);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -74,18 +62,8 @@ const SearchBar = () => {
     setData([]);
   }, [type]);
 
-  const rightSection = (
-    <Button
-      sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-      color="teal"
-      type="submit"
-    >
-      <SearchIcon className="h-5 w-5" />
-    </Button>
-  );
-
   return (
-    <form className="mb-6 mr-3 flex gap-2" onSubmit={handleSearch}>
+    <form className="  flex gap-2" onSubmit={handleSearch}>
       <Select
         value={type}
         onChange={(val) => {
@@ -93,6 +71,7 @@ const SearchBar = () => {
             setType(val as JobSearchType);
           }
         }}
+        radius={'xl'}
         data={[
           { value: JobSearchType.JOB_TITLE, label: 'Position' },
           { value: JobSearchType.COMPANY, label: 'Company' },
@@ -100,13 +79,14 @@ const SearchBar = () => {
           { value: JobSearchType.SKILL, label: 'Skill' },
         ]}
       />
-
       <Autocomplete
         style={{ width: '100%' }}
+        radius={'xl'}
         value={query}
         onChange={setQuery}
-        placeholder={placeholder}
+        placeholder={'Search..'}
         data={data}
+        icon={<SearchIcon className="h-5 w-5" />}
         rightSection={rightSection}
         required
       />

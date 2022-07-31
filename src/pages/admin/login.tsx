@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { Button, PasswordInput, TextInput } from '@mantine/core';
+import { Button, Paper, PasswordInput, Text, TextInput } from '@mantine/core';
 import { UserType } from '@types';
 import AuthAPI from 'API/authAPI';
 import type { AxiosError } from 'axios';
@@ -35,26 +35,36 @@ const AdminLogin = () => {
 
   return (
     <div className=" flex h-screen items-center justify-center ">
-      <form onSubmit={handleSubmit} className="w-96">
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          label="Email"
-          required
-        />
-        <PasswordInput
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          label="Password"
-          required
-        />
-        {error && <p className="mt-4 w-full text-sm text-red-500">{error}</p>}
-        <Button type="submit" className="mt-4">
-          Login
-        </Button>
-      </form>
+      <Paper withBorder p={20}>
+        <Text
+          align="center"
+          size={'lg'}
+          weight="bold"
+          style={{ fontFamily: 'Rza' }}
+        >
+          Admin Login
+        </Text>
+        <form onSubmit={handleSubmit} className="flex w-96 flex-col gap-4">
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            label="Email"
+            required
+          />
+          <PasswordInput
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Password"
+            required
+          />
+          {error && <p className="mt-4 w-full text-sm text-red-500">{error}</p>}
+          <Button type="submit" fullWidth className="mt-4">
+            Login
+          </Button>
+        </form>
+      </Paper>
     </div>
   );
 };

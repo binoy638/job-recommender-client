@@ -51,7 +51,7 @@ const Header: FC<HeaderProps> = ({ opened, setOpened }) => {
         </MediaQuery>
         <div className="flex  h-full w-full  justify-between ">
           <Link href={'/'}>
-            <span className="cursor-pointer text-2xl  font-bold text-green-600   hover:opacity-90">
+            <span className="cursor-pointer font-Rza text-2xl font-bold text-green-600   hover:opacity-90">
               JobFinder
             </span>
           </Link>

@@ -6,10 +6,9 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import GeneralAPI from '@/API/generalAPI';
+import JobListingContainer from '@/components/job/JobListingContainer';
 import SearchBar from '@/components/search/SearchBar';
 import Layout from '@/layouts/BasicLayout';
-
-import { JobListContainer } from '.';
 
 const JobSearchPage = () => {
   const router = useRouter();
@@ -63,7 +62,7 @@ const JobSearchPage = () => {
   }
 
   return (
-    <JobListContainer
+    <JobListingContainer
       jobs={data.jobs}
       count={data.count}
       page={activePage}

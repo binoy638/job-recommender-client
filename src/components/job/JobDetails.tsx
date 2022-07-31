@@ -4,6 +4,7 @@ import {
   CurrencyDollarIcon,
   ExternalLinkIcon,
   LocationMarkerIcon,
+  OfficeBuildingIcon,
   PlayIcon,
   UsersIcon,
   XIcon,
@@ -87,7 +88,12 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
           <Text style={{ fontSize: '26px' }} weight="bolder">
             {job.jobTitle}
           </Text>
-          <Text weight={'bolder'} color="dimmed">
+          <Text
+            weight={'bolder'}
+            color="dimmed"
+            style={{ display: 'flex', gap: '2px', alignItems: 'center' }}
+          >
+            <OfficeBuildingIcon className="h-5 w-5 " />
             {job.employer.company.name}
           </Text>
         </div>
@@ -118,7 +124,15 @@ const JobDetails = ({ job, isEmployer = false }: JobDetailsProps) => {
         </div>
         <Divider />
         <div>
-          <div dangerouslySetInnerHTML={{ __html: job.description }} />
+          <Text size="lg" weight={'bolder'} mb={10}>
+            Job Description
+          </Text>
+
+          <div
+            dangerouslySetInnerHTML={{
+              __html: job.description,
+            }}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <Text size="md" weight={'bolder'}>

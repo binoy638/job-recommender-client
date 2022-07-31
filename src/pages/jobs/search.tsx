@@ -1,4 +1,4 @@
-import { Pagination, Skeleton } from '@mantine/core';
+import { Skeleton } from '@mantine/core';
 import type { JobSearchType } from '@types';
 import { useRouter } from 'next/router';
 import type { ReactElement } from 'react';
@@ -6,9 +6,10 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import GeneralAPI from '@/API/generalAPI';
-import JobCard from '@/components/job/JobCard';
 import SearchBar from '@/components/search/SearchBar';
 import Layout from '@/layouts/BasicLayout';
+
+import { JobListContainer } from '.';
 
 const JobSearchPage = () => {
   const router = useRouter();
@@ -62,20 +63,13 @@ const JobSearchPage = () => {
   }
 
   return (
-    <main className="flex flex-col gap-4">
-      <SearchBar />
-      {data.jobs.map((job) => {
-        return <JobCard key={job.id} job={job} />;
-      })}
-      <div className="mt-4 flex items-center justify-center">
-        <Pagination
-          page={activePage}
-          onChange={setPage}
-          total={Math.ceil(data.count / 10)}
-          color="teal"
-        />
-      </div>
-    </main>
+    <JobListContainer
+      jobs={data.jobs}
+      count={data.count}
+      page={activePage}
+      onChangePage={setPage}
+      NotFoundError={`No results found for your search query "${query}".`}
+    />
   );
 };
 

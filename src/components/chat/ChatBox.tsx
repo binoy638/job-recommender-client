@@ -72,7 +72,7 @@ const ChatBody = ({
             {activeChat[receiver].firstName} {activeChat[receiver].lastName}
           </Text>
         </div>
-        <div className="relative h-[40rem] w-full overflow-y-auto p-6">
+        <div className="relative h-[32rem] w-full overflow-y-auto p-6 ">
           <ul className="space-y-2">
             {activeChat.messages.map((message) => {
               const isSelf = message.sender === user?._id;

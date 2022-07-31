@@ -54,7 +54,7 @@ const SignUp = () => {
   return (
     <AuthContainer className="lg:mx-60">
       <div className="flex flex-col  items-center justify-center gap-8 p-2 lg:px-16 lg:py-10">
-        <span className=" flex items-center justify-center text-xl lg:text-xl   ">
+        <span className=" flex items-center justify-center text-xl font-bold lg:text-xl  ">
           Join as an Employer or JobSeeker
         </span>
         <div className="flex gap-4 ">

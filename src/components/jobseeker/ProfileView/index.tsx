@@ -4,7 +4,7 @@ import {
   LocationMarkerIcon,
   PhoneIcon,
 } from '@heroicons/react/solid';
-import { Text } from '@mantine/core';
+import { Divider, Text } from '@mantine/core';
 import type { JobSeeker } from '@types';
 import { UserType } from '@types';
 import React from 'react';
@@ -58,7 +58,11 @@ const ProfileView = ({
           icon={<PhoneIcon className="h-5 w-5 text-gray-600" />}
         />
       </div>
+      <Divider />
 
+      <div>
+        <Text>{profile.about}</Text>
+      </div>
       <EducationList editable={editable} educations={profile.education} />
 
       <ExperienceList editable={editable} experiences={profile.experience} />

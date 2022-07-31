@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('../../public/assets/fonts/NeueMontreal-Regular.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rza';
+  src: url('../../public/assets/fonts/rza-regular.woff') format('truetype');
+}
+
 @tailwind base;
 
 a {

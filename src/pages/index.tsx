@@ -18,7 +18,7 @@ const Index: NextPageWithLayout = () => {
   return (
     <main className="mt-10 flex flex-col items-center justify-center gap-10">
       <JobSearchSvg className="h-full w-full lg:h-1/2 lg:w-1/2" />
-      <Text weight={700} style={{ fontSize: '1.7rem' }}>
+      <Text weight={700} style={{ fontSize: '1.7rem', fontFamily: 'Rza' }}>
         Find Your Dream Job Now
       </Text>
       <Link href="/jobs">

@@ -35,7 +35,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <AppShell fixed header={<Header />}>
       <div className="flex w-full  items-center justify-center">
         <Head>
-          <title>JobFinder</title>
+          <title style={{ fontFamily: 'NeueMontreal' }}>JobFinder</title>
         </Head>
         <div className=" grow  items-center   py-4 lg:max-w-[65rem]">
           {children}

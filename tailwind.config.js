@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -15,6 +16,10 @@ module.exports = {
       '6xl': '4rem',
     },
     extend: {
+      fontFamily: {
+        Neue: ['NeueMontreal', 'sans-serif'],
+        Rza: ['Rza', 'sans-serif'],
+      },
       colors: {
         gray: {
           100: '#f7fafc',

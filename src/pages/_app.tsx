@@ -51,6 +51,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             withNormalizeCSS
             emotionOptions={{ key: 'mantine', prepend: false }}
             theme={{
+              fontFamily: 'NeueMontreal',
               colorScheme,
               primaryShade: 9,
             }}

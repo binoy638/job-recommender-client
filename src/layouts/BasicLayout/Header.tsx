@@ -157,8 +157,8 @@ const RightSection: FC = () => {
   return (
     <div className="flex  h-full w-full  justify-between ">
       <Link href={'/'}>
-        <span className="cursor-pointer text-2xl  font-bold text-green-600   hover:opacity-90">
-          JobFinder
+        <span className="cursor-pointer font-Rza  text-2xl font-bold text-green-600  hover:opacity-90">
+          jobFinder
         </span>
       </Link>
       <div className="flex items-center justify-center gap-6">

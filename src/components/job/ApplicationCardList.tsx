@@ -114,7 +114,7 @@ const ButtonList = ({
   );
 
   const handleClick = (status: ApplicationStatus) => {
-    mutate({ id: appID, status });
+    mutate({ id: appID, jobID, status });
   };
   if (type === ApplicationStatus.PENDING) {
     return (

@@ -46,10 +46,12 @@ class EmployerAPI {
 
   static updateJobApplicationStatus = async (data: {
     id: number;
+    jobID: number;
     status: ApplicationStatus;
   }) =>
     API.put(`/employer/job/application/update-status/${data.id}`, {
       status: data.status,
+      jobID: data.jobID,
     });
 
   static createChat = async (data: { jobseeker: string; message: string }) =>

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
 import { useTypedDispatch, useTypedSelector } from 'store';
-import { setUser } from 'store/slice/user.slice';
+import { clearUser, setUser } from 'store/slice/user.slice';
 
 import AuthAPI from '@/API/authAPI';
 
@@ -26,6 +26,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
           dispatch(setUser(data));
         })
         .catch((err) => {
+          dispatch(clearUser());
           console.log(err);
         });
     }

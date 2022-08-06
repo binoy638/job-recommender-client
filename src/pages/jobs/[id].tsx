@@ -28,6 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     };
   } catch (error) {
+    console.log('Error while fetching job');
     console.log(error);
     return Utils.redirect('/404');
   }

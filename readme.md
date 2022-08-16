@@ -3,7 +3,7 @@
 
 JobFinder is a web app which allows Employers to post jobs and Job seekers to search and apply to those jobs.
 
-## Run Locally without Docker
+## Run Locally 
 
 Make sure you have ffmpeg, rabbitMQ and mongoDB installed locally before following the below steps.
 
